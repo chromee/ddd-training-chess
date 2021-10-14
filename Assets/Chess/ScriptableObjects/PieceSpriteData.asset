@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a99b3359ab674c93b4ef529587e9169c, type: 3}
+  m_Name: PieceSpriteData
+  m_EditorClassIdentifier: 
+  _bishopSprite: {fileID: 21300000, guid: e26dfb7d13e81fe449b33cac75350ff7, type: 3}
+  _kingSprite: {fileID: 21300000, guid: d06a46f1de6578647a9c4c6943cc7970, type: 3}
+  _knightSprite: {fileID: 21300000, guid: d06a46f1de6578647a9c4c6943cc7970, type: 3}
+  _pawnSprite: {fileID: 21300000, guid: 0d5faf324997b234eac9bf34ccb9636a, type: 3}
+  _queenSprite: {fileID: 21300000, guid: c53e4086f4266e84a8ffe0c52ffa00c1, type: 3}
+  _rookSprite: {fileID: 21300000, guid: aeb27f5c74cb7ef43a3105e100404bf8, type: 3}

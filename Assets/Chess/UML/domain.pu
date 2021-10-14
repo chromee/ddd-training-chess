@@ -1,0 +1,50 @@
+@startuml
+title チェス
+
+namespace ValueObject #dddddd {
+  enum PlayerColor
+  enum PieceType
+
+  enum Row
+  enum Column
+
+  class Coordinate {
+    Row Row
+    Column Column
+  }
+
+  class PieceMovePattern {
+    Coordinate[] Coordinates
+  }
+}
+
+namespace Entity #dddddd {
+  class Player {
+    PlayerColor Color
+  }
+
+  class Piece {
+    PlayerColor Color
+    PieceType Type
+    PieceMovePattern[] MovePatterns
+
+    void Move(PieceMovePattern MovePattern)
+  }
+
+  class BoardSquare {
+    Coordinate Coordinate
+  }
+
+  class Board {
+    BoardSquare[] Squares
+    void CanMove(Piece Piece, PieceMovePattern MovePattern)
+  }
+}
+
+namespace DomainService #dddddd {
+  class Hoge {
+    
+  }
+}
+
+@enduml

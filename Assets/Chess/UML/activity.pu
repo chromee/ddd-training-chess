@@ -1,0 +1,9 @@
+@startuml
+
+:player;
+
+:hoge;
+
+
+
+@enduml
