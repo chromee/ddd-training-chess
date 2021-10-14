@@ -1,50 +1,86 @@
 @startuml
 title チェス
 
-namespace ValueObject #dddddd {
-  enum PlayerColor
-  enum PieceType
+' enum PlayerColor
+' enum PieceType
+' enum Row
+' enum Column
+' class Coordinate {
+'   Row Row
+'   Column Column
+' }
 
-  enum Row
-  enum Column
 
-  class Coordinate {
-    Row Row
-    Column Column
-  }
-
-  class PieceMovePattern {
-    Coordinate[] Coordinates
-  }
-}
-
-namespace Entity #dddddd {
+namespace Game {
   class Player {
-    PlayerColor Color
+    Color
   }
 
-  class Piece {
-    PlayerColor Color
-    PieceType Type
-    PieceMovePattern[] MovePatterns
-
-    void Move(PieceMovePattern MovePattern)
+  class Game {
+    GameStatus Status
+    Board Board
+    Player CurrentTurnPlayer
   }
 
-  class BoardSquare {
-    Coordinate Coordinate
-  }
+  Game --> Player
+  Game --> Boards.Board
 
-  class Board {
-    BoardSquare[] Squares
-    void CanMove(Piece Piece, PieceMovePattern MovePattern)
+  class GameFlowService {
+    void GeneratePieces(Game, Board, Players)
+    void MovePiece(Game, Player)
   }
 }
 
-namespace DomainService #dddddd {
-  class Hoge {
-    
+namespace Boards {
+  class Board {
+    Piece[] Pieces
   }
+
+  Board --> Pieces.Piece
+}
+
+namespace Pieces {
+  class Piece {
+    Player Owner
+    Coordinate Position
+    Move[] Moves
+
+    void Move(Coordinate)
+    bool CanMove(Coordinate)
+    Coordinate[] MoveCandidates(Board)
+  }
+
+  class Move {
+    Coordinate Destinations
+  }
+  class SingleMove {
+  }
+  class ConditionalMove {
+    MoveConditions MoveConditions
+  }
+  class InifinityMove {
+    Coordinate Direction
+  }
+  interface MoveConditions {
+    bool Conditions(Coordinate, Board)
+  }
+  Move <|-- SingleMove
+  Move <|-- ConditionalMove
+  Move <|-- InifinityMove
+  ConditionalMove --> MoveConditions
+  Piece --> Move
+
+  class MoveService {
+    bool CanExecute(Move, Board)
+    Move[] PawnMoves()
+    Move[] KnightMoves()
+    Move[] RookMoves()
+    Move[] BishopMoves()
+    Move[] QueenMoves()
+    Move[] KingMoves()
+  }
+
+  Game.Player <-- Piece
 }
 
 @enduml
