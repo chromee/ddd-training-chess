@@ -2,7 +2,7 @@
 using Chess.Domain.Pieces;
 using UnityEngine;
 
-namespace Chess.View
+namespace Chess.View.Views
 {
     [CreateAssetMenu(fileName = "PieceSpriteData", menuName = "PieceSpriteData", order = 0)]
     public class PieceSpriteData : ScriptableObject

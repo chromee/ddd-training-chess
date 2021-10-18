@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Chess.View
+namespace Chess.View.Views
 {
     public class CheckmateText : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Chess.View
+namespace Chess.View.Views
 {
     public class BoardSquare : MonoBehaviour
     {

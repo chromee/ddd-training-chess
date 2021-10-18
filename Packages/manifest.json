@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.9.0",
     "com.unity.feature.2d": "1.0.0",
@@ -11,6 +12,7 @@
     "com.unity.timeline": "1.6.2",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.7.2",
+    "jp.hadashikick.vcontainer": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.9.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

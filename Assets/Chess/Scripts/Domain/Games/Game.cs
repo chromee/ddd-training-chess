@@ -2,7 +2,7 @@
 using Chess.Domain.Movements;
 using Chess.Domain.Pieces;
 
-namespace Chess.Domain
+namespace Chess.Domain.Games
 {
     public class Game
     {
@@ -10,8 +10,6 @@ namespace Chess.Domain
 
         private readonly Player _whitePlayer;
         private readonly Player _blackPlayer;
-
-        private readonly MoveService _moveService;
 
         private PlayerColor _currentTurnPlayerColor;
 
@@ -21,15 +19,14 @@ namespace Chess.Domain
         public Player CurrentTurnPlayer => _currentTurnPlayerColor == PlayerColor.White ? _whitePlayer : _blackPlayer;
 
 
-        public Game(Board board, Player whitePlayer, Player blackPlayer, MoveService moveService)
+        public Game(Board board, Player whitePlayer, Player blackPlayer)
         {
             Board = board;
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
-            _moveService = moveService;
         }
 
-        public void MovePiece(Piece piece, Position position)
+        public void MovePiece(Piece piece, Position position, MoveService moveService)
         {
             var turnPlayer = CurrentTurnPlayer;
 
@@ -41,7 +38,7 @@ namespace Chess.Domain
             if (!piece.IsSameColor(turnPlayer.Color))
                 throw new ArgumentException($"{piece} is not {turnPlayer} player's piece");
 
-            _moveService.Move(piece, Board, position, turnPlayer.Color);
+            moveService.Move(piece, Board, position, turnPlayer.Color);
             _currentTurnPlayerColor = NextTurnPlayerColor;
         }
     }

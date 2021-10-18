@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using Chess.Domain.Movements;
 using Chess.Domain.Pieces;
 
-namespace Chess.Domain
+namespace Chess.Domain.Games
 {
-    public class GameFactory
+    public class GameFactory : IGameFactory
     {
         private readonly PieceFactory _pieceFactory;
 
@@ -13,7 +12,7 @@ namespace Chess.Domain
             _pieceFactory = new PieceFactory();
         }
 
-        public Game CreateGame(MoveService moveService)
+        public Game CreateGame()
         {
             var whitePlayer = new Player(PlayerColor.White);
             var blackPlayer = new Player(PlayerColor.Black);
@@ -22,7 +21,7 @@ namespace Chess.Domain
             var blackPieces = _pieceFactory.CreatePieces(blackPlayer);
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            return new Game(board, whitePlayer, blackPlayer, moveService);
+            return new Game(board, whitePlayer, blackPlayer);
         }
     }
 }

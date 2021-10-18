@@ -2,9 +2,9 @@
 using Chess.Domain.Pieces;
 using UnityEngine;
 
-namespace Chess.View
+namespace Chess.View.Views
 {
-    public class PieceBehavior : MonoBehaviour
+    public class PieceView : MonoBehaviour
     {
         [SerializeField] private PieceSpriteData _spriteData;
         [SerializeField] private SpriteRenderer _spriteRenderer;
