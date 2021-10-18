@@ -11,11 +11,16 @@ namespace Chess.Domain.Movements
         {
             X = x;
             Y = y;
-        }   
-        
+        }
+
         public Movement Normalized()
         {
             return new Movement(X == 0 ? 0 : X > 0 ? 1 : -1, Y == 0 ? 0 : Y > 0 ? 1 : -1);
+        }
+
+        public Movement ConsiderColor(PlayerColor color)
+        {
+            return new Movement(X, color == PlayerColor.White ? Y : -Y);
         }
 
         public bool Equals(Movement other) => X == other.X && Y == other.Y;

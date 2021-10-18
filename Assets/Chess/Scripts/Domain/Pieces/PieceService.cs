@@ -15,7 +15,7 @@ namespace Chess.Domain.Pieces
                 {
                     try
                     {
-                        var destination = piece.Position + relativeDest;
+                        var destination = piece.Position + relativeDest.ConsiderColor(piece.Color);
                         if (!move.Conditions.CanExecute(piece, destination, board)) continue;
                         candidates.Add(destination);
                     }

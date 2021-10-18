@@ -17,7 +17,7 @@ namespace Chess.Domain.Pieces
             var pawnLine = player.Color == PlayerColor.White ? 1 : 6;
             var othersLine = player.Color == PlayerColor.White ? 0 : 7;
             var pieces = new List<Piece>();
-            // for (var i = 0; i < 8; i++) pieces.Add(CreatePawn(player, new Position(i, pawnLine)));
+            for (var i = 0; i < 8; i++) pieces.Add(CreatePawn(player, new Position(i, pawnLine)));
             pieces.Add(CreateRook(player, new Position(0, othersLine)));
             pieces.Add(CreateKnight(player, new Position(1, othersLine)));
             pieces.Add(CreateBishop(player, new Position(2, othersLine)));
@@ -27,24 +27,6 @@ namespace Chess.Domain.Pieces
             pieces.Add(CreateKnight(player, new Position(6, othersLine)));
             pieces.Add(CreateRook(player, new Position(7, othersLine)));
             return pieces.ToArray();
-        }
-
-        public Piece[] WhitePieces(Player player)
-        {
-            return new[]
-            {
-                CreateQueen(player, new Position(1, 4)),
-                CreateKing(player, new Position(2, 2)),
-            };
-        }
-
-
-        public Piece[] BlackPieces(Player player)
-        {
-            return new[]
-            {
-                CreateKing(player, new Position(0, 0)),
-            };
         }
 
         private Piece CreatePawn(Player player, Position position)

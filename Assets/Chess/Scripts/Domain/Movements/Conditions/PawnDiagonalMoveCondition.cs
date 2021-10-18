@@ -6,7 +6,8 @@ namespace Chess.Domain.Movements.Conditions
     {
         public bool CanExecute(Piece piece, Position destination, Board board)
         {
-            return board.ExistPiece(destination);
+            var destPiece = board.GetPiece(destination);
+            return destPiece != null && destPiece.IsOpponent(piece);
         }
     }
 }
