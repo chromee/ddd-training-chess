@@ -9,6 +9,9 @@ namespace Chess.View
         [SerializeField] private PieceSpriteData _spriteData;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
+        [SerializeField] private Color _whiteColor;
+        [SerializeField] private Color _blackColor;
+
         private Piece _piece;
 
         public void Initialize(Piece piece)
@@ -16,7 +19,7 @@ namespace Chess.View
             _piece = piece;
             transform.position = new Vector3(_piece.Position.X, _piece.Position.Y, 0);
             _spriteRenderer.sprite = _spriteData.GetSprite(_piece);
-            _spriteRenderer.color = _piece.Color == PlayerColor.White ? Color.white : Color.black;
+            _spriteRenderer.color = _piece.Color == PlayerColor.White ? _whiteColor : _blackColor;
         }
 
         public void Update()
