@@ -1,12 +1,12 @@
 ﻿using Chess.Domain.Pieces;
 
-namespace Chess.Domain.Moves.Conditions
+namespace Chess.Domain.Movements.Conditions
 {
     public class PawnDoubleMoveCondition : IMoveConditions
     {
-        public bool Conditions(Piece piece, Position destination, Board board)
+        public bool CanExecute(Piece piece, Position destination, Board board)
         {
-            // TODO: 流石にやばすぎ実装なのでなんとか綺麗にする
+            // TODO: 流石にやばすぎ実装なのでなんとかする
             var initialY = piece.Color == PlayerColor.White ? 1 : 6;
             var isFirstMove = piece.Position.Y == initialY;
             return isFirstMove && !board.ExistPiece(destination);

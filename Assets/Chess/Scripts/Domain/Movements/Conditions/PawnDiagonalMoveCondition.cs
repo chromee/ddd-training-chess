@@ -1,10 +1,10 @@
 ﻿using Chess.Domain.Pieces;
 
-namespace Chess.Domain.Moves.Conditions
+namespace Chess.Domain.Movements.Conditions
 {
     public class PawnDiagonalMoveCondition : IMoveConditions
     {
-        public bool Conditions(Piece piece, Position destination, Board board)
+        public bool CanExecute(Piece piece, Position destination, Board board)
         {
             return board.ExistPiece(destination);
         }

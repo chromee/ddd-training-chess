@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Chess.Domain.Moves.Conditions;
+﻿using Chess.Domain.Movements.Conditions;
 
-namespace Chess.Domain.Moves
+namespace Chess.Domain.Movements.Moves
 {
     public class InfinityMove : MoveBase
     {

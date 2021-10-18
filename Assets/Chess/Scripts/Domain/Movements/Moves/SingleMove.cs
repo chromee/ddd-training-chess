@@ -1,13 +1,13 @@
-﻿using Chess.Domain.Moves.Conditions;
+﻿using Chess.Domain.Movements.Conditions;
 
-namespace Chess.Domain.Moves
+namespace Chess.Domain.Movements.Moves
 {
     public class SingleMove : MoveBase
     {
         public SingleMove(Movement direction)
         {
             Destinations = new[] { direction, };
-            Conditions = new SimpleMoveConditions();
+            Conditions = new BasicMoveConditions();
         }
     }
 }

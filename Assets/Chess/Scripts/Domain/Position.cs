@@ -1,5 +1,5 @@
 ﻿using System;
-using Chess.Domain.Moves;
+using Chess.Domain.Movements;
 
 namespace Chess.Domain
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.Domain.Moves
+namespace Chess.Domain.Movements
 {
     public readonly struct Movement : IEquatable<Movement>
     {

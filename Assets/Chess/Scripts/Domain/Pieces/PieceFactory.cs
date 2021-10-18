@@ -1,5 +1,5 @@
-﻿using Chess.Domain.Moves;
-using Chess.Domain.Moves.Conditions;
+﻿using System.Collections.Generic;
+using Chess.Domain.Movements;
 
 namespace Chess.Domain.Pieces
 {
@@ -16,17 +16,35 @@ namespace Chess.Domain.Pieces
         {
             var pawnLine = player.Color == PlayerColor.White ? 1 : 6;
             var othersLine = player.Color == PlayerColor.White ? 0 : 7;
-            var pieces = new Piece[16];
-            for (var i = 0; i < 8; i++) pieces[i] = CreatePawn(player, new Position(i, pawnLine));
-            pieces[8] = CreateRook(player, new Position(0, othersLine));
-            pieces[9] = CreateKnight(player, new Position(1, othersLine));
-            pieces[10] = CreateBishop(player, new Position(2, othersLine));
-            pieces[11] = CreateQueen(player, new Position(3, othersLine));
-            pieces[12] = CreateKing(player, new Position(4, othersLine));
-            pieces[13] = CreateBishop(player, new Position(5, othersLine));
-            pieces[14] = CreateKnight(player, new Position(6, othersLine));
-            pieces[15] = CreateRook(player, new Position(7, othersLine));
-            return pieces;
+            var pieces = new List<Piece>();
+            // for (var i = 0; i < 8; i++) pieces.Add(CreatePawn(player, new Position(i, pawnLine)));
+            pieces.Add(CreateRook(player, new Position(0, othersLine)));
+            pieces.Add(CreateKnight(player, new Position(1, othersLine)));
+            pieces.Add(CreateBishop(player, new Position(2, othersLine)));
+            pieces.Add(CreateQueen(player, new Position(3, othersLine)));
+            pieces.Add(CreateKing(player, new Position(4, othersLine)));
+            pieces.Add(CreateBishop(player, new Position(5, othersLine)));
+            pieces.Add(CreateKnight(player, new Position(6, othersLine)));
+            pieces.Add(CreateRook(player, new Position(7, othersLine)));
+            return pieces.ToArray();
+        }
+
+        public Piece[] WhitePieces(Player player)
+        {
+            return new[]
+            {
+                CreateQueen(player, new Position(1, 4)),
+                CreateKing(player, new Position(2, 2)),
+            };
+        }
+
+
+        public Piece[] BlackPieces(Player player)
+        {
+            return new[]
+            {
+                CreateKing(player, new Position(0, 0)),
+            };
         }
 
         private Piece CreatePawn(Player player, Position position)

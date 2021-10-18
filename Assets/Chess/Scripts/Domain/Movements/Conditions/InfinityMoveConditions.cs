@@ -1,13 +1,13 @@
 ﻿using Chess.Domain.Pieces;
 
-namespace Chess.Domain.Moves.Conditions
+namespace Chess.Domain.Movements.Conditions
 {
     public class InfinityMoveConditions : IMoveConditions
     {
-        public bool Conditions(Piece piece, Position destination, Board board)
+        public bool CanExecute(Piece piece, Position destination, Board board)
         {
             var destPiece = board.GetPiece(destination);
-            if (piece.IsCorrectOwner(piece.Color)) return false;
+            if (destPiece != null && !destPiece.IsOpponent(piece)) return false;
 
             var diff = destination - piece.Position;
             var dir = diff.Normalized();

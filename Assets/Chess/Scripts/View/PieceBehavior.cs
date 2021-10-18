@@ -1,7 +1,6 @@
 ﻿using Chess.Domain;
 using Chess.Domain.Pieces;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Chess.View
 {
@@ -12,23 +11,23 @@ namespace Chess.View
 
         private Piece _piece;
 
-        public event UnityAction OnClicked;
-
-        public void Initialize(Piece piece, Board board)
+        public void Initialize(Piece piece)
         {
             _piece = piece;
-            transform.position = new Vector3(piece.Position.X, piece.Position.Y, 0);
+            transform.position = new Vector3(_piece.Position.X, _piece.Position.Y, 0);
             _spriteRenderer.sprite = _spriteData.GetSprite(_piece);
-            _spriteRenderer.color = piece.Color == PlayerColor.White ? Color.white : Color.black;
-            OnClicked += () =>
-            {
-                foreach (var pos in piece.MoveCandidates(board))
-                {
-                    Debug.LogError($"{piece}: {pos.ToString()}");
-                }
-            };
+            _spriteRenderer.color = _piece.Color == PlayerColor.White ? Color.white : Color.black;
         }
 
-        public void OnClick() => OnClicked?.Invoke();
+        public void Update()
+        {
+            if (_piece.Dead)
+            {
+                _spriteRenderer.enabled = false;
+                return;
+            }
+
+            transform.position = new Vector3(_piece.Position.X, _piece.Position.Y, 0);
+        }
     }
 }

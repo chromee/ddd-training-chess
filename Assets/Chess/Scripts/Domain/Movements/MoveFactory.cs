@@ -1,6 +1,7 @@
-﻿using Chess.Domain.Moves.Conditions;
+﻿using Chess.Domain.Movements.Conditions;
+using Chess.Domain.Movements.Moves;
 
-namespace Chess.Domain.Moves
+namespace Chess.Domain.Movements
 {
     public class MoveFactory
     {

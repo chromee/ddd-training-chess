@@ -1,29 +1,41 @@
-﻿using UnityEngine;
+﻿using Chess.Domain;
+using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Chess.View
 {
     public class BoardSquare : MonoBehaviour
     {
-        [SerializeField] private Button _button;
+        public Position Position { get; private set; }
+        public bool IsMovable { get; private set; }
 
-        private Vector2 _coordinate;
-        public UnityAction<Vector2> OnClicked;
+        private SpriteRenderer _spriteRenderer;
 
-        public void Initialize(Vector2 coordinate)
+        public event UnityAction<Position> OnClicked;
+
+        public void Initialize(Position position)
         {
-            _coordinate = coordinate;
-            _button.onClick.AddListener(() => OnClicked?.Invoke(_coordinate));
+            Position = position;
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            GetComponentInChildren<TMP_Text>().text = Position.ToString();
         }
 
-        public void SetMovable(bool movable)
+        public void OnClick()
         {
+            OnClicked?.Invoke(Position);
         }
 
-        public Vector2 GetSize()
+        public void SetDefault()
         {
-            return GetComponent<SpriteRenderer>().size;
+            _spriteRenderer.color = Color.white;
+            IsMovable = false;
+        }
+
+        public void SetMovable()
+        {
+            _spriteRenderer.color = Color.red;
+            IsMovable = true;
         }
     }
 }
