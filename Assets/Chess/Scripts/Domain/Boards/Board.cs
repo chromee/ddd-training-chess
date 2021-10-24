@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Chess.Domain.Games;
 using Chess.Domain.Pieces;
 
 namespace Chess.Domain.Boards
@@ -11,6 +13,12 @@ namespace Chess.Domain.Boards
         public Board(List<Piece> pieces)
         {
             Pieces = pieces;
+
+            var whiteKing = pieces.FirstOrDefault(v => v.IsSameColor(PlayerColor.White) && v.IsSameType(PieceType.King));
+            if (whiteKing == null) throw new ArgumentException("no white king");
+
+            var blackKing = pieces.FirstOrDefault(v => v.IsSameColor(PlayerColor.Black) && v.IsSameType(PieceType.King));
+            if (blackKing == null) throw new ArgumentException("no black king");
         }
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);

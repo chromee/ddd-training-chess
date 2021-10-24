@@ -29,19 +29,19 @@ namespace Chess.Domain.Movements
 
             // 移動先候補でなかったとき
             if (!HasMoveCandidate(piece, board, destination))
-                throw new PieceCannotMoveException("the piece cannot move this position.");
+                throw new OutOfRangePieceMovableRangeException("the piece cannot move this position.");
 
             // 自殺行動だったとき
             if (IsSuicideMove(piece, board, destination, opponentPlayer, ownerPlayer))
                 throw new SuicideMoveException("this movement is suicide.");
 
-            // 移動先が味方駒だったとき
             var destPiece = board.GetPiece(destination);
-            if (destPiece != null && !destPiece.IsOpponent(piece))
-                throw new TeamKillException("the piece cannot kill allies pieces.");
+            if (destPiece != null)
+            {
+                destPiece.Die();
+                board.RemovePiece(destPiece);
+            }
 
-            board.RemovePiece(destPiece);
-            destPiece?.Die();
             piece.Move(destination);
         }
 
@@ -88,9 +88,9 @@ namespace Chess.Domain.Movements
         }
     }
 
-    public class PieceCannotMoveException : Exception
+    public class OutOfRangePieceMovableRangeException : Exception
     {
-        public PieceCannotMoveException(string message) : base(message)
+        public OutOfRangePieceMovableRangeException(string message) : base(message)
         {
         }
     }

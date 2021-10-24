@@ -1,4 +1,5 @@
 ﻿using Chess.Domain.Boards;
+using Chess.Domain.Games;
 using Chess.Domain.Movements.Moves;
 
 namespace Chess.Domain.Pieces

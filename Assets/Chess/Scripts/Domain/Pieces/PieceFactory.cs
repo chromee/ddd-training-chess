@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Chess.Domain.Boards;
+using Chess.Domain.Games;
 using Chess.Domain.Movements;
 
 namespace Chess.Domain.Pieces

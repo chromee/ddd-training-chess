@@ -1,4 +1,5 @@
 ﻿using Chess.Domain;
+using Chess.Domain.Games;
 using TMPro;
 using UnityEngine;
 

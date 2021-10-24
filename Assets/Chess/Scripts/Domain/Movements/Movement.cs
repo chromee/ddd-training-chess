@@ -1,4 +1,5 @@
 ﻿using System;
+using Chess.Domain.Games;
 
 namespace Chess.Domain.Movements
 {

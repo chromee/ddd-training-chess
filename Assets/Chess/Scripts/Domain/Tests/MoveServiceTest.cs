@@ -1,0 +1,161 @@
+﻿using System.ComponentModel;
+using System.Linq;
+using Chess.Domain;
+using Chess.Domain.Boards;
+using Chess.Domain.Games;
+using Chess.Domain.Movements;
+using Chess.Domain.Pieces;
+using NUnit.Framework;
+using Zenject;
+
+namespace Chess.Scripts.Domain.Tests
+{
+    public class MoveServiceTest : ZenjectUnitTestFixture
+    {
+        [Inject] private PieceFactory _pieceFactory;
+        [Inject] private PieceService _pieceService;
+        [Inject] private CheckService _checkService;
+        [Inject] private MoveService _moveService;
+        [Inject] private CheckmateService _checkmateService;
+
+        private Player _whitePlayer;
+        private Player _blackPlayer;
+
+        [SetUp]
+        public void Install()
+        {
+            Container.Bind<PieceFactory>().AsSingle();
+            Container.Bind<PieceService>().AsSingle();
+            Container.Bind<CheckService>().AsSingle();
+            Container.Bind<MoveService>().AsSingle();
+            Container.Bind<CheckmateService>().AsSingle();
+
+            _whitePlayer = new Player(PlayerColor.White);
+            _blackPlayer = new Player(PlayerColor.Black);
+
+            Container.Inject(this);
+        }
+
+        [Test]
+        public void とられたコマは動かせない()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ○ □ □ □
+            // □ □ □ □ ● □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreateQueen(_whitePlayer, new Position(3, 3)),
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreateQueen(_blackPlayer, new Position(3, 4)),
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+
+            game.MovePiece(whitePieces[0], new Position(3, 4));
+
+            Assert.Throws<PieceNotExistOnBoardException>(() =>
+                _moveService.Move(blackPieces[0], board, new Position(3, 5),
+                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+        }
+
+        [Test]
+        public void コマの行動範囲外には移動できない()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+
+            Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
+                _moveService.Move(whitePieces[0], board, new Position(3, 2),
+                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+        }
+
+        [Test]
+        public void 味方コマがいる位置には移動できない()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ● □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreatePawn(_whitePlayer, new Position(3, 1)),
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+
+            Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
+                _moveService.Move(whitePieces[1], board, new Position(3, 1),
+                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+        }
+
+        [Test]
+        public void 自殺行動はできない()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ ○ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreatePawn(_blackPlayer, new Position(4, 2)),
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+
+            Assert.Throws<SuicideMoveException>(() =>
+                _moveService.Move(whitePieces[0], board, new Position(3, 1),
+                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+        }
+    }
+}
