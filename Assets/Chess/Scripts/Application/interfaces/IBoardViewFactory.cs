@@ -1,4 +1,5 @@
 ﻿using Chess.Domain;
+using Chess.Domain.Boards;
 
 namespace Chess.Application.interfaces
 {

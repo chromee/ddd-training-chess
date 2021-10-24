@@ -2,7 +2,7 @@
 using System.Linq;
 using Chess.Domain.Pieces;
 
-namespace Chess.Domain
+namespace Chess.Domain.Boards
 {
     public class Board
     {
@@ -15,10 +15,10 @@ namespace Chess.Domain
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);
 
-        public Piece GetPiece(PlayerColor playerColor, PieceType type)
-            => Pieces.FirstOrDefault(v => v.IsSameColor(playerColor) && v.IsSameType(type));
+        public Piece GetPiece(Player player, PieceType type)
+            => Pieces.FirstOrDefault(v => v.IsOwner(player) && v.IsSameType(type));
 
-        public Piece[] GetPieces(PlayerColor color) => Pieces.Where(v => v.IsSameColor(color)).ToArray();
+        public Piece[] GetPieces(Player player) => Pieces.Where(v => v.IsOwner(player)).ToArray();
 
         public bool ExistPiece(Position position) => GetPiece(position) != null;
         public bool HasPiece(Piece piece) => Pieces.Contains(piece);

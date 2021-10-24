@@ -1,5 +1,6 @@
 ﻿using Chess.Application.Services;
 using Chess.Domain;
+using Chess.Domain.Games;
 
 namespace Chess.Application.UseCase
 {
@@ -14,8 +15,8 @@ namespace Chess.Application.UseCase
         public GameState CheckGameState()
         {
             var game = _gameRegistry.CurrentGame;
-            if (_checkmateService.IsCheckmate(game.Board, game.CurrentTurnPlayer.Color)) return GameState.Checkmate;
-            if (_checkService.IsCheck(game.Board, game.CurrentTurnPlayer.Color)) return GameState.Check;
+            if (_checkmateService.IsCheckmate(game.Board, game.CurrentTurnPlayer, game.NextTurnPlayer)) return GameState.Checkmate;
+            if (_checkService.IsCheck(game.Board, game.CurrentTurnPlayer, game.NextTurnPlayer)) return GameState.Check;
             return GameState.InProgress;
         }
     }

@@ -18,9 +18,9 @@ namespace Chess.Domain.Movements
             return new Movement(X == 0 ? 0 : X > 0 ? 1 : -1, Y == 0 ? 0 : Y > 0 ? 1 : -1);
         }
 
-        public Movement ConsiderColor(PlayerColor color)
+        public Movement ConsiderColor(Player player)
         {
-            return new Movement(X, color == PlayerColor.White ? Y : -Y);
+            return new Movement(X, player.Color == PlayerColor.White ? Y : -Y);
         }
 
         public bool Equals(Movement other) => X == other.X && Y == other.Y;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Chess.Domain.Boards;
+using Chess.Domain.Games;
 using Chess.Domain.Pieces;
 
 namespace Chess.Domain.Movements
@@ -15,21 +17,28 @@ namespace Chess.Domain.Movements
             _checkService = checkService;
         }
 
-        public void Move(Piece piece, Board board, Position destination, PlayerColor thisTurnPlayer)
+        public void Move(Piece piece, Board board, Position destination, Player ownerPlayer, Player opponentPlayer)
         {
+            // ピースの持ち主が違ったとき
+            if (!piece.IsOwner(ownerPlayer))
+                throw new WrongOwnerException($"{piece} is not {ownerPlayer}'s piece");
+
             // ピースがボードになかったとき
             if (!board.HasPiece(piece))
-                throw new ArgumentException("the piece is not on board.");
+                throw new PieceNotExistOnBoardException("the piece is not on board.");
 
+            // 移動先候補でなかったとき
             if (!HasMoveCandidate(piece, board, destination))
-                throw new ArgumentException("the piece cannot move this position.");
+                throw new PieceCannotMoveException("the piece cannot move this position.");
 
-            if (IsSuicideMove(piece, board, destination, thisTurnPlayer))
-                throw new ArgumentException("this movement is suicide.");
+            // 自殺行動だったとき
+            if (IsSuicideMove(piece, board, destination, opponentPlayer, ownerPlayer))
+                throw new SuicideMoveException("this movement is suicide.");
 
+            // 移動先が味方駒だったとき
             var destPiece = board.GetPiece(destination);
             if (destPiece != null && !destPiece.IsOpponent(piece))
-                throw new ArgumentException("the piece cannot kill allies pieces.");
+                throw new TeamKillException("the piece cannot kill allies pieces.");
 
             board.RemovePiece(destPiece);
             destPiece?.Die();
@@ -53,12 +62,52 @@ namespace Chess.Domain.Movements
         /// <summary>
         /// 移動した結果、チェックにならないか
         /// </summary>
-        private bool IsSuicideMove(Piece piece, Board board, Position destination, PlayerColor turnPlayerColor)
+        private bool IsSuicideMove(Piece piece, Board board, Position destination,
+            Player turnPlayer, Player opponentPlayer)
         {
             var cloneBoard = board.Clone();
             var clonePiece = cloneBoard.GetPiece(piece.Position);
             ForceMove(clonePiece, cloneBoard, destination);
-            return _checkService.IsCheck(cloneBoard, turnPlayerColor.Opponent());
+            return _checkService.IsCheck(cloneBoard, turnPlayer, opponentPlayer);
         }
     }
+
+    #region 例外
+
+    public class WrongOwnerException : Exception
+    {
+        public WrongOwnerException(string message) : base(message)
+        {
+        }
+    }
+
+    public class PieceNotExistOnBoardException : Exception
+    {
+        public PieceNotExistOnBoardException(string message) : base(message)
+        {
+        }
+    }
+
+    public class PieceCannotMoveException : Exception
+    {
+        public PieceCannotMoveException(string message) : base(message)
+        {
+        }
+    }
+
+    public class SuicideMoveException : Exception
+    {
+        public SuicideMoveException(string message) : base(message)
+        {
+        }
+    }
+
+    public class TeamKillException : Exception
+    {
+        public TeamKillException(string message) : base(message)
+        {
+        }
+    }
+
+    #endregion
 }

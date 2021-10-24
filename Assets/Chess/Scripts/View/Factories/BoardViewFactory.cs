@@ -1,5 +1,6 @@
 ﻿using Chess.Application.interfaces;
 using Chess.Domain;
+using Chess.Domain.Boards;
 using UnityEngine;
 
 namespace Chess.View.Factories

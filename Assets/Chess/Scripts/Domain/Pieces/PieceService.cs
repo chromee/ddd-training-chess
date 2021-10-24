@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Chess.Domain.Boards;
 
 namespace Chess.Domain.Pieces
 {
@@ -15,7 +16,7 @@ namespace Chess.Domain.Pieces
                 {
                     try
                     {
-                        var destination = piece.Position + relativeDest.ConsiderColor(piece.Color);
+                        var destination = piece.Position + relativeDest.ConsiderColor(piece.Owner);
                         if (!move.Conditions.CanExecute(piece, destination, board)) continue;
                         candidates.Add(destination);
                     }

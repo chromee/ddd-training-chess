@@ -2,6 +2,7 @@
 using Chess.Application.interfaces;
 using Chess.Application.Services;
 using Chess.Application.UseCase;
+using Chess.Domain;
 using UniRx;
 using UnityEngine;
 
@@ -23,27 +24,31 @@ namespace Chess.View.Presenters
         {
             view.OnClicked.Subscribe(position =>
             {
-                var selectedPiece = _selectedPieceRegistry.SelectedPiece;
-                if (selectedPiece != null)
+                view.ResetSquares();
+                var success = _pieceUseCase.SelectPiece(position);
+
+                if (success)
+                {
+                    // 選択した駒の移動可能範囲に色付け
+                    var destinations = _pieceUseCase.GetSelectedPieceMoveCandidates();
+                    foreach (var destination in destinations)
+                    {
+                        view.SetMovable(destination);
+                    }
+
+                    return;
+                }
+
+                if (_selectedPieceRegistry.SelectedPiece != null)
                 {
                     try
                     {
                         _pieceUseCase.TryMovePiece(position);
                         view.ResetSquares();
-                        _selectedPieceRegistry.Unregister();
                     }
                     catch (ArgumentException e)
                     {
                         Debug.LogError(e);
-                    }
-                }
-                else
-                {
-                    view.ResetSquares();
-                    var destinations = _pieceUseCase.SelectPiece(position);
-                    foreach (var destination in destinations)
-                    {
-                        view.SetMovable(destination);
                     }
                 }
             }).AddTo(_disposable);

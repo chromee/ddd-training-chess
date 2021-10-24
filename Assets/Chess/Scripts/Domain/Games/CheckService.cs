@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using Chess.Domain.Boards;
 using Chess.Domain.Pieces;
 
-namespace Chess.Domain
+namespace Chess.Domain.Games
 {
     public class CheckService
     {
@@ -12,10 +13,10 @@ namespace Chess.Domain
             _pieceService = pieceService;
         }
 
-        public bool IsCheck(Board board, PlayerColor turnPlayerColor)
+        public bool IsCheck(Board board, Player turnPlayer, Player opponentPlayer)
         {
-            var opponentKing = board.GetPiece(turnPlayerColor.Opponent(), PieceType.King);
-            var myPieces = board.GetPieces(turnPlayerColor);
+            var opponentKing = board.GetPiece(opponentPlayer, PieceType.King);
+            var myPieces = board.GetPieces(turnPlayer);
             var myPiecesDestinations = myPieces.SelectMany(piece => _pieceService.MoveCandidates(piece, board));
             return myPiecesDestinations.Any(pos => pos == opponentKing.Position);
         }

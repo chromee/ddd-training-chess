@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using Chess.Domain.Boards;
 using Chess.Domain.Movements;
 using Chess.Domain.Pieces;
 
-namespace Chess.Domain
+namespace Chess.Domain.Games
 {
     public class CheckmateService
     {
@@ -18,14 +18,13 @@ namespace Chess.Domain
             _checkService = checkService;
         }
 
-        public bool IsCheckmate(Board board, PlayerColor turnPlayerColor)
+        public bool IsCheckmate(Board board, Player turnPlayer, Player opponentPlayer)
         {
-            var opponentPlayer = turnPlayerColor.Opponent();
             var opponentKing = board.GetPiece(opponentPlayer, PieceType.King);
-            var opponentPieces = board.Pieces.Where(v => v.IsSameColor(opponentPlayer)).ToArray();
+            var opponentPieces = board.Pieces.Where(v => v.IsOwner(opponentPlayer)).ToArray();
             var opponentMoves = opponentPieces.ToDictionary(v => v, v => _pieceService.MoveCandidates(v, board));
 
-            var alliesPieces = board.Pieces.Where(v => v.IsSameColor(turnPlayerColor)).ToArray();
+            var alliesPieces = board.Pieces.Where(v => v.IsOwner(turnPlayer)).ToArray();
             var alliesMoves = alliesPieces.ToDictionary(v => v, v => _pieceService.MoveCandidates(v, board));
             var checkingPiece = alliesMoves.FirstOrDefault(v => v.Value.Any(pos => pos == opponentKing.Position)).Key;
             if (checkingPiece == null) return false;
@@ -42,7 +41,7 @@ namespace Chess.Domain
                     var cloneBoard = board.Clone();
                     var cloneKing = cloneBoard.GetPiece(opponentKing.Position);
                     _moveService.ForceMove(cloneKing, cloneBoard, kindDestinations[i]);
-                    avoidanceFlags[i] = !_checkService.IsCheck(cloneBoard, turnPlayerColor);
+                    avoidanceFlags[i] = !_checkService.IsCheck(cloneBoard, turnPlayer, opponentPlayer);
                 }
 
                 return avoidanceFlags.Any(v => v);
@@ -70,7 +69,7 @@ namespace Chess.Domain
                     foreach (var destination in pieceMoves)
                     {
                         _moveService.ForceMove(clonePiece, cloneBoard, destination);
-                        if (!_checkService.IsCheck(cloneBoard, turnPlayerColor)) return true;
+                        if (!_checkService.IsCheck(cloneBoard, turnPlayer, opponentPlayer)) return true;
                     }
                 }
 

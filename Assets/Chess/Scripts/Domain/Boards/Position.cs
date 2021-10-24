@@ -1,7 +1,7 @@
 ﻿using System;
 using Chess.Domain.Movements;
 
-namespace Chess.Domain
+namespace Chess.Domain.Boards
 {
     public readonly struct Position : IEquatable<Position>
     {

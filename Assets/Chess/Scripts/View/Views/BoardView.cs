@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Chess.Application.interfaces;
 using Chess.Domain;
+using Chess.Domain.Boards;
 using UniRx;
 using UnityEngine;
 

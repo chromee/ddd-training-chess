@@ -1,4 +1,5 @@
-﻿using Chess.Domain.Movements.Conditions;
+﻿using Chess.Domain.Boards;
+using Chess.Domain.Movements.Conditions;
 using Chess.Domain.Pieces;
 
 namespace Chess.Domain.Movements.Moves
