@@ -13,10 +13,7 @@ namespace Chess.Scripts.Domain.Tests
     public class MoveServiceTest : ZenjectUnitTestFixture
     {
         [Inject] private PieceFactory _pieceFactory;
-        [Inject] private PieceService _pieceService;
-        [Inject] private CheckService _checkService;
         [Inject] private MoveService _moveService;
-        [Inject] private CheckmateService _checkmateService;
 
         private Player _whitePlayer;
         private Player _blackPlayer;
@@ -25,15 +22,44 @@ namespace Chess.Scripts.Domain.Tests
         public void Install()
         {
             Container.Bind<PieceFactory>().AsSingle();
-            Container.Bind<PieceService>().AsSingle();
-            Container.Bind<CheckService>().AsSingle();
             Container.Bind<MoveService>().AsSingle();
-            Container.Bind<CheckmateService>().AsSingle();
 
             _whitePlayer = new Player(PlayerColor.White);
             _blackPlayer = new Player(PlayerColor.Black);
 
             Container.Inject(this);
+        }
+
+        [Test]
+        public void コマは2回連続動かせない()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ○ □ □ □
+            // □ □ □ □ ● □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreateQueen(_whitePlayer, new Position(3, 3)),
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreateQueen(_blackPlayer, new Position(3, 4)),
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board, _whitePlayer, _blackPlayer);
+
+            _moveService.Move(whitePieces[0], new Position(3, 4), game);
+
+            Assert.Throws<WrongPlayerException>(() =>
+                _moveService.Move(whitePieces[0], new Position(3, 3), game));
         }
 
         [Test]
@@ -60,13 +86,12 @@ namespace Chess.Scripts.Domain.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+            var game = new Game(board, _whitePlayer, _blackPlayer);
 
-            game.MovePiece(whitePieces[0], new Position(3, 4));
+            _moveService.Move(whitePieces[0], new Position(3, 4), game);
 
             Assert.Throws<PieceNotExistOnBoardException>(() =>
-                _moveService.Move(blackPieces[0], board, new Position(3, 5),
-                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+                _moveService.Move(blackPieces[0], new Position(3, 5), game));
         }
 
         [Test]
@@ -91,11 +116,10 @@ namespace Chess.Scripts.Domain.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+            var game = new Game(board, _whitePlayer, _blackPlayer);
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                _moveService.Move(whitePieces[0], board, new Position(3, 2),
-                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+                _moveService.Move(whitePieces[0], new Position(3, 2), game));
         }
 
         [Test]
@@ -121,11 +145,10 @@ namespace Chess.Scripts.Domain.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+            var game = new Game(board, _whitePlayer, _blackPlayer);
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                _moveService.Move(whitePieces[1], board, new Position(3, 1),
-                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+                _moveService.Move(whitePieces[1], new Position(3, 1), game));
         }
 
         [Test]
@@ -151,11 +174,10 @@ namespace Chess.Scripts.Domain.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _moveService);
+            var game = new Game(board, _whitePlayer, _blackPlayer);
 
             Assert.Throws<SuicideMoveException>(() =>
-                _moveService.Move(whitePieces[0], board, new Position(3, 1),
-                    game.CurrentTurnPlayer, game.NextTurnPlayer));
+                _moveService.Move(whitePieces[0], new Position(3, 1), game));
         }
     }
 }

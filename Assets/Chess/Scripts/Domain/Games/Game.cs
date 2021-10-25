@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Linq;
 using Chess.Domain.Boards;
-using Chess.Domain.Movements;
 using Chess.Domain.Pieces;
 
 namespace Chess.Domain.Games
@@ -11,39 +10,47 @@ namespace Chess.Domain.Games
 
         private readonly Player _whitePlayer;
         private readonly Player _blackPlayer;
-        private readonly MoveService _moveService;
 
         public Player CurrentTurnPlayer { get; private set; }
         public Player NextTurnPlayer => CurrentTurnPlayer == _whitePlayer ? _blackPlayer : _whitePlayer;
+        public void SwapTurn() => CurrentTurnPlayer = NextTurnPlayer;
 
-
-        public Game(Board board, Player whitePlayer, Player blackPlayer, MoveService moveService)
+        public Game(Board board, Player whitePlayer, Player blackPlayer)
         {
             Board = board;
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
 
-            _moveService = moveService;
-
             // 先行は白プレイヤー
             CurrentTurnPlayer = whitePlayer;
         }
 
-        public void MovePiece(Piece piece, Position position)
+        public bool IsCheck()
         {
-            // そのターンプレイヤーでなかったとき
-            if (!piece.IsOwner(CurrentTurnPlayer))
-                throw new WrongPlayerException($"This turn is not {CurrentTurnPlayer}'s turn.");
-
-            _moveService.Move(piece, Board, position, CurrentTurnPlayer, NextTurnPlayer);
-            CurrentTurnPlayer = NextTurnPlayer;
+            return Board.IsCheck(CurrentTurnPlayer);
         }
-    }
 
-    public class WrongPlayerException : Exception
-    {
-        public WrongPlayerException(string message) : base(message)
+        public bool IsCheckmate()
         {
+            var targetKing = Board.GetPiece(NextTurnPlayer, PieceType.King);
+            var protectors = Board.Pieces.Where(v => v.IsOwner(NextTurnPlayer) && v != targetKing).ToArray();
+
+            var killers = Board.Pieces.Where(v => v.IsOwner(CurrentTurnPlayer)).ToArray();
+            var killersMoveMap = killers.ToDictionary(v => v, piece => piece.MoveCandidates(Board));
+            var checkingPiece = killersMoveMap.FirstOrDefault(v => v.Value.Any(pos => pos == targetKing.Position)).Key;
+
+            if (checkingPiece == null) return false;
+
+            // キングがよけれるかどうか
+            if (Board.CanAvoid(targetKing)) return false;
+
+            // 他のコマがチェックしてるコマを殺せるかどうか
+            if (Board.CanKill(checkingPiece, protectors)) return false;
+
+            // 他のコマがブロックできるorチェックしてるコマを殺せるかかどうか
+            if (Board.CanProtect(targetKing, protectors)) return false;
+
+            return true;
         }
     }
 }

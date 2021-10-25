@@ -6,7 +6,7 @@ namespace Chess.Domain.Movements.Moves
 {
     public abstract class MoveBase
     {
-        public Movement[] Destinations { get; protected set; }
+        public Movement[] Movements { get; protected set; }
         public IMoveConditions Conditions { get; protected set; }
 
         public bool CanMove(Piece piece, Position dest, Board board) =>

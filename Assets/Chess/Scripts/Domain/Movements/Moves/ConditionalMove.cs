@@ -6,7 +6,7 @@ namespace Chess.Domain.Movements.Moves
     {
         public ConditionalMove(Movement direction, IMoveConditions conditions)
         {
-            Destinations = new[] { direction, };
+            Movements = new[] { direction, };
             Conditions = conditions;
         }
     }

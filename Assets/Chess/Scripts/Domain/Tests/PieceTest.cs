@@ -11,10 +11,7 @@ namespace Chess.Scripts.Domain.Tests
     public class PieceTest : ZenjectUnitTestFixture
     {
         [Inject] private PieceFactory _pieceFactory;
-        [Inject] private PieceService _pieceService;
-        [Inject] private CheckService _checkService;
         [Inject] private MoveService _moveService;
-        [Inject] private CheckmateService _checkmateService;
 
         private Player _whitePlayer;
         private Player _blackPlayer;
@@ -23,10 +20,7 @@ namespace Chess.Scripts.Domain.Tests
         public void Install()
         {
             Container.Bind<PieceFactory>().AsSingle();
-            Container.Bind<PieceService>().AsSingle();
-            Container.Bind<CheckService>().AsSingle();
             Container.Bind<MoveService>().AsSingle();
-            Container.Bind<CheckmateService>().AsSingle();
 
             _whitePlayer = new Player(PlayerColor.White);
             _blackPlayer = new Player(PlayerColor.Black);
@@ -59,11 +53,11 @@ namespace Chess.Scripts.Domain.Tests
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var wDestinations = _pieceService.MoveCandidates(whitePieces[0], board);
+            var wDestinations = whitePieces[0].MoveCandidates(board);
             var wCorrectDestinations = new[] { new Position(3, 2), new Position(3, 3), };
             Assert.That(wCorrectDestinations, Is.EquivalentTo(wDestinations));
 
-            var bDestinations = _pieceService.MoveCandidates(blackPieces[0], board);
+            var bDestinations = blackPieces[0].MoveCandidates(board);
             var bCorrectDestinations = new[] { new Position(3, 5), new Position(3, 4), };
             Assert.That(bCorrectDestinations, Is.EquivalentTo(bDestinations));
         }
@@ -93,7 +87,7 @@ namespace Chess.Scripts.Domain.Tests
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = _pieceService.MoveCandidates(whitePieces[0], board);
+            var destinations = whitePieces[0].MoveCandidates(board);
             var correctDestinations = new[] { new Position(3, 3), new Position(4, 3), };
             Assert.That(correctDestinations, Is.EquivalentTo(destinations));
         }
@@ -122,7 +116,7 @@ namespace Chess.Scripts.Domain.Tests
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = _pieceService.MoveCandidates(whitePieces[0], board);
+            var destinations = whitePieces[0].MoveCandidates(board);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
@@ -158,7 +152,7 @@ namespace Chess.Scripts.Domain.Tests
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = _pieceService.MoveCandidates(whitePieces[0], board);
+            var destinations = whitePieces[0].MoveCandidates(board);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), 

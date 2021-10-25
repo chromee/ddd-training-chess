@@ -10,18 +10,17 @@ namespace Chess.Application.UseCase
     public class PieceUseCase
     {
         private readonly GameRegistry _gameRegistry;
+        private readonly MoveService _moveService;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
-        private readonly PieceService _pieceService;
 
         public PieceUseCase(
             GameRegistry gameRegistry,
             SelectedPieceRegistry selectedPieceRegistry,
-            PieceService pieceService
-        )
+            MoveService moveService)
         {
             _gameRegistry = gameRegistry;
             _selectedPieceRegistry = selectedPieceRegistry;
-            _pieceService = pieceService;
+            _moveService = moveService;
         }
 
         public bool SelectPiece(Position position)
@@ -39,7 +38,7 @@ namespace Chess.Application.UseCase
         {
             var piece = _selectedPieceRegistry.SelectedPiece;
             if (piece == null) throw new Exception("not found selected piece");
-            return _pieceService.MoveCandidates(piece, _gameRegistry.CurrentGame.Board);
+            return piece.MoveCandidates(_gameRegistry.CurrentGame.Board);
         }
 
         public void TryMovePiece(Position position)
@@ -49,7 +48,7 @@ namespace Chess.Application.UseCase
             if (piece == null) return;
 
             _selectedPieceRegistry.Unregister();
-            game.MovePiece(piece, position);
+            _moveService.Move(piece, position, game);
         }
     }
 }

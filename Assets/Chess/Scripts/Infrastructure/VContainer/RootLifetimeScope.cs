@@ -24,9 +24,6 @@ namespace Chess.Infrastructure.VContainer
             builder.Register<MoveFactory>(Lifetime.Scoped);
             builder.Register<MoveService>(Lifetime.Scoped);
             builder.Register<PieceFactory>(Lifetime.Scoped);
-            builder.Register<PieceService>(Lifetime.Scoped);
-            builder.Register<CheckService>(Lifetime.Scoped);
-            builder.Register<CheckmateService>(Lifetime.Scoped);
 
             builder.RegisterEntryPoint<GameInitializer>();
             builder.Register<GameRegistry>(Lifetime.Singleton);

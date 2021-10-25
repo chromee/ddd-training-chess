@@ -9,12 +9,10 @@ namespace Chess.Domain.Games
     public class GameFactory : IGameFactory
     {
         private readonly PieceFactory _pieceFactory;
-        private readonly MoveService _moveService;
 
-        public GameFactory(PieceFactory pieceFactory, MoveService moveService)
+        public GameFactory(PieceFactory pieceFactory)
         {
             _pieceFactory = pieceFactory;
-            _moveService = moveService;
         }
 
         public Game CreateGame()
@@ -26,7 +24,7 @@ namespace Chess.Domain.Games
             var blackPieces = CreatePieces(blackPlayer);
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            return new Game(board, whitePlayer, blackPlayer, _moveService);
+            return new Game(board, whitePlayer, blackPlayer);
         }
 
         private List<Piece> CreatePieces(Player player)

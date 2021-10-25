@@ -8,75 +8,54 @@ namespace Chess.Domain.Movements
 {
     public class MoveService
     {
-        private readonly PieceService _pieceService;
-        private readonly CheckService _checkService;
-
-        public MoveService(PieceService pieceService, CheckService checkService)
+        public void Move(Piece piece, Position destination, Game game)
         {
-            _pieceService = pieceService;
-            _checkService = checkService;
-        }
-
-        public void Move(Piece piece, Board board, Position destination, Player ownerPlayer, Player opponentPlayer)
-        {
-            // ピースの持ち主が違ったとき
-            if (!piece.IsOwner(ownerPlayer))
-                throw new WrongOwnerException($"{piece} is not {ownerPlayer}'s piece");
+            // そのターンプレイヤーのコマでなかったとき
+            if (!piece.IsOwner(game.CurrentTurnPlayer))
+                throw new WrongPlayerException($"This turn is not {game.NextTurnPlayer}'s turn.");
 
             // ピースがボードになかったとき
-            if (!board.HasPiece(piece))
+            if (!game.Board.HasPiece(piece))
                 throw new PieceNotExistOnBoardException("the piece is not on board.");
 
             // 移動先候補でなかったとき
-            if (!HasMoveCandidate(piece, board, destination))
+            if (!CanMoveTo(piece, game.Board, destination))
                 throw new OutOfRangePieceMovableRangeException("the piece cannot move this position.");
 
             // 自殺行動だったとき
-            if (IsSuicideMove(piece, board, destination, opponentPlayer, ownerPlayer))
+            if (IsSuicideMove(piece, game.Board, destination, game.NextTurnPlayer))
                 throw new SuicideMoveException("this movement is suicide.");
 
-            var destPiece = board.GetPiece(destination);
-            if (destPiece != null)
-            {
-                destPiece.Die();
-                board.RemovePiece(destPiece);
-            }
-
-            piece.Move(destination);
+            game.Board.MovePiece(piece.Position, destination);
+            game.SwapTurn();
         }
 
-        public void ForceMove(Piece piece, Board board, Position destination)
+        /// <summary>
+        /// 指定したコマが指定した位置に移動可能かどうか
+        /// </summary>
+        private static bool CanMoveTo(Piece piece, Board board, Position destination)
         {
-            var destPiece = board.GetPiece(destination);
-            board.RemovePiece(destPiece);
-            destPiece?.Die();
-            piece.Move(destination);
-        }
-
-        private bool HasMoveCandidate(Piece piece, Board board, Position position)
-        {
-            var candidates = _pieceService.MoveCandidates(piece, board);
-            return candidates.Contains(position);
+            var destinations = piece.MoveCandidates(board);
+            return destinations.Contains(destination);
         }
 
         /// <summary>
         /// 移動した結果、チェックにならないか
         /// </summary>
-        private bool IsSuicideMove(Piece piece, Board board, Position destination,
-            Player turnPlayer, Player opponentPlayer)
+        private static bool IsSuicideMove(Piece piece, Board board, Position destination, Player turnPlayer)
         {
             var cloneBoard = board.Clone();
             var clonePiece = cloneBoard.GetPiece(piece.Position);
-            ForceMove(clonePiece, cloneBoard, destination);
-            return _checkService.IsCheck(cloneBoard, turnPlayer, opponentPlayer);
+            cloneBoard.MovePiece(clonePiece.Position, destination);
+            return cloneBoard.IsCheck(turnPlayer);
         }
     }
 
     #region 例外
 
-    public class WrongOwnerException : Exception
+    public class WrongPlayerException : Exception
     {
-        public WrongOwnerException(string message) : base(message)
+        public WrongPlayerException(string message) : base(message)
         {
         }
     }

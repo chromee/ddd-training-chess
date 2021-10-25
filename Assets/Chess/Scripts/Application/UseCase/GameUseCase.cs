@@ -8,15 +8,13 @@ namespace Chess.Application.UseCase
     {
         public enum GameState { InProgress, Check, Checkmate, }
 
-        private readonly CheckService _checkService;
-        private readonly CheckmateService _checkmateService;
         private readonly GameRegistry _gameRegistry;
 
         public GameState CheckGameState()
         {
             var game = _gameRegistry.CurrentGame;
-            if (_checkmateService.IsCheckmate(game.Board, game.CurrentTurnPlayer, game.NextTurnPlayer)) return GameState.Checkmate;
-            if (_checkService.IsCheck(game.Board, game.CurrentTurnPlayer, game.NextTurnPlayer)) return GameState.Check;
+            if (game.IsCheckmate()) return GameState.Checkmate;
+            if (game.IsCheck()) return GameState.Check;
             return GameState.InProgress;
         }
     }
