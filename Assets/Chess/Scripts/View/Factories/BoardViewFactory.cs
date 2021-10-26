@@ -1,6 +1,4 @@
 ﻿using Chess.Application.interfaces;
-using Chess.Domain;
-using Chess.Domain.Boards;
 using UnityEngine;
 
 namespace Chess.View.Factories
@@ -14,7 +12,7 @@ namespace Chess.View.Factories
             _chessViewPrefabData = chessViewPrefabData;
         }
 
-        public IBoardView CreateBoardView(Board board)
+        public IBoardView CreateBoardView()
         {
             return Object.Instantiate(_chessViewPrefabData.BoardViewPrefab);
         }

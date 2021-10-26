@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Chess.Application.interfaces;
-using Chess.Domain;
-using Chess.Domain.Boards;
 using UniRx;
 using UnityEngine;
 
@@ -15,8 +13,8 @@ namespace Chess.View.Views
 
         private readonly List<BoardSquare> _boardSquares = new();
 
-        private readonly Subject<Position> _onClicked = new();
-        public IObservable<Position> OnClicked => _onClicked;
+        private readonly Subject<Vector2> _onClicked = new();
+        public IObservable<Vector2> OnClicked => _onClicked;
 
 
         private void Awake()
@@ -25,7 +23,7 @@ namespace Chess.View.Views
             for (var y = 0; y < 8; y++)
             {
                 var square = Instantiate(_boardSquarePrefab, new Vector3(x, y, 0.1f), Quaternion.identity);
-                square.Initialize(new Position(x, y));
+                square.Initialize(new Vector2(x, y));
                 square.OnClicked += pos => _onClicked.OnNext(pos);
                 _boardSquares.Add(square);
             }
@@ -36,7 +34,7 @@ namespace Chess.View.Views
             _onClicked.Dispose();
         }
 
-        public void SetMovable(Position position)
+        public void SetMovable(Vector2 position)
         {
             _boardSquares.FirstOrDefault(v => v.Position == position)?.SetMovable();
         }

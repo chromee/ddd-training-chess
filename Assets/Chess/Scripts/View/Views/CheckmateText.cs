@@ -1,6 +1,4 @@
-﻿using Chess.Domain;
-using Chess.Domain.Games;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Chess.View.Views
@@ -16,11 +14,12 @@ namespace Chess.View.Views
             _winnerText.gameObject.SetActive(false);
         }
 
-        public void Show(PlayerColor winnerColor)
-        {
-            _checkmateText.gameObject.SetActive(true);
-            _winnerText.gameObject.SetActive(true);
-            _winnerText.text = $"{winnerColor} player won";
-        }
+        // TODO
+        // public void Show(PlayerColor winnerColor)
+        // {
+        //     _checkmateText.gameObject.SetActive(true);
+        //     _winnerText.gameObject.SetActive(true);
+        //     _winnerText.text = $"{winnerColor} player won";
+        // }
     }
 }

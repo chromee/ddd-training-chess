@@ -1,9 +1,10 @@
-﻿using Chess.Domain.Pieces;
+﻿using Chess.Application.Dto;
+using Chess.Domain.Pieces;
 
 namespace Chess.Application.interfaces
 {
     public interface IPieceViewFactory
     {
-        void CreatePieceView(Piece piece);
+        IPieceView CreatePieceView(PieceData pieceData);
     }
 }

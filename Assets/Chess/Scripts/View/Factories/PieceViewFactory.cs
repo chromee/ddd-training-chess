@@ -1,5 +1,5 @@
-﻿using Chess.Application.interfaces;
-using Chess.Domain.Pieces;
+﻿using Chess.Application.Dto;
+using Chess.Application.interfaces;
 using UnityEngine;
 
 namespace Chess.View.Factories
@@ -13,10 +13,11 @@ namespace Chess.View.Factories
             _chessViewPrefabData = chessViewPrefabData;
         }
 
-        public void CreatePieceView(Piece piece)
+        public IPieceView CreatePieceView(PieceData pieceData)
         {
             var pieceView = Object.Instantiate(_chessViewPrefabData.PieceViewPrefab);
-            pieceView.Initialize(piece);
+            pieceView.Initialize(pieceData);
+            return pieceView;
         }
     }
 }

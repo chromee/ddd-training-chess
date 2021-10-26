@@ -1,5 +1,5 @@
 ﻿using System;
-using Chess.Domain.Pieces;
+using Chess.Application.Dto;
 using UnityEngine;
 
 namespace Chess.View.Views
@@ -21,9 +21,9 @@ namespace Chess.View.Views
         public Sprite QueenSprite => _queenSprite;
         public Sprite RookSprite => _rookSprite;
 
-        public Sprite GetSprite(Piece piece)
+        public Sprite GetSprite(PieceType type)
         {
-            switch (piece.Type)
+            switch (type)
             {
                 case PieceType.Bishop:
                     return BishopSprite;

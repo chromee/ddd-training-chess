@@ -2,7 +2,6 @@
 using Chess.Application.interfaces;
 using Chess.Application.Services;
 using Chess.Application.UseCase;
-using Chess.Domain;
 using UniRx;
 using UnityEngine;
 

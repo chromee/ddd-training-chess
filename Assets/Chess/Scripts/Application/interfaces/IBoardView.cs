@@ -1,13 +1,12 @@
 ﻿using System;
-using Chess.Domain;
-using Chess.Domain.Boards;
+using UnityEngine;
 
 namespace Chess.Application.interfaces
 {
     public interface IBoardView
     {
-        IObservable<Position> OnClicked { get; }
-        void SetMovable(Position position);
+        IObservable<Vector2> OnClicked { get; }
+        void SetMovable(Vector2 position);
         void ResetSquares();
     }
 }

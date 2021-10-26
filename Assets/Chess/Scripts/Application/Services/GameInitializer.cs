@@ -1,4 +1,5 @@
 ﻿using System;
+using Chess.Application.Dto;
 using Chess.Application.interfaces;
 using Chess.Domain;
 using Chess.Domain.Games;
@@ -14,6 +15,7 @@ namespace Chess.Application.Services
         private readonly IGameFactory _gameFactory;
 
         private readonly GameRegistry _gameRegistry;
+        private readonly PiecesRegistry _piecesRegistry;
         private readonly IBoardViewFactory _boardViewFactory;
         private readonly IPieceViewFactory _pieceViewFactory;
         private readonly IBoardPresenter _boardPresenter;
@@ -37,10 +39,10 @@ namespace Chess.Application.Services
         private void InitializeGame()
         {
             var game = _gameFactory.CreateGame();
-            var boardView = _boardViewFactory.CreateBoardView(game.Board);
+            var boardView = _boardViewFactory.CreateBoardView();
             foreach (var piece in game.Board.Pieces)
             {
-                _pieceViewFactory.CreatePieceView(piece);
+                _piecesRegistry.AddPiece(_pieceViewFactory.CreatePieceView(piece.ToData()));
             }
 
             _gameRegistry.Register(game);

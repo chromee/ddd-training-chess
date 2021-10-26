@@ -1,6 +1,4 @@
-﻿using Chess.Domain;
-using Chess.Domain.Boards;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,20 +10,20 @@ namespace Chess.View.Views
         [SerializeField] private Color _blackColor;
         [SerializeField] private Color _movableColor;
 
-        public Position Position { get; private set; }
+        public Vector2 Position { get; private set; }
         public bool IsMovable { get; private set; }
 
         private SpriteRenderer _spriteRenderer;
         private Color _defaultColor;
 
-        public event UnityAction<Position> OnClicked;
+        public event UnityAction<Vector2> OnClicked;
 
-        public void Initialize(Position position)
+        public void Initialize(Vector2 position)
         {
             Position = position;
 
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            _defaultColor = (Position.X + Position.Y) % 2 == 0 ? _whiteColor : _blackColor;
+            _defaultColor = (Position.x + Position.y) % 2 == 0 ? _whiteColor : _blackColor;
             _spriteRenderer.color = _defaultColor;
 
             GetComponentInChildren<TMP_Text>().text = Position.ToString();

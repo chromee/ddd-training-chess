@@ -1,11 +1,10 @@
-﻿using Chess.Domain;
-using Chess.Domain.Games;
-using Chess.Domain.Pieces;
+﻿using Chess.Application.Dto;
+using Chess.Application.interfaces;
 using UnityEngine;
 
 namespace Chess.View.Views
 {
-    public class PieceView : MonoBehaviour
+    public class PieceView : MonoBehaviour, IPieceView
     {
         [SerializeField] private PieceSpriteData _spriteData;
         [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -13,25 +12,25 @@ namespace Chess.View.Views
         [SerializeField] private Color _whiteColor;
         [SerializeField] private Color _blackColor;
 
-        private Piece _piece;
+        public Vector2 Position { get; set; }
 
-        public void Initialize(Piece piece)
+        public void Initialize(PieceData piece)
         {
-            _piece = piece;
-            transform.position = new Vector3(_piece.Position.X, _piece.Position.Y, 0);
-            _spriteRenderer.sprite = _spriteData.GetSprite(_piece);
-            _spriteRenderer.color = _piece.Color == PlayerColor.White ? _whiteColor : _blackColor;
+            transform.position = new Vector3(piece.Position.x, piece.Position.y, 0);
+            _spriteRenderer.sprite = _spriteData.GetSprite(piece.Type);
+            _spriteRenderer.color = piece.Color == PieceColor.White ? _whiteColor : _blackColor;
         }
 
-        public void Update()
+        // TODO
+        public void SetPosition(Vector2 position)
         {
-            if (_piece.Dead)
-            {
-                _spriteRenderer.enabled = false;
-                return;
-            }
+            transform.position = new Vector3(position.x, position.y, 0);
+        }
 
-            transform.position = new Vector3(_piece.Position.X, _piece.Position.Y, 0);
+        // TODO
+        public void Dead()
+        {
+            _spriteRenderer.enabled = false;
         }
     }
 }
