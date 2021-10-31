@@ -10,8 +10,9 @@ namespace Chess.Scripts.Domains.Movements.Conditions
         {
             // TODO: 流石にやばすぎ実装なのでなんとかする
             var initialY = piece.Color == PlayerColor.White ? 1 : 6;
+            var blockY = piece.Color == PlayerColor.White ? 2 : 5;
             var isFirstMove = piece.Position.Y == initialY;
-            return isFirstMove && !board.ExistPiece(destination);
+            return isFirstMove && !board.ExistPiece(destination) && !board.ExistPiece(new Position(destination.X, blockY));
         }
     }
 }

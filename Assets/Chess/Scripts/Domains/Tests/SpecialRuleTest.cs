@@ -72,7 +72,7 @@ namespace Chess.Scripts.Domains.Tests
             Assert.That(correctDestinations, Is.EquivalentTo(destinations));
             
             _moveService.Move(blackPieces[0], new Position(3, 2), game);
-            Assert.IsTrue(whitePieces[0].Dead);
+            Assert.IsTrue(whitePieces[0].IsDead);
         }
     }
 }

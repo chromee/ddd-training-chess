@@ -15,7 +15,7 @@ namespace Chess.Scripts.Applications.Pieces
 
         public void UpdateView()
         {
-            if (_piece.Dead)
+            if (_piece.IsDead)
             {
                 _view.Dead();
                 return;

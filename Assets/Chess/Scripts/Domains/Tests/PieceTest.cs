@@ -63,6 +63,35 @@ namespace Chess.Scripts.Domains.Tests
         }
 
         [Test]
+        public void ポーンが所定位置にいてもブロックするコマがあるときは2マス移動できない()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ○ □ □ □
+            // □ □ □ □ ● □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreatePawn(_whitePlayer, new Position(3, 1)),
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreatePawn(_blackPlayer, new Position(3, 2)),
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+
+            var wDestinations = whitePieces[0].MoveCandidates(board);
+            Assert.AreEqual(0, wDestinations.Length);
+        }
+
+        [Test]
         public void ポーンが斜めのコマをとれる()
         {
             // □ □ □ □ ☆ □ □ □
@@ -195,8 +224,8 @@ namespace Chess.Scripts.Domains.Tests
             var destinations = whitePieces[0].MoveCandidates(board);
             var correctDestinations = new[]
             {
-                new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4), 
-                new Position(1, 0), new Position(2, 0), 
+                new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
+                new Position(1, 0), new Position(2, 0),
             };
             Assert.That(correctDestinations, Is.EquivalentTo(destinations));
         }

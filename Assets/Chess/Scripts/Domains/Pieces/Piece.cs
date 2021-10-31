@@ -9,27 +9,28 @@ namespace Chess.Scripts.Domains.Pieces
 {
     public class Piece
     {
-        public Player Owner { get; }
-        public PlayerColor Color => Owner.Color;
-        public MoveBase[] Moves { get; }
+        private readonly Player _owner;
+        private readonly MoveBase[] _moves;
+
+        public PlayerColor Color => _owner.Color;
         public PieceType Type { get; }
         public Position Position { get; private set; }
-        public bool Dead { get; private set; }
+        public bool IsDead { get; private set; }
 
         public Piece(Player owner, PieceType type, Position position, MoveBase[] moves)
         {
-            Owner = owner;
+            _owner = owner;
             Type = type;
             Position = position;
-            Moves = moves;
-            Dead = false;
+            _moves = moves;
+            IsDead = false;
         }
 
         public void Move(Position position) => Position = position;
-        public void Die() => Dead = true;
+        public void Die() => IsDead = true;
 
         public bool IsSameColor(PlayerColor color) => Color == color;
-        public bool IsOwner(Player player) => Owner == player;
+        public bool IsOwner(Player player) => _owner == player;
         public bool IsAlly(Piece piece) => Color == piece.Color;
         public bool IsOpponent(Piece piece) => Color != piece.Color;
         public bool IsSameType(PieceType type) => Type == type;
@@ -41,7 +42,7 @@ namespace Chess.Scripts.Domains.Pieces
         {
             var candidates = new List<Position>();
 
-            foreach (var move in Moves)
+            foreach (var move in _moves)
             {
                 foreach (var movement in move.Movements)
                 {
