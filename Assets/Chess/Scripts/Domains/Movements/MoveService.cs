@@ -2,6 +2,7 @@
 using System.Linq;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements
@@ -27,6 +28,9 @@ namespace Chess.Scripts.Domains.Movements
                 throw new SuicideMoveException("this movement is suicide.");
 
             game.Board.MovePiece(piece.Position, destination);
+
+            foreach (var specialRule in game.SpecialRules) specialRule.TryExecute(game.Board);
+
             game.SwapTurn();
         }
 
@@ -55,37 +59,27 @@ namespace Chess.Scripts.Domains.Movements
 
     public class WrongPlayerException : Exception
     {
-        public WrongPlayerException(string message) : base(message)
-        {
-        }
+        public WrongPlayerException(string message) : base(message) { }
     }
 
     public class PieceNotExistOnBoardException : Exception
     {
-        public PieceNotExistOnBoardException(string message) : base(message)
-        {
-        }
+        public PieceNotExistOnBoardException(string message) : base(message) { }
     }
 
     public class OutOfRangePieceMovableRangeException : Exception
     {
-        public OutOfRangePieceMovableRangeException(string message) : base(message)
-        {
-        }
+        public OutOfRangePieceMovableRangeException(string message) : base(message) { }
     }
 
     public class SuicideMoveException : Exception
     {
-        public SuicideMoveException(string message) : base(message)
-        {
-        }
+        public SuicideMoveException(string message) : base(message) { }
     }
 
     public class TeamKillException : Exception
     {
-        public TeamKillException(string message) : base(message)
-        {
-        }
+        public TeamKillException(string message) : base(message) { }
     }
 
     #endregion

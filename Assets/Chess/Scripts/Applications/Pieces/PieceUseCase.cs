@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Chess.Scripts.Applications.Game;
+using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Movements;

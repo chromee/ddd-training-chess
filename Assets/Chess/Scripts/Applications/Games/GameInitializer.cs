@@ -3,7 +3,7 @@ using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Domains.Games;
 using VContainer.Unity;
 
-namespace Chess.Scripts.Applications.Game
+namespace Chess.Scripts.Applications.Games
 {
     public class GameInitializer : IInitializable
     {

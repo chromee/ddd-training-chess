@@ -1,5 +1,6 @@
 ﻿using System;
 using Chess.Scripts.Domains.Movements;
+using UnityEngine;
 
 namespace Chess.Scripts.Domains.Boards
 {
@@ -19,6 +20,7 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         public override string ToString() => $"({X}, {Y})";
+        public static int Distance(Position a, Position b) => Mathf.CeilToInt(Mathf.Sqrt(Mathf.Pow(Mathf.Abs(a.X - b.X), 2) + Mathf.Pow(Mathf.Abs(a.Y - b.Y), 2)));
 
 
         public bool Equals(Position other) => Y.Equals(other.Y) && X.Equals(other.X);

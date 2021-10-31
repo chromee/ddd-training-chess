@@ -1,10 +1,17 @@
-﻿namespace Chess.Scripts.Applications.Game
+﻿using Chess.Scripts.Domains.Games;
+
+namespace Chess.Scripts.Applications.Games
 {
     public class GameUseCase
     {
         public enum GameState { InProgress, Check, Checkmate, }
 
         private readonly GameRegistry _gameRegistry;
+
+        public GameUseCase(GameRegistry gameRegistry)
+        {
+            _gameRegistry = gameRegistry;
+        }
 
         public GameState CheckGameState()
         {

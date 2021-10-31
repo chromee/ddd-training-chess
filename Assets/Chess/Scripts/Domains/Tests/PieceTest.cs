@@ -93,6 +93,46 @@ namespace Chess.Scripts.Domains.Tests
         }
 
         [Test]
+        public void ポーンがアンパッサンできる()
+        {
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ ○ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ● □ □ □
+            // □ □ □ □ ★ □ □ □
+            //          ↓
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ ○ ● □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ★ □ □ □
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreatePawn(_whitePlayer, new Position(3, 1)),
+                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreatePawn(_blackPlayer, new Position(4, 3)),
+                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            board.MovePiece(new Position(3, 1), new Position(3, 3));
+
+            var destinations = blackPieces[0].MoveCandidates(board);
+            var correctDestinations = new[] { new Position(3, 2), new Position(4, 2), };
+            Assert.That(correctDestinations, Is.EquivalentTo(destinations));
+        }
+
+        [Test]
         public void 直進できるコマが端まで移動できる()
         {
             // □ □ □ □ ☆ □ □ □

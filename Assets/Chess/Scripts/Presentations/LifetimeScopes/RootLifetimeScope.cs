@@ -1,6 +1,6 @@
 ﻿using System;
 using Chess.Scripts.Applications.Boards;
-using Chess.Scripts.Applications.Game;
+using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Domains.Games;

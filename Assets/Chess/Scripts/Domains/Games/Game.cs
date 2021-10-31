@@ -1,12 +1,16 @@
 ﻿using System.Linq;
 using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Pieces;
+using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Games
 {
     public class Game
     {
         public Board Board { get; }
+
+        public SpecialRule[] SpecialRules { get; private set; }
 
         private readonly Player _whitePlayer;
         private readonly Player _blackPlayer;
@@ -18,8 +22,14 @@ namespace Chess.Scripts.Domains.Games
         public Game(Board board, Player whitePlayer, Player blackPlayer)
         {
             Board = board;
+
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
+
+            SpecialRules = new[]
+            {
+                new EnPassant(),
+            };
 
             // 先行は白プレイヤー
             CurrentTurnPlayer = whitePlayer;

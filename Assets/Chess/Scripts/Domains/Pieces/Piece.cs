@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Movements.Moves;
 
 namespace Chess.Scripts.Domains.Pieces
@@ -46,8 +47,8 @@ namespace Chess.Scripts.Domains.Pieces
                 {
                     try
                     {
-                        var destination = Position + movement.ConsiderColor(Owner);
-                        if (!move.Conditions.CanExecute(this, destination, board)) continue;
+                        var destination = Position + movement;
+                        if (!move.CanExecute(this, destination, board)) continue;
                         candidates.Add(destination);
                     }
                     catch (ArgumentOutOfRangeException)

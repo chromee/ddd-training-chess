@@ -15,7 +15,7 @@ namespace Chess.Scripts.Domains.Pieces
 
         public Piece CreatePawn(Player player, Position position)
         {
-            return new Piece(player, PieceType.Pawn, position, _moveFactory.CreatePawnMove());
+            return new Piece(player, PieceType.Pawn, position, _moveFactory.CreatePawnMove(player.Color));
         }
 
         public Piece CreateKnight(Player player, Position position)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Boards
@@ -9,6 +10,10 @@ namespace Chess.Scripts.Domains.Boards
     public class Board
     {
         public List<Piece> Pieces { get; }
+
+        private readonly List<HandLog> _log = new();
+        public HandLog LastHand => _log.LastOrDefault();
+        public HandLog SecondLastHand => _log.Count <= 1 ? null : _log[^2];
 
         public Board(List<Piece> pieces)
         {
@@ -58,6 +63,7 @@ namespace Chess.Scripts.Domains.Boards
 
             var movePiece = GetPiece(moverPosition);
             movePiece.Move(destination);
+            _log.Add(new HandLog(movePiece, moverPosition, destination));
         }
 
         public bool IsCheck(Player player)
@@ -139,16 +145,12 @@ namespace Chess.Scripts.Domains.Boards
 
     public class NoKingException : Exception
     {
-        public NoKingException(string message) : base(message)
-        {
-        }
+        public NoKingException(string message) : base(message) { }
     }
 
     public class MultipleKingException : Exception
     {
-        public MultipleKingException(string message) : base(message)
-        {
-        }
+        public MultipleKingException(string message) : base(message) { }
     }
 
     #endregion

@@ -1,4 +1,4 @@
-﻿namespace Chess.Scripts.Applications.Game
+﻿namespace Chess.Scripts.Applications.Games
 {
     public class GameRegistry
     {

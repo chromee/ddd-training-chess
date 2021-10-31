@@ -7,9 +7,9 @@ namespace Chess.Scripts.Domains.Movements.Moves
     public abstract class MoveBase
     {
         public Movement[] Movements { get; protected set; }
-        public IMoveConditions Conditions { get; protected set; }
+        protected IMoveConditions Conditions;
+        public Piece KillPiece { get; protected set; }
 
-        public bool CanMove(Piece piece, Position dest, Board board) =>
-            Conditions == null || Conditions.CanExecute(piece, dest, board);
+        public bool CanExecute(Piece piece, Position dest, Board board) => Conditions == null || Conditions.CanExecute(piece, dest, board);
     }
 }
