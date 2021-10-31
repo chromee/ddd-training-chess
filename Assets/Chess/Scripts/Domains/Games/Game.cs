@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Chess.Scripts.Domains.Boards;
-using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
 

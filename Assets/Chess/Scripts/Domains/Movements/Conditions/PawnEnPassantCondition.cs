@@ -8,7 +8,7 @@ namespace Chess.Scripts.Domains.Movements.Conditions
     {
         public bool CanExecute(Piece piece, Position destination, Board board)
         {
-            var prevHand = board.LastHand;
+            var prevHand = board.LastPieceMovement;
             if (prevHand == null) return false;
             if (prevHand.MovedPiece.IsAlly(piece)) return false;
             if (!prevHand.IsPawnTwoSpaceMove()) return false;

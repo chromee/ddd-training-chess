@@ -1,5 +1,4 @@
 ﻿using System;
-using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Pieces;
 using UniRx;
 using UnityEngine;
@@ -9,16 +8,13 @@ namespace Chess.Scripts.Applications.Boards
     public class BoardPresenter : IDisposable
     {
         private readonly PieceUseCase _pieceUseCase;
-        private readonly GameUseCase _gameUseCase;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
+
         private readonly CompositeDisposable _disposable = new();
 
-        private IBoardView _view;
-
-        public BoardPresenter(PieceUseCase pieceUseCase, GameUseCase gameUseCase, SelectedPieceRegistry selectedPieceRegistry)
+        public BoardPresenter(PieceUseCase pieceUseCase, SelectedPieceRegistry selectedPieceRegistry)
         {
             _pieceUseCase = pieceUseCase;
-            _gameUseCase = gameUseCase;
             _selectedPieceRegistry = selectedPieceRegistry;
         }
 

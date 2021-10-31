@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Movements.Moves;
 
 namespace Chess.Scripts.Domains.Pieces
@@ -29,11 +28,11 @@ namespace Chess.Scripts.Domains.Pieces
         public void Move(Position position) => Position = position;
         public void Die() => IsDead = true;
 
-        public bool IsSameColor(PlayerColor color) => Color == color;
+        public bool IsColor(PlayerColor color) => Color == color;
         public bool IsOwner(Player player) => _owner == player;
         public bool IsAlly(Piece piece) => Color == piece.Color;
         public bool IsOpponent(Piece piece) => Color != piece.Color;
-        public bool IsSameType(PieceType type) => Type == type;
+        public bool IsType(PieceType type) => Type == type;
         public override string ToString() => $"{Color} {Type}";
 
         public Piece Clone() => (Piece)MemberwiseClone();

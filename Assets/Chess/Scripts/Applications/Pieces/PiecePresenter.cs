@@ -4,10 +4,10 @@ namespace Chess.Scripts.Applications.Pieces
 {
     public class PiecePresenter
     {
-        private Piece _piece;
-        private IPieceView _view;
+        private readonly Piece _piece;
+        private readonly IPieceView _view;
 
-        public void Bind(Piece piece, IPieceView view)
+        public PiecePresenter(Piece piece, IPieceView view)
         {
             _piece = piece;
             _view = view;

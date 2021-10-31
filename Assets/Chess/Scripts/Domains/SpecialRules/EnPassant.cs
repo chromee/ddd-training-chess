@@ -7,8 +7,8 @@ namespace Chess.Scripts.Domains.SpecialRules
     {
         public override void TryExecute(Board board)
         {
-            var lastHand = board.LastHand;
-            var secondLastHand = board.SecondLastHand;
+            var lastHand = board.LastPieceMovement;
+            var secondLastHand = board.SecondLastPieceMovement;
             if (secondLastHand == null || !secondLastHand.IsPawnTwoSpaceMove()) return;
             if (lastHand == null) return;
             if (lastHand.NextPosition.X != secondLastHand.NextPosition.X) return;

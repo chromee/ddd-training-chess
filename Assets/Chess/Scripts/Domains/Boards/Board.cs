@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.HandLogs;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Boards
@@ -11,25 +10,25 @@ namespace Chess.Scripts.Domains.Boards
     {
         public List<Piece> Pieces { get; }
 
-        private readonly List<HandLog> _log = new();
-        public HandLog LastHand => _log.LastOrDefault();
-        public HandLog SecondLastHand => _log.Count <= 1 ? null : _log[^2];
+        private readonly List<PieceMovementLog> _log = new();
+        public PieceMovementLog LastPieceMovement => _log.LastOrDefault();
+        public PieceMovementLog SecondLastPieceMovement => _log.Count <= 1 ? null : _log[^2];
 
         public Board(List<Piece> pieces)
         {
             Pieces = pieces;
 
-            var whiteKings = pieces.Where(v => v.IsSameColor(PlayerColor.White) && v.IsSameType(PieceType.King)).ToArray();
+            var whiteKings = pieces.Where(v => v.IsColor(PlayerColor.White) && v.IsType(PieceType.King)).ToArray();
             if (!whiteKings.Any()) throw new NoKingException("no white king");
             if (whiteKings.Length > 1) throw new MultipleKingException("too many white kings");
 
-            var blackKings = pieces.Where(v => v.IsSameColor(PlayerColor.Black) && v.IsSameType(PieceType.King)).ToArray();
+            var blackKings = pieces.Where(v => v.IsColor(PlayerColor.Black) && v.IsType(PieceType.King)).ToArray();
             if (blackKings == null) throw new NoKingException("no black king");
             if (blackKings.Length > 1) throw new MultipleKingException("too many black kings");
         }
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);
-        public Piece GetPiece(Player player, PieceType type) => Pieces.FirstOrDefault(v => v.IsOwner(player) && v.IsSameType(type));
+        public Piece GetPiece(Player player, PieceType type) => Pieces.FirstOrDefault(v => v.IsOwner(player) && v.IsType(type));
         public Piece[] GetPieces(Player player) => Pieces.Where(v => v.IsOwner(player)).ToArray();
         public Piece[] GetAllies(Piece piece) => Pieces.Where(v => v.IsAlly(piece)).ToArray();
         public Piece[] GetEnemies(Piece piece) => Pieces.Where(v => v.IsOpponent(piece)).ToArray();
@@ -63,12 +62,12 @@ namespace Chess.Scripts.Domains.Boards
 
             var movePiece = GetPiece(moverPosition);
             movePiece.Move(destination);
-            _log.Add(new HandLog(movePiece, moverPosition, destination));
+            _log.Add(new PieceMovementLog(movePiece, moverPosition, destination));
         }
 
         public bool IsCheck(Player player)
         {
-            var enemyKing = Pieces.FirstOrDefault(v => !v.IsOwner(player) && v.IsSameType(PieceType.King));
+            var enemyKing = Pieces.FirstOrDefault(v => !v.IsOwner(player) && v.IsType(PieceType.King));
             return CanPick(enemyKing);
         }
 

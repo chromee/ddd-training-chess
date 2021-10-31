@@ -47,8 +47,7 @@ namespace Chess.Scripts.Applications.Games
 
             foreach (var piece in game.Board.Pieces)
             {
-                var presenter = new PiecePresenter();
-                presenter.Bind(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
+                var presenter = new PiecePresenter(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
                 _piecesRegistry.AddPiece(presenter);
             }
         }
