@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Chess.Scripts.Applications.Game;
+using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Movements;
+using Chess.Scripts.Domains.Pieces;
 using UnityEngine;
 
 namespace Chess.Scripts.Applications.Pieces
@@ -13,18 +15,19 @@ namespace Chess.Scripts.Applications.Pieces
         private readonly PiecesRegistry _piecesRegistry;
         private readonly MoveService _moveService;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
+        private readonly IMessagePublisher _messagePublisher;
 
         public PieceUseCase(
             GameRegistry gameRegistry,
             SelectedPieceRegistry selectedPieceRegistry,
             MoveService moveService,
-            PiecesRegistry piecesRegistry
-        )
+            PiecesRegistry piecesRegistry, IMessagePublisher messagePublisher)
         {
             _gameRegistry = gameRegistry;
             _selectedPieceRegistry = selectedPieceRegistry;
             _moveService = moveService;
             _piecesRegistry = piecesRegistry;
+            _messagePublisher = messagePublisher;
         }
 
         public bool SelectPiece(Vector2 position)
@@ -38,9 +41,8 @@ namespace Chess.Scripts.Applications.Pieces
             return true;
         }
 
-        public Vector2[] GetSelectedPieceMoveCandidates()
+        public Vector2[] GetSelectedPieceMoveCandidates(Piece piece)
         {
-            var piece = _selectedPieceRegistry.SelectedPiece;
             if (piece == null) throw new Exception("not found selected piece");
             return piece.MoveCandidates(_gameRegistry.CurrentGame.Board).Select(v => v.ToVector2()).ToArray();
         }
@@ -48,17 +50,22 @@ namespace Chess.Scripts.Applications.Pieces
         public void TryMovePiece(Vector2 position)
         {
             var game = _gameRegistry.CurrentGame;
-            var piece = _selectedPieceRegistry.SelectedPiece;
+            var piece = _selectedPieceRegistry.SelectedPiece.Value;
 
             if (piece == null) return;
 
             _selectedPieceRegistry.Unregister();
-            _moveService.Move(piece, position.ToPosition(), game);
-
-            UpdatePieces();
+            try
+            {
+                _moveService.Move(piece, position.ToPosition(), game);
+            }
+            catch (Exception e)
+            {
+                _messagePublisher.ShowMessage(e.Message);
+            }
         }
 
-        private void UpdatePieces()
+        public void UpdatePieces()
         {
             foreach (var piecePresenter in _piecesRegistry.Pieces)
             {

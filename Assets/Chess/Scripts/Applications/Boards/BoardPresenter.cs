@@ -11,6 +11,8 @@ namespace Chess.Scripts.Applications.Boards
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
         private readonly CompositeDisposable _disposable = new();
 
+        private IBoardView _view;
+
         public BoardPresenter(PieceUseCase pieceUseCase, SelectedPieceRegistry selectedPieceRegistry)
         {
             _pieceUseCase = pieceUseCase;
@@ -19,28 +21,34 @@ namespace Chess.Scripts.Applications.Boards
 
         public void Bind(IBoardView view)
         {
-            view.OnClicked.Subscribe(position =>
+            // 選択中のコマが変わったら移動可能マスの表示を更新
+            _selectedPieceRegistry.SelectedPiece.Subscribe(piece =>
             {
                 view.ResetSquares();
-                var selectPiece = _pieceUseCase.SelectPiece(position);
 
-                if (selectPiece)
+                if (piece == null) return;
+
+                var destinations = _pieceUseCase.GetSelectedPieceMoveCandidates(piece);
+                foreach (var destination in destinations)
                 {
-                    // 選択した駒の移動可能範囲に色付け
-                    var destinations = _pieceUseCase.GetSelectedPieceMoveCandidates();
-                    foreach (var destination in destinations)
-                    {
-                        view.SetMovable(destination);
-                    }
-
-                    return;
+                    view.SetMovable(destination);
                 }
+            }).AddTo(_disposable);
 
+            // コマ選択 or 移動先選択
+            view.OnClicked.Subscribe(position =>
+            {
+                // コマ選択
+                var select = _pieceUseCase.SelectPiece(position);
+                if (select) return;
+
+                // 移動先選択
                 if (_selectedPieceRegistry.ExistSelectedPiece)
                 {
                     try
                     {
                         _pieceUseCase.TryMovePiece(position);
+                        _pieceUseCase.UpdatePieces();
                         view.ResetSquares();
                     }
                     catch (ArgumentException e)

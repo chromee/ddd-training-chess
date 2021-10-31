@@ -1,11 +1,13 @@
 ﻿using System;
 using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Game;
+using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Presentations.Boards;
+using Chess.Scripts.Presentations.Messages;
 using Chess.Scripts.Presentations.Pieces;
 using UnityEngine;
 using VContainer;
@@ -16,6 +18,7 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
     public class RootLifetimeScope : LifetimeScope
     {
         [SerializeField] private ChessViewPrefabData _chessViewPrefabData;
+        [SerializeField] private MessageView _messageView;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -36,6 +39,8 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
             builder.Register<PieceViewFactory>(Lifetime.Scoped).As<IPieceViewFactory>();
             builder.Register<BoardPresenter>(Lifetime.Scoped).As<BoardPresenter, IDisposable>();
             builder.RegisterInstance(_chessViewPrefabData);
+
+            builder.RegisterInstance(_messageView).As<IMessagePublisher>();
         }
     }
 }
