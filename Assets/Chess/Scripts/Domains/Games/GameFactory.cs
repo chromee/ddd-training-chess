@@ -28,15 +28,15 @@ namespace Chess.Scripts.Domains.Games
 
         private List<Piece> CreatePieces(Player player)
         {
-            var pawnLine = player.Color == PlayerColor.White ? 1 : 6;
-            var othersLine = player.Color == PlayerColor.White ? 0 : 7;
+            var pawnLine = player.Color == PlayerColor.White ? PieceConstants.WhitePawnYLine : PieceConstants.BlackPawnYLine;
+            var othersLine = player.Color == PlayerColor.White ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
             var pieces = new List<Piece>();
             for (var i = 0; i < 8; i++) pieces.Add(_pieceFactory.CreatePawn(player, new Position(i, pawnLine)));
             pieces.Add(_pieceFactory.CreateRook(player, new Position(0, othersLine)));
             pieces.Add(_pieceFactory.CreateKnight(player, new Position(1, othersLine)));
             pieces.Add(_pieceFactory.CreateBishop(player, new Position(2, othersLine)));
-            pieces.Add(_pieceFactory.CreateQueen(player, new Position(3, othersLine)));
-            pieces.Add(_pieceFactory.CreateKing(player, new Position(4, othersLine)));
+            pieces.Add(_pieceFactory.CreateQueen(player, new Position(PieceConstants.QueenX, othersLine)));
+            pieces.Add(_pieceFactory.CreateKing(player, new Position(PieceConstants.KingX, othersLine)));
             pieces.Add(_pieceFactory.CreateBishop(player, new Position(5, othersLine)));
             pieces.Add(_pieceFactory.CreateKnight(player, new Position(6, othersLine)));
             pieces.Add(_pieceFactory.CreateRook(player, new Position(7, othersLine)));

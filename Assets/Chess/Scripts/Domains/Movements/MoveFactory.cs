@@ -84,6 +84,8 @@ namespace Chess.Scripts.Domains.Movements
                 new SingleMove(new Movement(-1, -1)),
                 new SingleMove(new Movement(1, -1)),
                 new SingleMove(new Movement(-1, 1)),
+                new ConditionalMove(new Movement(2, 0), new KingCastlingCondition()),
+                new ConditionalMove(new Movement(-2, 0), new KingCastlingCondition()),
             };
         }
     }

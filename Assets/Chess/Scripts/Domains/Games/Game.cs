@@ -9,7 +9,7 @@ namespace Chess.Scripts.Domains.Games
     {
         public Board Board { get; }
 
-        public SpecialRule[] SpecialRules { get; private set; }
+        public SpecialRule[] SpecialRules { get; }
 
         private readonly Player _whitePlayer;
         private readonly Player _blackPlayer;
@@ -25,9 +25,10 @@ namespace Chess.Scripts.Domains.Games
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
 
-            SpecialRules = new[]
+            SpecialRules = new SpecialRule[]
             {
                 new EnPassant(),
+                new Castling(),
             };
 
             // 先行は白プレイヤー
