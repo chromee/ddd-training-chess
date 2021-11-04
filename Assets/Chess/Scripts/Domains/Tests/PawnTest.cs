@@ -141,6 +141,15 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // □ □ □ □ □ □ □ □
             // □ □ □ □ ★ □ □ □
+            //          ↓
+            // □ □ □ □ ☆ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ○ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ ★ □ □ □
 
             var whitePieces = new[]
             {
@@ -154,11 +163,15 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            board.MovePiece(new Position(3, 1), new Position(3, 3));
+            var game = new Game(board, _whitePlayer, _blackPlayer);
+            _moveService.Move(whitePieces[0], new Position(3, 3), game);
 
             var destinations = blackPieces[0].MoveCandidates(board);
             var correctDestinations = new[] { new Position(3, 2), new Position(4, 2), };
             Assert.That(correctDestinations, Is.EquivalentTo(destinations));
+
+            _moveService.Move(blackPieces[0], new Position(3, 2), game);
+            Assert.IsTrue(whitePieces[0].IsDead);
         }
     }
 }
