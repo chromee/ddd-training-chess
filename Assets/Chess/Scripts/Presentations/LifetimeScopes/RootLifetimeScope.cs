@@ -29,10 +29,10 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
 
             builder.RegisterEntryPoint<GameInitializer>();
             builder.Register<GameRegistry>(Lifetime.Scoped);
-            builder.Register<PiecesRegistry>(Lifetime.Scoped);
             builder.Register<SelectedPieceRegistry>(Lifetime.Scoped);
 
             builder.Register<PieceUseCase>(Lifetime.Scoped);
+            builder.Register<BoardUseCase>(Lifetime.Scoped);
             builder.Register<GameUseCase>(Lifetime.Scoped);
 
             builder.Register<BoardViewFactory>(Lifetime.Scoped).As<IBoardViewFactory>();

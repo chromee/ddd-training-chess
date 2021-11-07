@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements.Moves;
+using UniRx;
 
 namespace Chess.Scripts.Domains.Pieces
 {
@@ -12,21 +13,28 @@ namespace Chess.Scripts.Domains.Pieces
         private readonly MoveBase[] _moves;
 
         public PlayerColor Color => _owner.Color;
-        public PieceType Type { get; }
-        public Position Position { get; private set; }
-        public bool IsDead { get; private set; }
 
-        public Piece(Player owner, PieceType type, Position position, MoveBase[] moves)
+        public PieceType Type { get; }
+
+        private readonly ReactiveProperty<Position> _position = new();
+        public Position Position => _position.Value;
+        public IObservable<Position> PositionAsObservable => _position;
+
+        private readonly ReactiveProperty<bool> _isDead = new();
+        public bool IsDead => _isDead.Value;
+        public IObservable<bool> IsDeadAsObservable => _isDead;
+
+        public Piece(Player owner, PieceType type, Position position, MoveBase[] moves, bool isDead = false)
         {
             _owner = owner;
             Type = type;
-            Position = position;
             _moves = moves;
-            IsDead = false;
+            _position.Value = position;
+            _isDead.Value = isDead;
         }
 
-        public void Move(Position position) => Position = position;
-        public void Die() => IsDead = true;
+        public void Move(Position position) => _position.Value = position;
+        public void Die() => _isDead.Value = true;
 
         public bool IsColor(PlayerColor color) => Color == color;
         public bool IsOwner(Player player) => _owner == player;
@@ -35,7 +43,7 @@ namespace Chess.Scripts.Domains.Pieces
         public bool IsType(PieceType type) => Type == type;
         public override string ToString() => $"{Color} {Type}";
 
-        public Piece Clone() => (Piece)MemberwiseClone();
+        public Piece Clone() => new(_owner, Type, Position, _moves, IsDead);
 
         public Position[] MoveCandidates(Board board)
         {

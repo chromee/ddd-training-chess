@@ -8,13 +8,15 @@ namespace Chess.Scripts.Applications.Boards
     public class BoardPresenter : IDisposable
     {
         private readonly PieceUseCase _pieceUseCase;
+        private readonly BoardUseCase _boardUseCase;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
 
         private readonly CompositeDisposable _disposable = new();
 
-        public BoardPresenter(PieceUseCase pieceUseCase, SelectedPieceRegistry selectedPieceRegistry)
+        public BoardPresenter(PieceUseCase pieceUseCase, BoardUseCase boardUseCase, SelectedPieceRegistry selectedPieceRegistry)
         {
             _pieceUseCase = pieceUseCase;
+            _boardUseCase = boardUseCase;
             _selectedPieceRegistry = selectedPieceRegistry;
         }
 
@@ -28,33 +30,14 @@ namespace Chess.Scripts.Applications.Boards
                 if (piece == null) return;
 
                 var destinations = _pieceUseCase.GetSelectedPieceMoveCandidates(piece);
-                foreach (var destination in destinations)
-                {
-                    view.SetMovable(destination);
-                }
+                foreach (var destination in destinations) view.SetMovable(destination);
             }).AddTo(_disposable);
 
             // コマ選択 or 移動先選択
             view.OnClicked.Subscribe(position =>
             {
-                // コマ選択
-                var select = _pieceUseCase.SelectPiece(position);
-                if (select) return;
-
-                // 移動先選択
-                if (_selectedPieceRegistry.ExistSelectedPiece)
-                {
-                    try
-                    {
-                        _pieceUseCase.TryMovePiece(position);
-                        _pieceUseCase.UpdatePieces();
-                        view.ResetSquares();
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Debug.LogError(e);
-                    }
-                }
+                _boardUseCase.SelectBoardSquare(position);
+                if (_selectedPieceRegistry.SelectedPiece.Value == null) view.ResetSquares();
             }).AddTo(_disposable);
         }
 

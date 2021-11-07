@@ -43,11 +43,7 @@ namespace Chess.Scripts.Domains.Boards
         public Board Clone()
         {
             var pieces = new List<Piece>();
-            foreach (var piece in Pieces)
-            {
-                pieces.Add(piece.Clone());
-            }
-
+            foreach (var piece in Pieces) pieces.Add(piece.Clone());
             return new Board(pieces);
         }
 
@@ -61,6 +57,11 @@ namespace Chess.Scripts.Domains.Boards
             }
 
             var movePiece = GetPiece(moverPosition);
+            if (movePiece == null)
+            {
+                throw new ArgumentException("コマが見つかりません");
+            }
+
             movePiece.Move(destination);
             _log.Add(new PieceMovementLog(movePiece, moverPosition, destination));
         }

@@ -1,26 +1,28 @@
-﻿using Chess.Scripts.Applications.Boards;
+﻿using System;
+using System.Collections.Generic;
+using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Domains.Games;
 using VContainer.Unity;
 
 namespace Chess.Scripts.Applications.Games
 {
-    public class GameInitializer : IInitializable
+    public class GameInitializer : IInitializable, IDisposable
     {
         private readonly IGameFactory _gameFactory;
         private readonly GameRegistry _gameRegistry;
-        private readonly PiecesRegistry _piecesRegistry;
         private readonly IBoardViewFactory _boardViewFactory;
         private readonly IPieceViewFactory _pieceViewFactory;
         private readonly BoardPresenter _boardPresenter;
+
+        private readonly List<IDisposable> _disposables = new();
 
         public GameInitializer(
             IGameFactory gameFactory,
             GameRegistry gameRegistry,
             IBoardViewFactory boardViewFactory,
             IPieceViewFactory pieceViewFactory,
-            BoardPresenter boardPresenter,
-            PiecesRegistry piecesRegistry
+            BoardPresenter boardPresenter
         )
         {
             _gameFactory = gameFactory;
@@ -28,7 +30,6 @@ namespace Chess.Scripts.Applications.Games
             _boardViewFactory = boardViewFactory;
             _pieceViewFactory = pieceViewFactory;
             _boardPresenter = boardPresenter;
-            _piecesRegistry = piecesRegistry;
         }
 
 
@@ -48,7 +49,15 @@ namespace Chess.Scripts.Applications.Games
             foreach (var piece in game.Board.Pieces)
             {
                 var presenter = new PiecePresenter(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
-                _piecesRegistry.AddPiece(presenter);
+                _disposables.Add(presenter);
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
             }
         }
     }

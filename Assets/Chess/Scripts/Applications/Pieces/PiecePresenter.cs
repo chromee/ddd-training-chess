@@ -1,27 +1,33 @@
-﻿using Chess.Scripts.Domains.Pieces;
+﻿using System;
+using Chess.Scripts.Domains.Pieces;
+using UniRx;
 
 namespace Chess.Scripts.Applications.Pieces
 {
-    public class PiecePresenter
+    public class PiecePresenter : IDisposable
     {
-        private readonly Piece _piece;
-        private readonly IPieceView _view;
+        private readonly CompositeDisposable _disposable = new();
 
         public PiecePresenter(Piece piece, IPieceView view)
         {
-            _piece = piece;
-            _view = view;
+            piece.PositionAsObservable
+                .Subscribe(position =>
+                {
+                    view.SetPosition(position.ToVector2());
+                })
+                .AddTo(_disposable);
+
+            piece.IsDeadAsObservable
+                .Where(isDead => isDead)
+                .Subscribe(_ =>
+                {
+                    view.Dead();
+                }).AddTo(_disposable);
         }
 
-        public void UpdateView()
+        public void Dispose()
         {
-            if (_piece.IsDead)
-            {
-                _view.Dead();
-                return;
-            }
-
-            _view.SetPosition(_piece.Position.ToVector2());
+            _disposable.Dispose();
         }
     }
 }

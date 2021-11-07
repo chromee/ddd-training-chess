@@ -12,7 +12,6 @@ namespace Chess.Scripts.Applications.Pieces
     public class PieceUseCase
     {
         private readonly GameRegistry _gameRegistry;
-        private readonly PiecesRegistry _piecesRegistry;
         private readonly MoveService _moveService;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
         private readonly IMessagePublisher _messagePublisher;
@@ -21,12 +20,11 @@ namespace Chess.Scripts.Applications.Pieces
             GameRegistry gameRegistry,
             SelectedPieceRegistry selectedPieceRegistry,
             MoveService moveService,
-            PiecesRegistry piecesRegistry, IMessagePublisher messagePublisher)
+            IMessagePublisher messagePublisher)
         {
             _gameRegistry = gameRegistry;
             _selectedPieceRegistry = selectedPieceRegistry;
             _moveService = moveService;
-            _piecesRegistry = piecesRegistry;
             _messagePublisher = messagePublisher;
         }
 
@@ -59,17 +57,9 @@ namespace Chess.Scripts.Applications.Pieces
             {
                 _moveService.Move(piece, position.ToPosition(), game);
             }
-            catch (Exception e)
+            catch (Exception e) when (e is WrongPlayerException or PieceNotExistOnBoardException or OutOfRangePieceMovableRangeException or SuicideMoveException)
             {
                 _messagePublisher.ShowMessage(e.Message);
-            }
-        }
-
-        public void UpdatePieces()
-        {
-            foreach (var piecePresenter in _piecesRegistry.Pieces)
-            {
-                piecePresenter.UpdateView();
             }
         }
     }
