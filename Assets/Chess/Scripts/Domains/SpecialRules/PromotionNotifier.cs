@@ -1,6 +1,7 @@
 ﻿using System;
 using Chess.Scripts.Domains.Pieces;
 using UniRx;
+using UnityEngine;
 
 namespace Chess.Scripts.Domains.SpecialRules
 {

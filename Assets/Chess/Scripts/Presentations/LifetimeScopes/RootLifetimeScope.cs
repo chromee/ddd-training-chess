@@ -3,12 +3,15 @@ using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Applications.Pieces;
+using Chess.Scripts.Applications.SpecialRules;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
+using Chess.Scripts.Domains.SpecialRules;
 using Chess.Scripts.Presentations.Boards;
 using Chess.Scripts.Presentations.Messages;
 using Chess.Scripts.Presentations.Pieces;
+using Chess.Scripts.Presentations.SpecialRules;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -19,6 +22,7 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
     {
         [SerializeField] private ChessViewPrefabData _chessViewPrefabData;
         [SerializeField] private MessageView _messageView;
+        [SerializeField] private PromotionView _promotionView;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -26,6 +30,8 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
             builder.Register<MoveFactory>(Lifetime.Scoped);
             builder.Register<MoveService>(Lifetime.Scoped);
             builder.Register<PieceFactory>(Lifetime.Scoped);
+            builder.Register<SpecialRuleService>(Lifetime.Scoped);
+            builder.Register<PromotionNotifier>(Lifetime.Scoped);
 
             builder.RegisterEntryPoint<GameInitializer>();
             builder.Register<GameRegistry>(Lifetime.Scoped);
@@ -41,6 +47,9 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
             builder.RegisterInstance(_chessViewPrefabData);
 
             builder.RegisterInstance(_messageView).As<IMessagePublisher>();
+
+            builder.RegisterEntryPoint<PromotionPresenter>();
+            builder.RegisterInstance(_promotionView).As<IPromotionView>();
         }
     }
 }

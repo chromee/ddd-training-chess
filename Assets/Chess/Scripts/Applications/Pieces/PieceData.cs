@@ -43,10 +43,21 @@ namespace Chess.Scripts.Applications.Pieces
             Domains.Pieces.PieceType.Bishop => PieceType.Bishop,
             Domains.Pieces.PieceType.Queen => PieceType.Queen,
             Domains.Pieces.PieceType.King => PieceType.King,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
         public static Vector2 ToVector2(this Position position) => new(position.X, position.Y);
         public static Position ToPosition(this Vector2 position) => new((int)position.x, (int)position.y);
+
+        public static Domains.Pieces.PieceType ToDomain(this PieceType type) => type switch
+        {
+            PieceType.Pawn => Domains.Pieces.PieceType.Pawn,
+            PieceType.Knight => Domains.Pieces.PieceType.Knight,
+            PieceType.Rook => Domains.Pieces.PieceType.Rook,
+            PieceType.Bishop => Domains.Pieces.PieceType.Bishop,
+            PieceType.Queen => Domains.Pieces.PieceType.Queen,
+            PieceType.King => Domains.Pieces.PieceType.King,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+        };
     }
 }

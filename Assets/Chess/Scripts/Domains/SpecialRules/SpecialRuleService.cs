@@ -28,8 +28,8 @@ namespace Chess.Scripts.Domains.SpecialRules
             var newPiece = type switch
             {
                 PieceType.Knight => _pieceFactory.CreateKnight(targetPawn.Owner, targetPawn.Position),
-                PieceType.Rook => _pieceFactory.CreateRook(targetPawn.Owner, targetPawn.Position),
                 PieceType.Bishop => _pieceFactory.CreateBishop(targetPawn.Owner, targetPawn.Position),
+                PieceType.Rook => _pieceFactory.CreateRook(targetPawn.Owner, targetPawn.Position),
                 PieceType.Queen => _pieceFactory.CreateQueen(targetPawn.Owner, targetPawn.Position),
                 _ => throw new ArgumentException(),
             };

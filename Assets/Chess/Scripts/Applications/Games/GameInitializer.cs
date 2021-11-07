@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Domains.Games;
+using UniRx;
 using VContainer.Unity;
 
 namespace Chess.Scripts.Applications.Games
@@ -51,6 +52,15 @@ namespace Chess.Scripts.Applications.Games
                 var presenter = new PiecePresenter(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
                 _disposables.Add(presenter);
             }
+
+            // 主にプロモーションで生成されたコマをViewに反映する
+            var d = game.Board.Pieces.ObserveAdd().Subscribe(v =>
+            {
+                var piece = v.Value;
+                var presenter = new PiecePresenter(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
+                _disposables.Add(presenter);
+            });
+            _disposables.Add(d);
         }
 
         public void Dispose()

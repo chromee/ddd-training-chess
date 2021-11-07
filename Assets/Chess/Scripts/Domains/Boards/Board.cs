@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
+using UniRx;
 
 namespace Chess.Scripts.Domains.Boards
 {
     public class Board
     {
-        public List<Piece> Pieces { get; }
+        private readonly ReactiveCollection<Piece> _pieces;
+        public IReadOnlyReactiveCollection<Piece> Pieces => _pieces;
 
         private readonly List<PieceMovementLog> _log = new();
         public PieceMovementLog LastPieceMovement => _log.LastOrDefault();
@@ -16,7 +18,7 @@ namespace Chess.Scripts.Domains.Boards
 
         public Board(List<Piece> pieces)
         {
-            Pieces = pieces;
+            _pieces = pieces.ToReactiveCollection();
 
             var whiteKings = pieces.Where(v => v.IsColor(PlayerColor.White) && v.IsType(PieceType.King)).ToArray();
             if (!whiteKings.Any()) throw new NoKingException("no white king");
@@ -36,18 +38,18 @@ namespace Chess.Scripts.Domains.Boards
 
         public void AddPiece(Piece piece)
         {
-            if (!Pieces.Contains(piece)) Pieces.Add(piece);
+            if (!_pieces.Contains(piece)) _pieces.Add(piece);
         }
 
         public void RemovePiece(Piece piece)
         {
-            if (Pieces.Contains(piece)) Pieces.Remove(piece);
+            if (_pieces.Contains(piece)) _pieces.Remove(piece);
         }
 
         public Board Clone()
         {
             var pieces = new List<Piece>();
-            foreach (var piece in Pieces) pieces.Add(piece.Clone());
+            foreach (var piece in _pieces) pieces.Add(piece.Clone());
             return new Board(pieces);
         }
 
