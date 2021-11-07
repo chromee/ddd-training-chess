@@ -1,33 +1,11 @@
 ﻿using System.Linq;
 using Chess.Scripts.Domains.Boards;
-using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Movements;
-using Chess.Scripts.Domains.Pieces;
 using NUnit.Framework;
-using Zenject;
 
 namespace Chess.Scripts.Domains.Tests
 {
-    public class PieceTest : ZenjectUnitTestFixture
+    public class PieceTest : DomainTestBase
     {
-        [Inject] private PieceFactory _pieceFactory;
-        [Inject] private MoveService _moveService;
-
-        private Player _whitePlayer;
-        private Player _blackPlayer;
-
-        [SetUp]
-        public void Install()
-        {
-            Container.Bind<PieceFactory>().AsSingle();
-            Container.Bind<MoveService>().AsSingle();
-
-            _whitePlayer = new Player(PlayerColor.White);
-            _blackPlayer = new Player(PlayerColor.Black);
-
-            Container.Inject(this);
-        }
-
         [Test]
         public void 直進できるコマが端まで移動できる()
         {
@@ -42,12 +20,12 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateRook(_whitePlayer, new Position(0, 0)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 1)),
+                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 1)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -77,13 +55,13 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateRook(_whitePlayer, new Position(0, 0)),
-                _pieceFactory.CreatePawn(_whitePlayer, new Position(0, 5)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
+                PieceFactory.CreatePawn(WhitePlayer, new Position(0, 5)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());

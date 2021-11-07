@@ -1,41 +1,12 @@
 ﻿using System.Linq;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Movements;
-using Chess.Scripts.Domains.Pieces;
-using Chess.Scripts.Domains.SpecialRules;
 using NUnit.Framework;
-using Zenject;
 
 namespace Chess.Scripts.Domains.Tests
 {
-    public class GameTest : ZenjectUnitTestFixture
+    public class GameTest : DomainTestBase
     {
-        [Inject] private PieceFactory _pieceFactory;
-        [Inject] private MoveService _moveService;
-
-        private Player _whitePlayer;
-        private Player _blackPlayer;
-        private ISpecialRule[] _specialRules;
-
-        [SetUp]
-        public void Install()
-        {
-            Container.Bind<PieceFactory>().AsSingle();
-            Container.Bind<MoveService>().AsSingle();
-
-            _whitePlayer = new Player(PlayerColor.White);
-            _blackPlayer = new Player(PlayerColor.Black);
-            _specialRules = new ISpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-                new Promotion(new PromotionNotifier()),
-            };
-
-            Container.Inject(this);
-        }
-
         [Test]
         public void チェック()
         {
@@ -49,16 +20,16 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(3, 3)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(3, 3)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
 
             var isCheck = game.IsCheck();
 
@@ -78,17 +49,17 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(3, 3)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(3, 3)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateQueen(_blackPlayer, new Position(3, 4)),
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateQueen(BlackPlayer, new Position(3, 4)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
 
             var isCheck = game.IsCheck();
 
@@ -109,16 +80,16 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(3, 6)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 5)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(3, 6)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 5)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
 
             var isCheckmate = game.IsCheckmate();
 
@@ -126,7 +97,7 @@ namespace Chess.Scripts.Domains.Tests
         }
 
         [Test]
-        public void キングの移動によるチェックメイト回避()
+        public void キングの移動によるチェックメイト回避が可能()
         {
             // □ □ □ □ ☆ □ □ □
             // □ □ □ □ □ □ □ □
@@ -148,18 +119,18 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(0, 4)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(0, 4)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
 
-            _moveService.Move(whitePieces[0], new Position(3, 4), game);
+            MoveService.Move(whitePieces[0], new Position(3, 4), game);
 
             var isCheckmate = game.IsCheckmate();
 
@@ -167,7 +138,7 @@ namespace Chess.Scripts.Domains.Tests
         }
 
         [Test]
-        public void チェックコマ殺害によるチェックメイト回避()
+        public void チェックコマ殺害によるチェックメイト回避が可能()
         {
             // □ □ □ □ ☆ □ □ □
             // □ □ □ □ □ □ □ □
@@ -189,19 +160,19 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(0, 4)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(0, 4)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateQueen(_blackPlayer, new Position(6, 1)),
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateQueen(BlackPlayer, new Position(6, 1)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
 
-            _moveService.Move(whitePieces[0], new Position(3, 4), game);
+            MoveService.Move(whitePieces[0], new Position(3, 4), game);
 
             var isCheckmate = game.IsCheckmate();
 
@@ -209,7 +180,7 @@ namespace Chess.Scripts.Domains.Tests
         }
 
         [Test]
-        public void ブロックによるチェックメイト回避()
+        public void ブロックによるチェックメイト回避が可能()
         {
             // □ □ □ □ ☆ □ □ □
             // □ □ □ ○ □ □ □ □
@@ -231,21 +202,21 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(0, 3)),
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(7, 4)),
-                _pieceFactory.CreateQueen(_whitePlayer, new Position(2, 1)),
-                _pieceFactory.CreateKing(_whitePlayer, new Position(3, 0)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(0, 3)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(7, 4)),
+                PieceFactory.CreateQueen(WhitePlayer, new Position(2, 1)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateQueen(_blackPlayer, new Position(4, 6)),
-                _pieceFactory.CreateKing(_blackPlayer, new Position(3, 7)),
+                PieceFactory.CreateQueen(BlackPlayer, new Position(4, 6)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
 
-            _moveService.Move(whitePieces[0], new Position(3, 3), game);
+            MoveService.Move(whitePieces[0], new Position(3, 3), game);
 
             var isCheckmate = game.IsCheckmate();
 
