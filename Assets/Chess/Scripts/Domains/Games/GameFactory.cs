@@ -2,6 +2,7 @@
 using System.Linq;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Pieces;
+using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Games
 {
@@ -23,7 +24,15 @@ namespace Chess.Scripts.Domains.Games
             var blackPieces = CreatePieces(blackPlayer);
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            return new Game(board, whitePlayer, blackPlayer);
+
+            var specialRules = new SpecialRule[]
+            {
+                new EnPassant(),
+                new Castling(),
+                new Promotion(),
+            };
+
+            return new Game(board, whitePlayer, blackPlayer, specialRules);
         }
 
         private List<Piece> CreatePieces(Player player)

@@ -3,6 +3,7 @@ using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
+using Chess.Scripts.Domains.SpecialRules;
 using NUnit.Framework;
 using Zenject;
 
@@ -15,6 +16,7 @@ namespace Chess.Scripts.Domains.Tests
 
         private Player _whitePlayer;
         private Player _blackPlayer;
+        private SpecialRule[] _specialRules;
 
         [SetUp]
         public void Install()
@@ -24,6 +26,12 @@ namespace Chess.Scripts.Domains.Tests
 
             _whitePlayer = new Player(PlayerColor.White);
             _blackPlayer = new Player(PlayerColor.Black);
+            _specialRules = new SpecialRule[]
+            {
+                new EnPassant(),
+                new Castling(),
+                new Promotion(),
+            };
 
             Container.Inject(this);
         }
@@ -52,7 +60,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer);
+            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
 
             _moveService.Move(whitePieces[0], new Position(3, 4), game);
 
@@ -84,7 +92,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer);
+            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
 
             _moveService.Move(whitePieces[0], new Position(3, 4), game);
 
@@ -114,7 +122,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer);
+            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
                 _moveService.Move(whitePieces[0], new Position(3, 2), game));
@@ -143,7 +151,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer);
+            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
                 _moveService.Move(whitePieces[1], new Position(3, 1), game));
@@ -172,7 +180,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, _whitePlayer, _blackPlayer);
+            var game = new Game(board, _whitePlayer, _blackPlayer, _specialRules);
 
             Assert.Throws<SuicideMoveException>(() =>
                 _moveService.Move(whitePieces[0], new Position(3, 1), game));

@@ -18,18 +18,14 @@ namespace Chess.Scripts.Domains.Games
         public Player NextTurnPlayer => CurrentTurnPlayer == _whitePlayer ? _blackPlayer : _whitePlayer;
         public void SwapTurn() => CurrentTurnPlayer = NextTurnPlayer;
 
-        public Game(Board board, Player whitePlayer, Player blackPlayer)
+        public Game(Board board, Player whitePlayer, Player blackPlayer, SpecialRule[] specialRules)
         {
             Board = board;
 
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
 
-            SpecialRules = new SpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-            };
+            SpecialRules = specialRules;
 
             // 先行は白プレイヤー
             CurrentTurnPlayer = whitePlayer;
