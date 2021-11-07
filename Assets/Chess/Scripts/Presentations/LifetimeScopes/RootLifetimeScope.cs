@@ -23,6 +23,7 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
         [SerializeField] private ChessViewPrefabData _chessViewPrefabData;
         [SerializeField] private MessageView _messageView;
         [SerializeField] private PromotionView _promotionView;
+        [SerializeField] private GameResultView _gameResultView;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -41,14 +42,19 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
             builder.Register<BoardUseCase>(Lifetime.Scoped);
             builder.Register<GameUseCase>(Lifetime.Scoped);
 
-            builder.Register<BoardViewFactory>(Lifetime.Scoped).As<IBoardViewFactory>();
-            builder.Register<PieceViewFactory>(Lifetime.Scoped).As<IPieceViewFactory>();
-            builder.Register<BoardPresenter>(Lifetime.Scoped).As<BoardPresenter, IDisposable>();
             builder.RegisterInstance(_chessViewPrefabData);
 
+            builder.Register<GamePresenter>(Lifetime.Scoped);
+            
+            builder.RegisterInstance(_gameResultView).As<IGameResultView>();
             builder.RegisterInstance(_messageView).As<IMessagePublisher>();
 
-            builder.RegisterEntryPoint<PromotionPresenter>();
+            builder.Register<BoardViewFactory>(Lifetime.Scoped).As<IBoardViewFactory>();
+            builder.Register<BoardPresenter>(Lifetime.Scoped).As<BoardPresenter, IDisposable>();
+
+            builder.Register<PieceViewFactory>(Lifetime.Scoped).As<IPieceViewFactory>();
+
+            builder.Register<PromotionPresenter>(Lifetime.Scoped).As<PromotionPresenter, IDisposable>();
             builder.RegisterInstance(_promotionView).As<IPromotionView>();
         }
     }

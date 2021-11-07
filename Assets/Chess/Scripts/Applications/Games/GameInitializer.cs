@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Pieces;
+using Chess.Scripts.Applications.SpecialRules;
 using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.Pieces;
 using UniRx;
 using VContainer.Unity;
 
@@ -15,6 +17,8 @@ namespace Chess.Scripts.Applications.Games
         private readonly IBoardViewFactory _boardViewFactory;
         private readonly IPieceViewFactory _pieceViewFactory;
         private readonly BoardPresenter _boardPresenter;
+        private readonly PromotionPresenter _promotionPresenter;
+        private readonly GamePresenter _gamePresenter;
 
         private readonly List<IDisposable> _disposables = new();
 
@@ -23,52 +27,45 @@ namespace Chess.Scripts.Applications.Games
             GameRegistry gameRegistry,
             IBoardViewFactory boardViewFactory,
             IPieceViewFactory pieceViewFactory,
-            BoardPresenter boardPresenter
-        )
+            BoardPresenter boardPresenter,
+            GamePresenter gamePresenter,
+            PromotionPresenter promotionPresenter)
         {
             _gameFactory = gameFactory;
             _gameRegistry = gameRegistry;
             _boardViewFactory = boardViewFactory;
             _pieceViewFactory = pieceViewFactory;
             _boardPresenter = boardPresenter;
+            _gamePresenter = gamePresenter;
+            _promotionPresenter = promotionPresenter;
         }
 
 
         public void Initialize()
         {
-            InitializeGame();
-        }
-
-        private void InitializeGame()
-        {
-            var game = _gameFactory.CreateGame();
+            var game = _gameFactory.CreateCheckmateGame();
             _gameRegistry.Register(game);
 
-            var boardView = _boardViewFactory.CreateBoardView();
-            _boardPresenter.Bind(boardView);
+            _boardPresenter.Bind(_boardViewFactory.CreateBoardView());
 
-            foreach (var piece in game.Board.Pieces)
-            {
-                var presenter = new PiecePresenter(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
-                _disposables.Add(presenter);
-            }
+            foreach (var piece in game.Board.Pieces) BindPiece(piece);
+            _disposables.Add(game.Board.Pieces.ObserveAdd().Subscribe(v => BindPiece(v.Value)));
 
-            // 主にプロモーションで生成されたコマをViewに反映する
-            var d = game.Board.Pieces.ObserveAdd().Subscribe(v =>
-            {
-                var piece = v.Value;
-                var presenter = new PiecePresenter(piece, _pieceViewFactory.CreatePieceView(piece.ToData()));
-                _disposables.Add(presenter);
-            });
-            _disposables.Add(d);
+            _promotionPresenter.Bind(game.Board);
+
+            _gamePresenter.Bind(game);
+        }
+
+        private void BindPiece(Piece piece)
+        {
+            var view = _pieceViewFactory.CreatePieceView(piece.ToData());
+            var presenter = new PiecePresenter(piece, view);
+            _disposables.Add(presenter);
         }
 
         public void Dispose()
         {
-            foreach (var disposable in _disposables)
-            {
-                disposable.Dispose();
-            }
+            foreach (var disposable in _disposables) disposable.Dispose();
         }
     }
 }

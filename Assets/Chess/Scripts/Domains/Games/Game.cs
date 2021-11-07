@@ -2,9 +2,12 @@
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
+using UniRx;
 
 namespace Chess.Scripts.Domains.Games
 {
+    public enum GameStatus { InProgress, Check, Checkmate, Stalemate, }
+
     public class Game
     {
         public Board Board { get; }
@@ -16,7 +19,31 @@ namespace Chess.Scripts.Domains.Games
 
         public Player CurrentTurnPlayer { get; private set; }
         public Player NextTurnPlayer => CurrentTurnPlayer == _whitePlayer ? _blackPlayer : _whitePlayer;
-        public void SwapTurn() => CurrentTurnPlayer = NextTurnPlayer;
+
+        private readonly ReactiveProperty<GameStatus> _gameStatus = new();
+        public IReadOnlyReactiveProperty<GameStatus> GameStatus => _gameStatus;
+
+        public void SwapTurn()
+        {
+            if (IsCheckmate())
+            {
+                _gameStatus.Value = Games.GameStatus.Checkmate;
+            }
+            else if (IsStaleMate())
+            {
+                _gameStatus.Value = Games.GameStatus.Stalemate;
+            }
+            else if (IsCheck())
+            {
+                _gameStatus.Value = Games.GameStatus.Check;
+            }
+            else
+            {
+                _gameStatus.Value = Games.GameStatus.InProgress;
+            }
+
+            CurrentTurnPlayer = NextTurnPlayer;
+        }
 
         public Game(Board board, Player whitePlayer, Player blackPlayer, ISpecialRule[] specialRules)
         {
@@ -57,6 +84,12 @@ namespace Chess.Scripts.Domains.Games
             if (Board.CanProtect(targetKing, protectors)) return false;
 
             return true;
+        }
+
+        public bool IsStaleMate()
+        {
+            // TODO
+            return false;
         }
     }
 }

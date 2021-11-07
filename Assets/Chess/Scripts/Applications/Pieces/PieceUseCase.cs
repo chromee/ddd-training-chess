@@ -52,9 +52,9 @@ namespace Chess.Scripts.Applications.Pieces
 
             if (piece == null) return;
 
-            _selectedPieceRegistry.Unregister();
             try
             {
+                _selectedPieceRegistry.Unregister();
                 _moveService.Move(piece, position.ToPosition(), game);
             }
             catch (Exception e) when (e is WrongPlayerException or PieceNotExistOnBoardException or OutOfRangePieceMovableRangeException or SuicideMoveException)
