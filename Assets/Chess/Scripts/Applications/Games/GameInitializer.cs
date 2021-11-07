@@ -9,7 +9,7 @@ namespace Chess.Scripts.Applications.Games
 {
     public class GameInitializer : IInitializable, IDisposable
     {
-        private readonly IGameFactory _gameFactory;
+        private readonly GameFactory _gameFactory;
         private readonly GameRegistry _gameRegistry;
         private readonly IBoardViewFactory _boardViewFactory;
         private readonly IPieceViewFactory _pieceViewFactory;
@@ -18,7 +18,7 @@ namespace Chess.Scripts.Applications.Games
         private readonly List<IDisposable> _disposables = new();
 
         public GameInitializer(
-            IGameFactory gameFactory,
+            GameFactory gameFactory,
             GameRegistry gameRegistry,
             IBoardViewFactory boardViewFactory,
             IPieceViewFactory pieceViewFactory,

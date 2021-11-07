@@ -2,8 +2,8 @@
 
 namespace Chess.Scripts.Domains.SpecialRules
 {
-    public abstract class SpecialRule
+    public interface ISpecialRule
     {
-        public abstract void TryExecute(Board board);
+        void TryExecute(Board board);
     }
 }

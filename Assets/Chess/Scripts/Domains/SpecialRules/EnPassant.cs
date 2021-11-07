@@ -3,9 +3,9 @@ using Chess.Scripts.Domains.Games;
 
 namespace Chess.Scripts.Domains.SpecialRules
 {
-    public class EnPassant : SpecialRule
+    public class EnPassant : ISpecialRule
     {
-        public override void TryExecute(Board board)
+        public void TryExecute(Board board)
         {
             var lastHand = board.LastPieceMovement;
             var secondLastHand = board.SecondLastPieceMovement;

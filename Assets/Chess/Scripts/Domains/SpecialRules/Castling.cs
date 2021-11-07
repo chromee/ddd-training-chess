@@ -5,9 +5,9 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.SpecialRules
 {
-    public class Castling : SpecialRule
+    public class Castling : ISpecialRule
     {
-        public override void TryExecute(Board board)
+        public void TryExecute(Board board)
         {
             var lastHand = board.LastPieceMovement;
             if (lastHand == null) return;

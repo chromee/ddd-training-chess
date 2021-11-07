@@ -6,13 +6,15 @@ using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Games
 {
-    public class GameFactory : IGameFactory
+    public class GameFactory
     {
         private readonly PieceFactory _pieceFactory;
+        private readonly PromotionNotifier _notifier;
 
-        public GameFactory(PieceFactory pieceFactory)
+        public GameFactory(PieceFactory pieceFactory, PromotionNotifier notifier)
         {
             _pieceFactory = pieceFactory;
+            _notifier = notifier;
         }
 
         public Game CreateGame()
@@ -25,11 +27,11 @@ namespace Chess.Scripts.Domains.Games
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var specialRules = new SpecialRule[]
+            var specialRules = new ISpecialRule[]
             {
                 new EnPassant(),
                 new Castling(),
-                new Promotion(),
+                new Promotion(_notifier),
             };
 
             return new Game(board, whitePlayer, blackPlayer, specialRules);

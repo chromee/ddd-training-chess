@@ -29,11 +29,15 @@ namespace Chess.Scripts.Domains.Boards
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);
         public Piece GetPiece(Player player, PieceType type) => Pieces.FirstOrDefault(v => v.IsOwner(player) && v.IsType(type));
-        public Piece[] GetPieces(Player player) => Pieces.Where(v => v.IsOwner(player)).ToArray();
         public Piece[] GetAllies(Piece piece) => Pieces.Where(v => v.IsAlly(piece)).ToArray();
         public Piece[] GetEnemies(Piece piece) => Pieces.Where(v => v.IsOpponent(piece)).ToArray();
         public bool ExistPiece(Position position) => GetPiece(position) != null;
         public bool HasPiece(Piece piece) => Pieces.Contains(piece);
+
+        public void AddPiece(Piece piece)
+        {
+            if (!Pieces.Contains(piece)) Pieces.Add(piece);
+        }
 
         public void RemovePiece(Piece piece)
         {

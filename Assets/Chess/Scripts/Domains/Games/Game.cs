@@ -9,7 +9,7 @@ namespace Chess.Scripts.Domains.Games
     {
         public Board Board { get; }
 
-        public SpecialRule[] SpecialRules { get; }
+        public ISpecialRule[] SpecialRules { get; }
 
         private readonly Player _whitePlayer;
         private readonly Player _blackPlayer;
@@ -18,7 +18,7 @@ namespace Chess.Scripts.Domains.Games
         public Player NextTurnPlayer => CurrentTurnPlayer == _whitePlayer ? _blackPlayer : _whitePlayer;
         public void SwapTurn() => CurrentTurnPlayer = NextTurnPlayer;
 
-        public Game(Board board, Player whitePlayer, Player blackPlayer, SpecialRule[] specialRules)
+        public Game(Board board, Player whitePlayer, Player blackPlayer, ISpecialRule[] specialRules)
         {
             Board = board;
 

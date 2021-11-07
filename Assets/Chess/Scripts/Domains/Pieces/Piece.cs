@@ -9,12 +9,12 @@ namespace Chess.Scripts.Domains.Pieces
 {
     public class Piece
     {
-        private readonly Player _owner;
+        public Player Owner { get; }
+        public PieceType Type { get; }
         private readonly MoveBase[] _moves;
 
-        public PlayerColor Color => _owner.Color;
+        public PlayerColor Color => Owner.Color;
 
-        public PieceType Type { get; }
 
         private readonly ReactiveProperty<Position> _position = new();
         public Position Position => _position.Value;
@@ -26,7 +26,7 @@ namespace Chess.Scripts.Domains.Pieces
 
         public Piece(Player owner, PieceType type, Position position, MoveBase[] moves, bool isDead = false)
         {
-            _owner = owner;
+            Owner = owner;
             Type = type;
             _moves = moves;
             _position.Value = position;
@@ -37,13 +37,13 @@ namespace Chess.Scripts.Domains.Pieces
         public void Die() => _isDead.Value = true;
 
         public bool IsColor(PlayerColor color) => Color == color;
-        public bool IsOwner(Player player) => _owner == player;
+        public bool IsOwner(Player player) => Owner == player;
         public bool IsAlly(Piece piece) => Color == piece.Color;
         public bool IsOpponent(Piece piece) => Color != piece.Color;
         public bool IsType(PieceType type) => Type == type;
         public override string ToString() => $"{Color} {Type}";
 
-        public Piece Clone() => new(_owner, Type, Position, _moves, IsDead);
+        public Piece Clone() => new(Owner, Type, Position, _moves, IsDead);
 
         public Position[] MoveCandidates(Board board)
         {

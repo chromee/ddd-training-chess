@@ -16,7 +16,7 @@ namespace Chess.Scripts.Domains.Tests
 
         private Player _whitePlayer;
         private Player _blackPlayer;
-        private SpecialRule[] _specialRules;
+        private ISpecialRule[] _specialRules;
 
         [SetUp]
         public void Install()
@@ -26,11 +26,11 @@ namespace Chess.Scripts.Domains.Tests
 
             _whitePlayer = new Player(PlayerColor.White);
             _blackPlayer = new Player(PlayerColor.Black);
-            _specialRules = new SpecialRule[]
+            _specialRules = new ISpecialRule[]
             {
                 new EnPassant(),
                 new Castling(),
-                new Promotion(),
+                new Promotion(new PromotionNotifier()),
             };
 
             Container.Inject(this);
@@ -96,7 +96,7 @@ namespace Chess.Scripts.Domains.Tests
         }
 
         [Test]
-        public void 動くとチェックになるとキャスリングできない()
+        public void 動くとチェックになる状況だとキャスリングできない()
         {
             // □ □ □ □ ☆ □ □ □
             // □ □ □ □ □ □ □ □
