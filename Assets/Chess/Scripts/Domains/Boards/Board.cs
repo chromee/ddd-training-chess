@@ -30,6 +30,7 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);
+        public Piece[] GetPieces(Player player) => Pieces.Where(v => v.IsOwner(player)).ToArray();
         public Piece GetPiece(Player player, PieceType type) => Pieces.FirstOrDefault(v => v.IsOwner(player) && v.IsType(type));
         public Piece[] GetAllies(Piece piece) => Pieces.Where(v => v.IsAlly(piece)).ToArray();
         public Piece[] GetEnemies(Piece piece) => Pieces.Where(v => v.IsOpponent(piece)).ToArray();

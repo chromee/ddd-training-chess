@@ -88,8 +88,21 @@ namespace Chess.Scripts.Domains.Games
 
         public bool IsStaleMate()
         {
-            // TODO
-            return false;
+            var pieces = Board.GetPieces(NextTurnPlayer);
+
+            foreach (var piece in pieces)
+            {
+                var destinations = piece.MoveCandidates(Board);
+                foreach (var destination in destinations)
+                {
+                    var cloneBoard = Board.Clone();
+                    var clonePiece = cloneBoard.GetPiece(piece.Position);
+                    cloneBoard.MovePiece(clonePiece.Position, destination);
+                    if (!cloneBoard.IsCheck(CurrentTurnPlayer)) return false;
+                }
+            }
+
+            return true;
         }
     }
 }

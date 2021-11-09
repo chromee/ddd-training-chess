@@ -222,5 +222,46 @@ namespace Chess.Scripts.Domains.Tests
 
             Assert.IsFalse(isCheckmate);
         }
+
+        [Test]
+        public void スティルメイト()
+        {
+            // □ □ □ □ □ □ □ ☆
+            // □ □ □ □ □ □ □ ○
+            // □ □ □ □ □ □ □ ●
+            // □ □ □ □ □ ● □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ ★
+            //         ↓
+            // □ □ □ □ □ □ □ ☆
+            // □ □ □ □ □ □ □ ○
+            // □ □ □ □ □ □ □ ●
+            // □ □ □ □ □ □ ● □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ □
+            // □ □ □ □ □ □ □ ★
+
+            var whitePieces = new[]
+            {
+                PieceFactory.CreatePawn(WhitePlayer, new Position(7, 5)),
+                PieceFactory.CreateRook(WhitePlayer, new Position(5, 4)),
+                PieceFactory.CreateKing(WhitePlayer, new Position(7, 0)),
+            };
+            var blackPieces = new[]
+            {
+                PieceFactory.CreatePawn(BlackPlayer, new Position(7, 6)),
+                PieceFactory.CreateKing(BlackPlayer, new Position(7, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
+
+            MoveService.Move(whitePieces[1], new Position(6, 4), game);
+
+            Assert.AreEqual(GameStatus.Stalemate, game.GameStatus.Value);
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace Chess.Scripts.Applications.Games
 
         public void Initialize()
         {
-            var game = _gameFactory.CreateCheckmateGame();
+            var game = _gameFactory.CreateGame();
             _gameRegistry.Register(game);
 
             _boardPresenter.Bind(_boardViewFactory.CreateBoardView());
