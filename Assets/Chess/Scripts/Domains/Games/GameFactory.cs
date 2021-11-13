@@ -54,12 +54,11 @@ namespace Chess.Scripts.Domains.Games
             return pieces;
         }
 
-
         public Game CreateCheckmateGame()
         {
             var whitePlayer = new Player(PlayerColor.White);
             var blackPlayer = new Player(PlayerColor.Black);
-            
+
             var whitePieces = new[]
             {
                 _pieceFactory.CreateQueen(whitePlayer, new Position(7, 6)),
@@ -82,7 +81,6 @@ namespace Chess.Scripts.Domains.Games
             return new Game(board, whitePlayer, blackPlayer, specialRules);
         }
 
-
         public Game CreateStalemateGame()
         {
             var whitePlayer = new Player(PlayerColor.White);
@@ -96,6 +94,33 @@ namespace Chess.Scripts.Domains.Games
             var blackPieces = new[]
             {
                 _pieceFactory.CreateKing(blackPlayer, new Position(0, 7)),
+            };
+
+            var board = new Board(whitePieces.Concat(blackPieces).ToList());
+
+            var specialRules = new ISpecialRule[]
+            {
+                new EnPassant(),
+                new Castling(),
+                new Promotion(_notifier),
+            };
+
+            return new Game(board, whitePlayer, blackPlayer, specialRules);
+        }
+
+        public Game CreatePromotionGame()
+        {
+            var whitePlayer = new Player(PlayerColor.White);
+            var blackPlayer = new Player(PlayerColor.Black);
+
+            var whitePieces = new[]
+            {
+                _pieceFactory.CreatePawn(whitePlayer, new Position(2, 6)),
+                _pieceFactory.CreateKing(whitePlayer, new Position(4, 0)),
+            };
+            var blackPieces = new[]
+            {
+                _pieceFactory.CreateKing(blackPlayer, new Position(4, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());

@@ -6,34 +6,35 @@ namespace Chess.Scripts.Applications.Games
 {
     public class GamePresenter : IDisposable
     {
-        private readonly IGameResultView _gameResultView;
         private readonly CompositeDisposable _disposable = new();
 
-        public GamePresenter(IGameResultView gameResultView)
+        public GamePresenter(GameUseCase gameUseCase, IGameResultView gameResultView, Game game)
         {
-            _gameResultView = gameResultView;
-        }
-
-        public void Bind(Game game)
-        {
-            game.GameStatus.Subscribe(status =>
-            {
-                switch (status)
+            game.GameStatus
+                .Subscribe(status =>
                 {
-                    case GameStatus.Check:
-                        _gameResultView.ShowCheck();
-                        break;
-                    case GameStatus.Checkmate:
-                        _gameResultView.ShowCheckmate();
-                        break;
-                    case GameStatus.Stalemate:
-                        _gameResultView.ShowStalemate();
-                        break;
-                    default:
-                        _gameResultView.HideAll();
-                        break;
-                }
-            }).AddTo(_disposable);
+                    switch (status)
+                    {
+                        case GameStatus.Check:
+                            gameResultView.ShowCheck();
+                            break;
+                        case GameStatus.Checkmate:
+                            gameResultView.ShowCheckmate();
+                            break;
+                        case GameStatus.Stalemate:
+                            gameResultView.ShowStalemate();
+                            break;
+                        default:
+                            gameResultView.HideAll();
+                            break;
+                    }
+                }).AddTo(_disposable);
+
+            gameResultView.OnRestart
+                .Subscribe(_ => gameUseCase.CreateGame())
+                .AddTo(_disposable);
+            
+            gameResultView.HideAll();
         }
 
         public void Dispose()

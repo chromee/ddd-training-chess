@@ -27,5 +27,10 @@ namespace Chess.Scripts.Presentations.Pieces
         {
             _spriteRenderer.enabled = false;
         }
+
+        public void Dispose()
+        {
+            if (gameObject != null) Destroy(gameObject);
+        }
     }
 }

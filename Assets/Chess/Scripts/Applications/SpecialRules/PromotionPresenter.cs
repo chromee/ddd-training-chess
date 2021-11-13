@@ -10,32 +10,22 @@ namespace Chess.Scripts.Applications.SpecialRules
     {
         private readonly CompositeDisposable _disposable = new();
 
-        private readonly PromotionNotifier _promotionNotifier;
-        private readonly SpecialRuleService _specialRuleService;
-        private readonly IPromotionView _promotionView;
-
         public PromotionPresenter(
             PromotionNotifier promotionNotifier,
             SpecialRuleService specialRuleService,
-            IPromotionView promotionView
+            IPromotionView promotionView,
+            Board board
         )
         {
-            _promotionNotifier = promotionNotifier;
-            _specialRuleService = specialRuleService;
-            _promotionView = promotionView;
-        }
-
-        public void Bind(Board board)
-        {
-            _promotionNotifier.OnPawnPromotion.Subscribe(piece =>
+            promotionNotifier.OnPawnPromotion.Subscribe(piece =>
             {
                 if (piece == null) return;
-                _promotionView.ShowPromotionDialogue();
+                promotionView.ShowPromotionDialogue();
             }).AddTo(_disposable);
 
-            _promotionView.OnSelectPieceType.Subscribe(type =>
+            promotionView.OnSelectPieceType.Subscribe(type =>
             {
-                _specialRuleService.Promotion(board, type.ToDomain());
+                specialRuleService.Promotion(board, type.ToDomain());
             }).AddTo(_disposable);
         }
 

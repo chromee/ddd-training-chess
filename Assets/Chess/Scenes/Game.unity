@@ -1657,6 +1657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1650671959}
   - component: {fileID: 1650671962}
+  - component: {fileID: 1650671964}
   - component: {fileID: 1650671963}
   m_Layer: 5
   m_Name: Result Canvas
@@ -1722,6 +1723,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 30736700}
   _restartButton: {fileID: 439223748}
+--- !u!114 &1650671964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650671958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1687858733
 GameObject:
   m_ObjectHideFlags: 0

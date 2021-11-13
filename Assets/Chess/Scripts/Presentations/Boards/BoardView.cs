@@ -22,7 +22,7 @@ namespace Chess.Scripts.Presentations.Boards
             for (var x = 0; x < 8; x++)
             for (var y = 0; y < 8; y++)
             {
-                var square = Instantiate(_boardSquarePrefab, new Vector3(x, y, 0.1f), Quaternion.identity);
+                var square = Instantiate(_boardSquarePrefab, new Vector3(x, y, 0.1f), Quaternion.identity, transform);
                 square.Initialize(new Vector2(x, y));
                 square.OnClicked += pos => _onClicked.OnNext(pos);
                 _boardSquares.Add(square);
@@ -45,6 +45,11 @@ namespace Chess.Scripts.Presentations.Boards
             {
                 square.SetDefault();
             }
+        }
+
+        public void Dispose()
+        {
+            if (gameObject != null) Destroy(gameObject);
         }
     }
 }

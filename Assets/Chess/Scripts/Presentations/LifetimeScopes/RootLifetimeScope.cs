@@ -44,17 +44,17 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
 
             builder.RegisterInstance(_chessViewPrefabData);
 
-            builder.Register<GamePresenter>(Lifetime.Scoped);
-            
+            builder.Register<GamePresenterFactory>(Lifetime.Scoped);
+
             builder.RegisterInstance(_gameResultView).As<IGameResultView>();
             builder.RegisterInstance(_messageView).As<IMessagePublisher>();
 
             builder.Register<BoardViewFactory>(Lifetime.Scoped).As<IBoardViewFactory>();
-            builder.Register<BoardPresenter>(Lifetime.Scoped).As<BoardPresenter, IDisposable>();
+            builder.Register<BoardPresenterFactory>(Lifetime.Scoped);
 
             builder.Register<PieceViewFactory>(Lifetime.Scoped).As<IPieceViewFactory>();
 
-            builder.Register<PromotionPresenter>(Lifetime.Scoped).As<PromotionPresenter, IDisposable>();
+            builder.Register<PromotionPresenterFactory>(Lifetime.Scoped);
             builder.RegisterInstance(_promotionView).As<IPromotionView>();
         }
     }

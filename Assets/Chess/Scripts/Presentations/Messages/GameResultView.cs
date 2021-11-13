@@ -2,53 +2,63 @@
 using Chess.Scripts.Applications.Games;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Chess.Scripts.Presentations.Messages
 {
-    public class GameResultView : MonoBehaviour, IGameResultView
+    public class GameResultView : UiViewBase, IGameResultView
     {
-        [SerializeField] private GameObject _panel;
         [SerializeField] private TMP_Text _text;
+        [SerializeField] private Button _restartButton;
 
-        private Canvas _canvas;
+        public IObservable<Unit> OnRestart => _restartButton.OnClickAsObservable();
 
         private void Awake()
         {
-            _canvas = GetComponent<Canvas>();
-            _canvas.enabled = false;
+            Canvas.enabled = false;
+            _restartButton.gameObject.SetActive(false);
         }
 
         public void ShowCheck()
         {
             ShowText("Check");
+            _restartButton.gameObject.SetActive(false);
         }
 
         public void ShowCheckmate()
         {
-            ShowText("Checkmate");
+            ShowTextEternal("Checkmate");
+            _restartButton.gameObject.SetActive(true);
         }
 
         public void ShowStalemate()
         {
-            ShowText("Stalemate");
+            ShowTextEternal("Stalemate");
+            _restartButton.gameObject.SetActive(true);
         }
 
         public void HideAll()
         {
-            _canvas.enabled = false;
+            Canvas.enabled = false;
         }
 
         private void ShowText(string message)
         {
             UniTask.Void(async () =>
             {
-                _canvas.enabled = true;
+                Canvas.enabled = true;
                 _text.text = message;
                 await UniTask.Delay(2000);
-                _canvas.enabled = false;
+                Canvas.enabled = false;
             });
+        }
+
+        private void ShowTextEternal(string message)
+        {
+            Canvas.enabled = true;
+            _text.text = message;
         }
     }
 }

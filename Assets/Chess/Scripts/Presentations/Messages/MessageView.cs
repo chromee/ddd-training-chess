@@ -7,18 +7,16 @@ using UnityEngine;
 
 namespace Chess.Scripts.Presentations.Messages
 {
-    public class MessageView : MonoBehaviour, IMessagePublisher
+    public class MessageView : UiViewBase, IMessagePublisher
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private float _duration;
 
-        private Canvas _canvas;
         private CancellationTokenSource _cts;
 
         private void Start()
         {
-            _canvas = GetComponent<Canvas>();
-            _canvas.enabled = false;
+            Canvas.enabled = false;
 
             _text.text = string.Empty;
         }
@@ -35,14 +33,14 @@ namespace Chess.Scripts.Presentations.Messages
 
                 _text.text = message;
                 _text.alpha = 1;
-                _canvas.enabled = true;
+                Canvas.enabled = true;
 
                 _cts = new CancellationTokenSource();
                 await UniTask.Delay(TimeSpan.FromSeconds(_duration), cancellationToken: _cts.Token);
 
                 _text.text = string.Empty;
                 _text.alpha = 0;
-                _canvas.enabled = false;
+                Canvas.enabled = false;
             });
         }
     }
