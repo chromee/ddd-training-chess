@@ -10,15 +10,15 @@ namespace Chess.Scripts.Presentations.Boards
         [SerializeField] private Color _blackColor;
         [SerializeField] private Color _movableColor;
 
-        public Vector2 Position { get; private set; }
+        public Vector2Int Position { get; private set; }
         public bool IsMovable { get; private set; }
 
         private SpriteRenderer _spriteRenderer;
         private Color _defaultColor;
 
-        public event UnityAction<Vector2> OnClicked;
+        public event UnityAction<Vector2Int> OnClicked;
 
-        public void Initialize(Vector2 position)
+        public void Initialize(Vector2Int position)
         {
             Position = position;
 

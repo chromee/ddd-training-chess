@@ -46,7 +46,7 @@ namespace Chess.Scripts.Applications.Pieces
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
-        public static Vector2 ToVector2(this Position position) => new(position.X, position.Y);
+        public static Vector2Int ToVector2(this Position position) => new(position.X, position.Y);
         public static Position ToPosition(this Vector2 position) => new((int)position.x, (int)position.y);
 
         public static Domains.Pieces.PieceType ToDomain(this PieceType type) => type switch

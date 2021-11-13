@@ -1,12 +1,12 @@
 {
-    "name": "Chess.Applications.Tests",
+    "name": "Chess.Presentations.Tests",
     "rootNamespace": "",
     "references": [
         "GUID:27619889b8ba8c24980f49ee34dbb44a",
         "GUID:0acc523941302664db1f4e527237feb3",
         "GUID:04eb04bf8e9345d498d4b2608df85bb2",
         "GUID:3623072de619fb643b10f4edbe5bf440",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+        "GUID:1d56cb0d128ddf74eb530ffbd9b85c30"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

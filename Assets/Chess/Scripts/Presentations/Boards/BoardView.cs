@@ -13,8 +13,8 @@ namespace Chess.Scripts.Presentations.Boards
 
         private readonly List<BoardSquare> _boardSquares = new();
 
-        private readonly Subject<Vector2> _onClicked = new();
-        public IObservable<Vector2> OnClicked => _onClicked;
+        private readonly Subject<Vector2Int> _onClicked = new();
+        public IObservable<Vector2Int> OnClicked => _onClicked;
 
 
         private void Awake()
@@ -23,7 +23,7 @@ namespace Chess.Scripts.Presentations.Boards
             for (var y = 0; y < 8; y++)
             {
                 var square = Instantiate(_boardSquarePrefab, new Vector3(x, y, 0.1f), Quaternion.identity, transform);
-                square.Initialize(new Vector2(x, y));
+                square.Initialize(new Vector2Int(x, y));
                 square.OnClicked += pos => _onClicked.OnNext(pos);
                 _boardSquares.Add(square);
             }
@@ -34,7 +34,7 @@ namespace Chess.Scripts.Presentations.Boards
             _onClicked.Dispose();
         }
 
-        public void SetMovable(Vector2 position)
+        public void SetMovable(Vector2Int position)
         {
             _boardSquares.FirstOrDefault(v => v.Position == position)?.SetMovable();
         }
