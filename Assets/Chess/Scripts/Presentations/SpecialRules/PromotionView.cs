@@ -9,7 +9,6 @@ namespace Chess.Scripts.Presentations.SpecialRules
 {
     public class PromotionView : MonoBehaviour, IPromotionView
     {
-        [SerializeField] private GameObject _rootPanel;
         [SerializeField] private Button _knightButton;
         [SerializeField] private Button _bishopButton;
         [SerializeField] private Button _rookButton;
@@ -18,9 +17,12 @@ namespace Chess.Scripts.Presentations.SpecialRules
         private readonly Subject<PieceType> _onSelectPieceType = new();
         public IObservable<PieceType> OnSelectPieceType => _onSelectPieceType;
 
+        private Canvas _canvas;
+
         private void Awake()
         {
-            _rootPanel.SetActive(false);
+            _canvas = GetComponent<Canvas>();
+            _canvas.enabled = false;
 
             _knightButton.onClick.AddListener(() => SelectType(PieceType.Knight));
             _bishopButton.onClick.AddListener(() => SelectType(PieceType.Bishop));
@@ -31,12 +33,12 @@ namespace Chess.Scripts.Presentations.SpecialRules
         private void SelectType(PieceType type)
         {
             _onSelectPieceType.OnNext(type);
-            _rootPanel.SetActive(false);
+            _canvas.enabled = false;
         }
 
         public void ShowPromotionDialogue()
         {
-            _rootPanel.SetActive(true);
+            _canvas.enabled = true;
         }
     }
 }

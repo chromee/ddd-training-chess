@@ -3,6 +3,7 @@ using Chess.Scripts.Applications.Games;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Chess.Scripts.Presentations.Messages
 {
@@ -11,9 +12,12 @@ namespace Chess.Scripts.Presentations.Messages
         [SerializeField] private GameObject _panel;
         [SerializeField] private TMP_Text _text;
 
+        private Canvas _canvas;
+
         private void Awake()
         {
-            _panel.SetActive(false);
+            _canvas = GetComponent<Canvas>();
+            _canvas.enabled = false;
         }
 
         public void ShowCheck()
@@ -33,17 +37,17 @@ namespace Chess.Scripts.Presentations.Messages
 
         public void HideAll()
         {
-            _panel.SetActive(false);
+            _canvas.enabled = false;
         }
 
         private void ShowText(string message)
         {
             UniTask.Void(async () =>
             {
-                _panel.SetActive(true);
+                _canvas.enabled = true;
                 _text.text = message;
                 await UniTask.Delay(2000);
-                _panel.SetActive(false);
+                _canvas.enabled = false;
             });
         }
     }
