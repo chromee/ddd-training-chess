@@ -13,8 +13,6 @@ namespace Chess.Scripts.Domains.Tests
         protected SpecialRuleService SpecialRuleService;
         protected PromotionNotifier PromotionNotifier;
 
-        protected Player WhitePlayer;
-        protected Player BlackPlayer;
         protected ISpecialRule[] SpecialRules;
 
         [SetUp]
@@ -24,9 +22,6 @@ namespace Chess.Scripts.Domains.Tests
             MoveService = new MoveService();
             PromotionNotifier = new PromotionNotifier();
             SpecialRuleService = new SpecialRuleService(PromotionNotifier, PieceFactory);
-
-            WhitePlayer = new Player(PlayerColor.White);
-            BlackPlayer = new Player(PlayerColor.Black);
 
             SpecialRules = new ISpecialRule[]
             {

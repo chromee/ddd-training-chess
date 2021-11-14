@@ -30,8 +30,8 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);
-        public Piece[] GetPieces(Player player) => Pieces.Where(v => v.IsOwner(player)).ToArray();
-        public Piece GetPiece(Player player, PieceType type) => Pieces.FirstOrDefault(v => v.IsOwner(player) && v.IsType(type));
+        public Piece[] GetPieces(PlayerColor player) => Pieces.Where(v => v.IsColor(player)).ToArray();
+        public Piece GetPiece(PlayerColor player, PieceType type) => Pieces.FirstOrDefault(v => v.IsColor(player) && v.IsType(type));
         public Piece[] GetAllies(Piece piece) => Pieces.Where(v => v.IsAlly(piece)).ToArray();
         public Piece[] GetEnemies(Piece piece) => Pieces.Where(v => v.IsOpponent(piece)).ToArray();
         public bool ExistPiece(Position position) => GetPiece(position) != null;
@@ -75,9 +75,9 @@ namespace Chess.Scripts.Domains.Boards
             _log.Add(new PieceMovementLog(movePiece, moverPosition, destination));
         }
 
-        public bool IsCheck(Player player)
+        public bool IsCheck(PlayerColor player)
         {
-            var enemyKing = Pieces.FirstOrDefault(v => !v.IsOwner(player) && v.IsType(PieceType.King));
+            var enemyKing = Pieces.FirstOrDefault(v => !v.IsColor(player) && v.IsType(PieceType.King));
             return CanPick(enemyKing);
         }
 

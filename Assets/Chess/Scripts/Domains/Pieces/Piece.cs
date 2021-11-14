@@ -9,11 +9,9 @@ namespace Chess.Scripts.Domains.Pieces
 {
     public class Piece
     {
-        public Player Owner { get; }
+        public PlayerColor Color { get; }
         public PieceType Type { get; }
         private readonly MoveBase[] _moves;
-
-        public PlayerColor Color => Owner.Color;
 
 
         private readonly ReactiveProperty<Position> _position = new();
@@ -24,9 +22,9 @@ namespace Chess.Scripts.Domains.Pieces
         public bool IsDead => _isDead.Value;
         public IObservable<bool> IsDeadAsObservable => _isDead;
 
-        public Piece(Player owner, PieceType type, Position position, MoveBase[] moves, bool isDead = false)
+        public Piece(PlayerColor color, PieceType type, Position position, MoveBase[] moves, bool isDead = false)
         {
-            Owner = owner;
+            Color = color;
             Type = type;
             _moves = moves;
             _position.Value = position;
@@ -36,14 +34,13 @@ namespace Chess.Scripts.Domains.Pieces
         public void Move(Position position) => _position.Value = position;
         public void Die() => _isDead.Value = true;
 
-        public bool IsColor(PlayerColor color) => Color == color;
-        public bool IsOwner(Player player) => Owner == player;
+        public bool IsColor(PlayerColor player) => Color == player;
         public bool IsAlly(Piece piece) => Color == piece.Color;
         public bool IsOpponent(Piece piece) => Color != piece.Color;
         public bool IsType(PieceType type) => Type == type;
         public override string ToString() => $"{Color} {Type}";
 
-        public Piece Clone() => new(Owner, Type, Position, _moves, IsDead);
+        public Piece Clone() => new(Color, Type, Position, _moves, IsDead);
 
         public Position[] MoveCandidates(Board board)
         {

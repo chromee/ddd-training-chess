@@ -11,7 +11,7 @@ namespace Chess.Scripts.Domains.Movements
         public void Move(Piece piece, Position destination, Game game)
         {
             // そのターンプレイヤーのコマでなかったとき
-            if (!piece.IsOwner(game.CurrentTurnPlayer))
+            if (!piece.IsColor(game.CurrentTurnPlayer))
                 throw new WrongPlayerException($"This turn is not {game.NextTurnPlayer}'s turn.");
 
             // コマがボードになかったとき
@@ -45,7 +45,7 @@ namespace Chess.Scripts.Domains.Movements
         /// <summary>
         /// 移動した結果、チェックにならないか
         /// </summary>
-        private static bool IsSuicideMove(Piece piece, Board board, Position destination, Player turnPlayer)
+        private static bool IsSuicideMove(Piece piece, Board board, Position destination, PlayerColor turnPlayer)
         {
             var cloneBoard = board.Clone();
             var clonePiece = cloneBoard.GetPiece(piece.Position);

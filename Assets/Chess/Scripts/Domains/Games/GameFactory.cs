@@ -19,11 +19,8 @@ namespace Chess.Scripts.Domains.Games
 
         public Game CreateGame()
         {
-            var whitePlayer = new Player(PlayerColor.White);
-            var blackPlayer = new Player(PlayerColor.Black);
-
-            var whitePieces = CreatePieces(whitePlayer);
-            var blackPieces = CreatePieces(blackPlayer);
+            var whitePieces = CreatePieces(PlayerColor.White);
+            var blackPieces = CreatePieces(PlayerColor.Black);
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
@@ -34,39 +31,36 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, whitePlayer, blackPlayer, specialRules);
+            return new Game(board, specialRules);
         }
 
-        private List<Piece> CreatePieces(Player player)
+        private List<Piece> CreatePieces(PlayerColor color)
         {
-            var pawnLine = player.Color == PlayerColor.White ? PieceConstants.WhitePawnYLine : PieceConstants.BlackPawnYLine;
-            var othersLine = player.Color == PlayerColor.White ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
+            var pawnLine = color == PlayerColor.White ? PieceConstants.WhitePawnYLine : PieceConstants.BlackPawnYLine;
+            var othersLine = color == PlayerColor.White ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
             var pieces = new List<Piece>();
-            for (var i = 0; i < 8; i++) pieces.Add(_pieceFactory.CreatePawn(player, new Position(i, pawnLine)));
-            pieces.Add(_pieceFactory.CreateRook(player, new Position(0, othersLine)));
-            pieces.Add(_pieceFactory.CreateKnight(player, new Position(1, othersLine)));
-            pieces.Add(_pieceFactory.CreateBishop(player, new Position(2, othersLine)));
-            pieces.Add(_pieceFactory.CreateQueen(player, new Position(PieceConstants.QueenX, othersLine)));
-            pieces.Add(_pieceFactory.CreateKing(player, new Position(PieceConstants.KingX, othersLine)));
-            pieces.Add(_pieceFactory.CreateBishop(player, new Position(5, othersLine)));
-            pieces.Add(_pieceFactory.CreateKnight(player, new Position(6, othersLine)));
-            pieces.Add(_pieceFactory.CreateRook(player, new Position(7, othersLine)));
+            for (var i = 0; i < 8; i++) pieces.Add(_pieceFactory.CreatePawn(color, new Position(i, pawnLine)));
+            pieces.Add(_pieceFactory.CreateRook(color, new Position(0, othersLine)));
+            pieces.Add(_pieceFactory.CreateKnight(color, new Position(1, othersLine)));
+            pieces.Add(_pieceFactory.CreateBishop(color, new Position(2, othersLine)));
+            pieces.Add(_pieceFactory.CreateQueen(color, new Position(PieceConstants.QueenX, othersLine)));
+            pieces.Add(_pieceFactory.CreateKing(color, new Position(PieceConstants.KingX, othersLine)));
+            pieces.Add(_pieceFactory.CreateBishop(color, new Position(5, othersLine)));
+            pieces.Add(_pieceFactory.CreateKnight(color, new Position(6, othersLine)));
+            pieces.Add(_pieceFactory.CreateRook(color, new Position(7, othersLine)));
             return pieces;
         }
 
         public Game CreateCheckmateGame()
         {
-            var whitePlayer = new Player(PlayerColor.White);
-            var blackPlayer = new Player(PlayerColor.Black);
-
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(whitePlayer, new Position(7, 6)),
-                _pieceFactory.CreateKing(whitePlayer, new Position(3, 5)),
+                _pieceFactory.CreateQueen(PlayerColor.White, new Position(7, 6)),
+                _pieceFactory.CreateKing(PlayerColor.White, new Position(3, 5)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(blackPlayer, new Position(3, 7)),
+                _pieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -78,22 +72,19 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, whitePlayer, blackPlayer, specialRules);
+            return new Game(board, specialRules);
         }
 
         public Game CreateStalemateGame()
         {
-            var whitePlayer = new Player(PlayerColor.White);
-            var blackPlayer = new Player(PlayerColor.Black);
-
             var whitePieces = new[]
             {
-                _pieceFactory.CreateQueen(whitePlayer, new Position(7, 6)),
-                _pieceFactory.CreateKing(whitePlayer, new Position(2, 7)),
+                _pieceFactory.CreateQueen(PlayerColor.White, new Position(7, 6)),
+                _pieceFactory.CreateKing(PlayerColor.White, new Position(2, 7)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(blackPlayer, new Position(0, 7)),
+                _pieceFactory.CreateKing(PlayerColor.Black, new Position(0, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -105,22 +96,19 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, whitePlayer, blackPlayer, specialRules);
+            return new Game(board, specialRules);
         }
 
         public Game CreatePromotionGame()
         {
-            var whitePlayer = new Player(PlayerColor.White);
-            var blackPlayer = new Player(PlayerColor.Black);
-
             var whitePieces = new[]
             {
-                _pieceFactory.CreatePawn(whitePlayer, new Position(2, 6)),
-                _pieceFactory.CreateKing(whitePlayer, new Position(4, 0)),
+                _pieceFactory.CreatePawn(PlayerColor.White, new Position(2, 6)),
+                _pieceFactory.CreateKing(PlayerColor.White, new Position(4, 0)),
             };
             var blackPieces = new[]
             {
-                _pieceFactory.CreateKing(blackPlayer, new Position(4, 7)),
+                _pieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -132,7 +120,7 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, whitePlayer, blackPlayer, specialRules);
+            return new Game(board, specialRules);
         }
     }
 }

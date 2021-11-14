@@ -14,11 +14,8 @@ namespace Chess.Scripts.Domains.Games
 
         public ISpecialRule[] SpecialRules { get; }
 
-        private readonly Player _whitePlayer;
-        private readonly Player _blackPlayer;
-
-        public Player CurrentTurnPlayer { get; private set; }
-        public Player NextTurnPlayer => CurrentTurnPlayer == _whitePlayer ? _blackPlayer : _whitePlayer;
+        public PlayerColor CurrentTurnPlayer { get; private set; }
+        public PlayerColor NextTurnPlayer => CurrentTurnPlayer.Opponent();
 
         private readonly ReactiveProperty<GameStatus> _gameStatus = new();
         public IReadOnlyReactiveProperty<GameStatus> GameStatus => _gameStatus;
@@ -45,17 +42,14 @@ namespace Chess.Scripts.Domains.Games
             CurrentTurnPlayer = NextTurnPlayer;
         }
 
-        public Game(Board board, Player whitePlayer, Player blackPlayer, ISpecialRule[] specialRules)
+        public Game(Board board, ISpecialRule[] specialRules)
         {
             Board = board;
-
-            _whitePlayer = whitePlayer;
-            _blackPlayer = blackPlayer;
 
             SpecialRules = specialRules;
 
             // 先行は白プレイヤー
-            CurrentTurnPlayer = whitePlayer;
+            CurrentTurnPlayer = PlayerColor.White;
         }
 
         public bool IsCheck()
@@ -66,9 +60,9 @@ namespace Chess.Scripts.Domains.Games
         public bool IsCheckmate()
         {
             var targetKing = Board.GetPiece(NextTurnPlayer, PieceType.King);
-            var protectors = Board.Pieces.Where(v => v.IsOwner(NextTurnPlayer) && v != targetKing).ToArray();
+            var protectors = Board.Pieces.Where(v => v.IsColor(NextTurnPlayer) && v != targetKing).ToArray();
 
-            var killers = Board.Pieces.Where(v => v.IsOwner(CurrentTurnPlayer)).ToArray();
+            var killers = Board.Pieces.Where(v => v.IsColor(CurrentTurnPlayer)).ToArray();
             var killersMoveMap = killers.ToDictionary(v => v, piece => piece.MoveCandidates(Board));
             var checkingPiece = killersMoveMap.FirstOrDefault(v => v.Value.Any(pos => pos == targetKing.Position)).Key;
 

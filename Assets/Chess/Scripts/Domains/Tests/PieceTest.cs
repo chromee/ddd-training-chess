@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.Games;
 using NUnit.Framework;
 
 namespace Chess.Scripts.Domains.Tests
@@ -20,12 +21,12 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 1)),
+                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 1)),
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -55,13 +56,13 @@ namespace Chess.Scripts.Domains.Tests
 
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
-                PieceFactory.CreatePawn(WhitePlayer, new Position(0, 5)),
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
+                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
+                PieceFactory.CreatePawn(PlayerColor.White, new Position(0, 5)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());

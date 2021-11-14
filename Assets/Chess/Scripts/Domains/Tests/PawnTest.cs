@@ -20,17 +20,17 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ ● □ □ □
             // □ □ □ □ ★ □ □ □
 
-            var whitePawn = PieceFactory.CreatePawn(WhitePlayer, new Position(3, 1));
+            var whitePawn = PieceFactory.CreatePawn(PlayerColor.White, new Position(3, 1));
             var whitePieces = new[]
             {
                 whitePawn,
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 0)),
             };
-            var blackPawn = PieceFactory.CreatePawn(BlackPlayer, new Position(3, 6));
+            var blackPawn = PieceFactory.CreatePawn(PlayerColor.Black, new Position(3, 6));
             var blackPieces = new[]
             {
                 blackPawn,
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -56,16 +56,16 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ ● □ □ □
             // □ □ □ □ ★ □ □ □
 
-            var whitePawn = PieceFactory.CreatePawn(WhitePlayer, new Position(3, 1));
+            var whitePawn = PieceFactory.CreatePawn(PlayerColor.White, new Position(3, 1));
             var whitePieces = new[]
             {
                 whitePawn,
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreatePawn(BlackPlayer, new Position(3, 2)),
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreatePawn(PlayerColor.Black, new Position(3, 2)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -86,16 +86,16 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // □ □ □ □ ★ □ □ □
 
-            var whitePawn = PieceFactory.CreatePawn(WhitePlayer, new Position(3, 2));
+            var whitePawn = PieceFactory.CreatePawn(PlayerColor.White, new Position(3, 2));
             var whitePieces = new[]
             {
                 whitePawn,
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 0)),
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreatePawn(BlackPlayer, new Position(4, 3)),
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreatePawn(PlayerColor.Black, new Position(4, 3)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -135,21 +135,21 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // □ □ □ □ ★ □ □ □
 
-            var whitePawn = PieceFactory.CreatePawn(WhitePlayer, new Position(3, 1));
+            var whitePawn = PieceFactory.CreatePawn(PlayerColor.White, new Position(3, 1));
             var whitePieces = new[]
             {
                 whitePawn,
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 0)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 0)),
             };
-            var blackPawn = PieceFactory.CreatePawn(BlackPlayer, new Position(4, 3));
+            var blackPawn = PieceFactory.CreatePawn(PlayerColor.Black, new Position(4, 3));
             var blackPieces = new[]
             {
                 blackPawn,
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
+            var game = new Game(board, SpecialRules);
             MoveService.Move(whitePawn, new Position(3, 3), game);
 
             var destinations = blackPawn.MoveCandidates(board);
@@ -181,19 +181,19 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // □ □ □ □ ★ □ □ □
 
-            var whitePawn = PieceFactory.CreatePawn(WhitePlayer, new Position(1, 6));
+            var whitePawn = PieceFactory.CreatePawn(PlayerColor.White, new Position(1, 6));
             var whitePieces = new[]
             {
                 whitePawn,
-                PieceFactory.CreateKing(WhitePlayer, new Position(3, 1)),
+                PieceFactory.CreateKing(PlayerColor.White, new Position(3, 1)),
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreateKing(BlackPlayer, new Position(3, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
+            var game = new Game(board, SpecialRules);
 
             MoveService.Move(whitePawn, new Position(1, 7), game);
 

@@ -19,16 +19,16 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // ● □ □ □ ★ □ □ ●
 
-            var whiteKing = PieceFactory.CreateKing(WhitePlayer, new Position(4, 0));
+            var whiteKing = PieceFactory.CreateKing(PlayerColor.White, new Position(4, 0));
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
-                PieceFactory.CreateRook(WhitePlayer, new Position(7, 0)),
+                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
+                PieceFactory.CreateRook(PlayerColor.White, new Position(7, 0)),
                 whiteKing,
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreateKing(BlackPlayer, new Position(4, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -50,16 +50,16 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // ● ● □ □ ★ □ □ □
 
-            var whiteKing = PieceFactory.CreateKing(WhitePlayer, new Position(4, 0));
+            var whiteKing = PieceFactory.CreateKing(PlayerColor.White, new Position(4, 0));
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
-                PieceFactory.CreateKnight(WhitePlayer, new Position(1, 0)),
+                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
+                PieceFactory.CreateKnight(PlayerColor.White, new Position(1, 0)),
                 whiteKing,
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreateKing(BlackPlayer, new Position(4, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -80,16 +80,16 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // ● □ □ □ ★ □ □ □
 
-            var whiteKing = PieceFactory.CreateKing(WhitePlayer, new Position(4, 0));
+            var whiteKing = PieceFactory.CreateKing(PlayerColor.White, new Position(4, 0));
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(WhitePlayer, new Position(0, 0)),
+                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
                 whiteKing,
             };
             var blackPieces = new[]
             {
-                PieceFactory.CreateRook(BlackPlayer, new Position(2, 3)),
-                PieceFactory.CreateKing(BlackPlayer, new Position(4, 7)),
+                PieceFactory.CreateRook(PlayerColor.Black, new Position(2, 3)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
@@ -119,16 +119,16 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // □ □ ★ ● □ □ □ □
 
-            var whiteRook = PieceFactory.CreateRook(WhitePlayer, new Position(0, 0));
-            var whiteKing = PieceFactory.CreateKing(WhitePlayer, new Position(4, 0));
+            var whiteRook = PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0));
+            var whiteKing = PieceFactory.CreateKing(PlayerColor.White, new Position(4, 0));
             var whitePieces = new[] { whiteRook, whiteKing, };
             var blackPieces = new[]
             {
-                PieceFactory.CreateKing(BlackPlayer, new Position(4, 7)),
+                PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, WhitePlayer, BlackPlayer, SpecialRules);
+            var game = new Game(board, SpecialRules);
 
             MoveService.Move(whiteKing, new Position(2, 0), game);
 

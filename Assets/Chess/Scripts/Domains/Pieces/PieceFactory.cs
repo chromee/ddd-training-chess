@@ -8,9 +8,9 @@ namespace Chess.Scripts.Domains.Pieces
 {
     public class PieceFactory
     {
-        public Piece CreatePawn(Player player, Position position)
+        public Piece CreatePawn(PlayerColor color, Position position)
         {
-            var dir = player.Color == PlayerColor.White ? 1 : -1;
+            var dir = color == PlayerColor.White ? 1 : -1;
             var moves = new MoveBase[]
             {
                 new SingleMove(new Movement(0, 1 * dir), new PawnSingleMoveConditions()),
@@ -20,10 +20,10 @@ namespace Chess.Scripts.Domains.Pieces
                 new SingleMove(new Movement(1, 1 * dir), new PawnEnPassantConditions()),
                 new SingleMove(new Movement(-1, 1 * dir), new PawnEnPassantConditions()),
             };
-            return new Piece(player, PieceType.Pawn, position, moves);
+            return new Piece(color, PieceType.Pawn, position, moves);
         }
 
-        public Piece CreateKnight(Player player, Position position)
+        public Piece CreateKnight(PlayerColor color, Position position)
         {
             var moves = new MoveBase[]
             {
@@ -36,10 +36,10 @@ namespace Chess.Scripts.Domains.Pieces
                 new SingleMove(new Movement(-2, 1)),
                 new SingleMove(new Movement(-2, -1)),
             };
-            return new Piece(player, PieceType.Knight, position, moves);
+            return new Piece(color, PieceType.Knight, position, moves);
         }
 
-        public Piece CreateRook(Player player, Position position)
+        public Piece CreateRook(PlayerColor color, Position position)
         {
             var moves = new MoveBase[]
             {
@@ -48,10 +48,10 @@ namespace Chess.Scripts.Domains.Pieces
                 new InfinityMove(new Movement(0, 1)),
                 new InfinityMove(new Movement(0, -1)),
             };
-            return new Piece(player, PieceType.Rook, position, moves);
+            return new Piece(color, PieceType.Rook, position, moves);
         }
 
-        public Piece CreateBishop(Player player, Position position)
+        public Piece CreateBishop(PlayerColor color, Position position)
         {
             var moves = new MoveBase[]
             {
@@ -60,10 +60,10 @@ namespace Chess.Scripts.Domains.Pieces
                 new InfinityMove(new Movement(1, -1)),
                 new InfinityMove(new Movement(-1, 1)),
             };
-            return new Piece(player, PieceType.Bishop, position, moves);
+            return new Piece(color, PieceType.Bishop, position, moves);
         }
 
-        public Piece CreateQueen(Player player, Position position)
+        public Piece CreateQueen(PlayerColor color, Position position)
         {
             var moves = new MoveBase[]
             {
@@ -76,10 +76,10 @@ namespace Chess.Scripts.Domains.Pieces
                 new InfinityMove(new Movement(1, -1)),
                 new InfinityMove(new Movement(-1, 1)),
             };
-            return new Piece(player, PieceType.Queen, position, moves);
+            return new Piece(color, PieceType.Queen, position, moves);
         }
 
-        public Piece CreateKing(Player player, Position position)
+        public Piece CreateKing(PlayerColor color, Position position)
         {
             var moves = new MoveBase[]
             {
@@ -94,7 +94,7 @@ namespace Chess.Scripts.Domains.Pieces
                 new SingleMove(new Movement(2, 0), new KingCastlingConditions()),
                 new SingleMove(new Movement(-2, 0), new KingCastlingConditions()),
             };
-            return new Piece(player, PieceType.King, position, moves);
+            return new Piece(color, PieceType.King, position, moves);
         }
     }
 }
