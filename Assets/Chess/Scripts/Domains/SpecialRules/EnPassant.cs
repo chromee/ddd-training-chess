@@ -8,13 +8,18 @@ namespace Chess.Scripts.Domains.SpecialRules
         public void TryExecute(Board board)
         {
             var lastHand = board.LastPieceMovement;
+            if (lastHand == null) return;
+
             var secondLastHand = board.SecondLastPieceMovement;
             if (secondLastHand == null || !secondLastHand.IsPawnTwoSpaceMove()) return;
-            if (lastHand == null) return;
+
             if (lastHand.NextPosition.X != secondLastHand.NextPosition.X) return;
-            var yDiff = lastHand.MovedPiece.Color == PlayerColor.White ? -1 : 1;
-            if (lastHand.NextPosition.Y - secondLastHand.NextPosition.Y == yDiff) return;
-            secondLastHand.MovedPiece.Die();
+
+            var attackerY = lastHand.MovedPiece.Color == PlayerColor.White ? 5 : 2;
+            var victimY = lastHand.MovedPiece.Color == PlayerColor.White ? 4 : 3;
+            if (lastHand.NextPosition.Y != attackerY || secondLastHand.NextPosition.Y != victimY) return;
+
+            board.RemovePiece(secondLastHand.MovedPiece);
         }
     }
 }

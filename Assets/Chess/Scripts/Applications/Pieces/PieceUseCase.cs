@@ -33,7 +33,7 @@ namespace Chess.Scripts.Applications.Pieces
             var game = _gameRegistry.CurrentGame;
             var piece = game.Board.GetPiece(new Position((int)position.x, (int)position.y));
 
-            if (piece == null || !piece.IsOwner(game.CurrentTurnPlayer)) return false;
+            if (piece == null || piece.IsDead || !piece.IsOwner(game.CurrentTurnPlayer)) return false;
 
             _selectedPieceRegistry.Register(piece);
             return true;

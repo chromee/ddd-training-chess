@@ -35,7 +35,7 @@ namespace Chess.Scripts.Domains.Boards
         public Piece[] GetAllies(Piece piece) => Pieces.Where(v => v.IsAlly(piece)).ToArray();
         public Piece[] GetEnemies(Piece piece) => Pieces.Where(v => v.IsOpponent(piece)).ToArray();
         public bool ExistPiece(Position position) => GetPiece(position) != null;
-        public bool HasPiece(Piece piece) => Pieces.Contains(piece);
+        public bool HasPiece(Piece piece) => !piece.IsDead && Pieces.Contains(piece);
 
         public void AddPiece(Piece piece)
         {
@@ -44,7 +44,9 @@ namespace Chess.Scripts.Domains.Boards
 
         public void RemovePiece(Piece piece)
         {
-            if (_pieces.Contains(piece)) _pieces.Remove(piece);
+            if (!_pieces.Contains(piece)) return;
+            piece.Die();
+            _pieces.Remove(piece);
         }
 
         public Board Clone()

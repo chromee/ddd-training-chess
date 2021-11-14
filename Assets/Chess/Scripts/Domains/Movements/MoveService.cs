@@ -14,7 +14,7 @@ namespace Chess.Scripts.Domains.Movements
             if (!piece.IsOwner(game.CurrentTurnPlayer))
                 throw new WrongPlayerException($"This turn is not {game.NextTurnPlayer}'s turn.");
 
-            // ピースがボードになかったとき
+            // コマがボードになかったとき
             if (!game.Board.HasPiece(piece))
                 throw new PieceNotExistOnBoardException("the piece is not on board.");
 

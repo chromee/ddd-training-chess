@@ -22,7 +22,6 @@ namespace Chess.Scripts.Domains.SpecialRules
             if (targetPawn == null) throw new Exception("プロモーションできるポーンが存在しません。");
             if (type is PieceType.King or PieceType.Pawn) throw new ArgumentException($"{type} にはなれません。");
 
-            targetPawn.Die();
             board.RemovePiece(targetPawn);
 
             var newPiece = type switch
