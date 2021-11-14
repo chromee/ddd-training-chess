@@ -1,0 +1,91 @@
+@startuml
+title チェス
+
+class Game
+{
+    GameStatus Status
+    Board Board
+    PlayerColor CurrentPlayerColor
+    ISpecialRule[] SpecialRules
+    PieceMovementLog[] Log
+}
+
+Game "1" --* "1" Board
+Game "1" --* "n" ISpecialRule
+
+class Board
+{
+    Piece[] Pieces
+}
+
+Board "1" --* "n" Piece
+
+class Piece
+{
+    PlayerColor Color
+    PieceType Type
+    Coordinate Position
+    Move[] Moves
+    bool IsDead
+    
+    void Move(Coordinate)
+    bool CanMove(Coordinate)
+    Coordinate[] MoveCandidates(Game)
+}
+
+Game o-- Piece
+
+class Move
+{
+    Movement[] movements
+    IMoveConditions Conditions
+}
+
+class SingleMove
+class InfinityMove
+
+Piece "1" --* "n" Move
+Move <|-- SingleMove
+Move <|-- InfinityMove
+
+interface IMoveConditions
+{
+    CanExecute(Game, Piece, Position)
+}
+
+class PawnDoubleMoveConditions
+class KingCastlingConditions
+class etc
+
+Move "1" --* "1" IMoveConditions
+Game o-- IMoveConditions
+IMoveConditions <|-- PawnDoubleMoveConditions
+IMoveConditions <|-- KingCastlingConditions
+IMoveConditions <|-- etc
+
+interface ISpecialRule
+{
+    void TryExecute(Game)
+}
+
+class Castling
+class EnPassant
+class Promotion
+
+ISpecialRule <|-- Castling
+ISpecialRule <|-- EnPassant
+ISpecialRule <|-- Promotion
+
+class PieceMovementLog
+{
+    PlayerColor MovedPieceColor
+    PieceType MovedPieceType
+    Position PrevPosition
+    Position NextPosition
+}
+
+PieceMovementLog "n" *-l- "1" Game
+PieceMovementLog o-- ISpecialRule
+
+
+@enduml
