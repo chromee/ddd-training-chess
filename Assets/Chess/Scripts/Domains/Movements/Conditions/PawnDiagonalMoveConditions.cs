@@ -3,7 +3,7 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
-    public class PawnDiagonalMoveCondition : IMoveConditions
+    public class PawnDiagonalMoveConditions : IMoveConditions
     {
         public bool CanExecute(Piece piece, Position destination, Board board)
         {

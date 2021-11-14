@@ -4,10 +4,10 @@ namespace Chess.Scripts.Domains.Movements.Moves
 {
     public class SingleMove : MoveBase
     {
-        public SingleMove(Movement direction)
+        public SingleMove(Movement movement, IMoveConditions conditions = null)
         {
-            Movements = new[] { direction, };
-            Conditions = new BasicMoveConditions();
+            Movements = new[] { movement, };
+            Conditions = conditions ?? new BasicMoveConditions();
         }
     }
 }

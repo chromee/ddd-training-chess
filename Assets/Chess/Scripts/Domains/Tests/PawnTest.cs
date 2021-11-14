@@ -37,11 +37,11 @@ namespace Chess.Scripts.Domains.Tests
 
             var wDestinations = whitePawn.MoveCandidates(board);
             var wCorrectDestinations = new[] { new Position(3, 2), new Position(3, 3), };
-            Assert.That(wCorrectDestinations, Is.EquivalentTo(wDestinations));
+            Assert.That(wDestinations, Is.EquivalentTo(wCorrectDestinations));
 
             var bDestinations = blackPawn.MoveCandidates(board);
             var bCorrectDestinations = new[] { new Position(3, 5), new Position(3, 4), };
-            Assert.That(bCorrectDestinations, Is.EquivalentTo(bDestinations));
+            Assert.That(bDestinations, Is.EquivalentTo(bCorrectDestinations));
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var destinations = whitePawn.MoveCandidates(board);
             var correctDestinations = new[] { new Position(3, 3), new Position(4, 3), };
-            Assert.That(correctDestinations, Is.EquivalentTo(destinations));
+            Assert.That(destinations, Is.EquivalentTo(correctDestinations));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var destinations = blackPawn.MoveCandidates(board);
             var correctDestinations = new[] { new Position(3, 2), new Position(4, 2), };
-            Assert.That(correctDestinations, Is.EquivalentTo(destinations));
+            Assert.That(destinations, Is.EquivalentTo(correctDestinations));
 
             MoveService.Move(blackPawn, new Position(3, 2), game);
             Assert.IsTrue(whitePawn.IsDead);

@@ -28,9 +28,8 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<GameFactory>(Lifetime.Scoped);
-            builder.Register<MoveFactory>(Lifetime.Scoped);
-            builder.Register<MoveService>(Lifetime.Scoped);
             builder.Register<PieceFactory>(Lifetime.Scoped);
+            builder.Register<MoveService>(Lifetime.Scoped);
             builder.Register<SpecialRuleService>(Lifetime.Scoped);
             builder.Register<PromotionNotifier>(Lifetime.Scoped);
 
