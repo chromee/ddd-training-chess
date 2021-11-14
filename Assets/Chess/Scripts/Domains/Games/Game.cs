@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Chess.Scripts.Domains.Boards;
-using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
 using UniRx;
 
@@ -10,8 +10,9 @@ namespace Chess.Scripts.Domains.Games
 
     public class Game
     {
-        public Board Board { get; }
+        private readonly GameService _gameService = new();
 
+        public Board Board { get; }
         public ISpecialRule[] SpecialRules { get; }
 
         public PlayerColor CurrentTurnPlayer { get; private set; }
@@ -20,17 +21,31 @@ namespace Chess.Scripts.Domains.Games
         private readonly ReactiveProperty<GameStatus> _gameStatus = new();
         public IReadOnlyReactiveProperty<GameStatus> GameStatus => _gameStatus;
 
+        private readonly List<PieceMovementLog?> _pieceMovementLog;
+        public PieceMovementLog? LastPieceMovement => _pieceMovementLog.LastOrDefault();
+        public PieceMovementLog? SecondLastPieceMovement => _pieceMovementLog.Count <= 1 ? null : _pieceMovementLog[^2];
+
+        public Game(Board board, ISpecialRule[] specialRules = null, List<PieceMovementLog?> log = null)
+        {
+            Board = board;
+            SpecialRules = specialRules;
+            _pieceMovementLog = log ?? new List<PieceMovementLog?>();
+
+            // 先行は白プレイヤー
+            CurrentTurnPlayer = PlayerColor.White;
+        }
+
         public void SwapTurn()
         {
-            if (IsCheckmate())
+            if (_gameService.IsCheckmate(this, CurrentTurnPlayer))
             {
                 _gameStatus.Value = Games.GameStatus.Checkmate;
             }
-            else if (IsStaleMate())
+            else if (_gameService.IsStaleMate(this, NextTurnPlayer))
             {
                 _gameStatus.Value = Games.GameStatus.Stalemate;
             }
-            else if (IsCheck())
+            else if (_gameService.IsCheck(this, CurrentTurnPlayer))
             {
                 _gameStatus.Value = Games.GameStatus.Check;
             }
@@ -42,61 +57,12 @@ namespace Chess.Scripts.Domains.Games
             CurrentTurnPlayer = NextTurnPlayer;
         }
 
-        public Game(Board board, ISpecialRule[] specialRules)
+        public void AddLog(PieceMovementLog log) => _pieceMovementLog.Add(log);
+
+        public Game Clone()
         {
-            Board = board;
-
-            SpecialRules = specialRules;
-
-            // 先行は白プレイヤー
-            CurrentTurnPlayer = PlayerColor.White;
-        }
-
-        public bool IsCheck()
-        {
-            return Board.IsCheck(CurrentTurnPlayer);
-        }
-
-        public bool IsCheckmate()
-        {
-            var targetKing = Board.GetPiece(NextTurnPlayer, PieceType.King);
-            var protectors = Board.Pieces.Where(v => v.IsColor(NextTurnPlayer) && v != targetKing).ToArray();
-
-            var killers = Board.Pieces.Where(v => v.IsColor(CurrentTurnPlayer)).ToArray();
-            var killersMoveMap = killers.ToDictionary(v => v, piece => piece.MoveCandidates(Board));
-            var checkingPiece = killersMoveMap.FirstOrDefault(v => v.Value.Any(pos => pos == targetKing.Position)).Key;
-
-            if (checkingPiece == null) return false;
-
-            // キングがよけれるかどうか
-            if (Board.CanAvoid(targetKing)) return false;
-
-            // 他のコマがチェックしてるコマを殺せるかどうか
-            if (Board.CanKill(checkingPiece, protectors)) return false;
-
-            // 他のコマがブロックできるorチェックしてるコマを殺せるかかどうか
-            if (Board.CanProtect(targetKing, protectors)) return false;
-
-            return true;
-        }
-
-        public bool IsStaleMate()
-        {
-            var pieces = Board.GetPieces(NextTurnPlayer);
-
-            foreach (var piece in pieces)
-            {
-                var destinations = piece.MoveCandidates(Board);
-                foreach (var destination in destinations)
-                {
-                    var cloneBoard = Board.Clone();
-                    var clonePiece = cloneBoard.GetPiece(piece.Position);
-                    cloneBoard.MovePiece(clonePiece.Position, destination);
-                    if (!cloneBoard.IsCheck(CurrentTurnPlayer)) return false;
-                }
-            }
-
-            return true;
+            var cloneBoard = Board.Clone();
+            return new Game(cloneBoard, SpecialRules, new List<PieceMovementLog?>(_pieceMovementLog));
         }
     }
 }

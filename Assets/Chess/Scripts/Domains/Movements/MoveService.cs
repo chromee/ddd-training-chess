@@ -8,7 +8,9 @@ namespace Chess.Scripts.Domains.Movements
 {
     public class MoveService
     {
-        public void Move(Piece piece, Position destination, Game game)
+        private readonly GameService _gameService = new();
+
+        public void Move(Game game, Piece piece, Position destination)
         {
             // そのターンプレイヤーのコマでなかったとき
             if (!piece.IsColor(game.CurrentTurnPlayer))
@@ -19,16 +21,18 @@ namespace Chess.Scripts.Domains.Movements
                 throw new PieceNotExistOnBoardException("the piece is not on board.");
 
             // 移動先候補でなかったとき
-            if (!CanMoveTo(piece, game.Board, destination))
+            if (!CanMoveTo(game, piece, destination))
                 throw new OutOfRangePieceMovableRangeException("the piece cannot move this position.");
 
             // 自殺行動だったとき
-            if (IsSuicideMove(piece, game.Board, destination, game.NextTurnPlayer))
+            if (IsSuicideMove(game, piece, destination, game.NextTurnPlayer))
                 throw new SuicideMoveException("this movement is suicide.");
 
-            game.Board.MovePiece(piece.Position, destination);
+            var prevPosition = piece.Position;
+            game.Board.MovePiece(prevPosition, destination);
+            game.AddLog(new PieceMovementLog(piece, prevPosition, destination));
 
-            foreach (var specialRule in game.SpecialRules) specialRule.TryExecute(game.Board);
+            foreach (var specialRule in game.SpecialRules) specialRule.TryExecute(game);
 
             game.SwapTurn();
         }
@@ -36,21 +40,21 @@ namespace Chess.Scripts.Domains.Movements
         /// <summary>
         /// 指定したコマが指定した位置に移動可能かどうか
         /// </summary>
-        private static bool CanMoveTo(Piece piece, Board board, Position destination)
+        private static bool CanMoveTo(Game game, Piece piece, Position destination)
         {
-            var destinations = piece.MoveCandidates(board);
+            var destinations = piece.MoveCandidates(game);
             return destinations.Contains(destination);
         }
 
         /// <summary>
         /// 移動した結果、チェックにならないか
         /// </summary>
-        private static bool IsSuicideMove(Piece piece, Board board, Position destination, PlayerColor turnPlayer)
+        private bool IsSuicideMove(Game game, Piece piece, Position destination, PlayerColor turnPlayer)
         {
-            var cloneBoard = board.Clone();
-            var clonePiece = cloneBoard.GetPiece(piece.Position);
-            cloneBoard.MovePiece(clonePiece.Position, destination);
-            return cloneBoard.IsCheck(turnPlayer);
+            var cloneGame = game.Clone();
+            var clonePiece = cloneGame.Board.GetPiece(piece.Position);
+            cloneGame.Board.MovePiece(clonePiece.Position, destination);
+            return _gameService.IsCheck(cloneGame, turnPlayer);
         }
     }
 

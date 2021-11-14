@@ -1,13 +1,14 @@
 ﻿using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
     public class InfinityMoveConditions : IMoveConditions
     {
-        public bool CanExecute(Piece piece, Position destination, Board board)
+        public bool CanExecute(Game game, Piece piece, Position destination)
         {
-            var destPiece = board.GetPiece(destination);
+            var destPiece = game.Board.GetPiece(destination);
             if (destPiece != null && !destPiece.IsOpponent(piece)) return false;
 
             var diff = destination - piece.Position;
@@ -17,7 +18,7 @@ namespace Chess.Scripts.Domains.Movements.Conditions
             {
                 var onTheWay = piece.Position + dir * i;
                 if (onTheWay == destination) break;
-                if (board.ExistPiece(onTheWay)) return false;
+                if (game.Board.ExistPiece(onTheWay)) return false;
             }
 
             return true;

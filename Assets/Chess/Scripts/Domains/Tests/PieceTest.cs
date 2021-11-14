@@ -30,8 +30,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            var destinations = whitePieces[0].MoveCandidates(board);
+            var destinations = whitePieces[0].MoveCandidates(game);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
@@ -66,8 +67,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            var destinations = whitePieces[0].MoveCandidates(board);
+            var destinations = whitePieces[0].MoveCandidates(game);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),

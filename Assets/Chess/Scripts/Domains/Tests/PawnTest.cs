@@ -34,12 +34,13 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            var wDestinations = whitePawn.MoveCandidates(board);
+            var wDestinations = whitePawn.MoveCandidates(game);
             var wCorrectDestinations = new[] { new Position(3, 2), new Position(3, 3), };
             Assert.That(wDestinations, Is.EquivalentTo(wCorrectDestinations));
 
-            var bDestinations = blackPawn.MoveCandidates(board);
+            var bDestinations = blackPawn.MoveCandidates(game);
             var bCorrectDestinations = new[] { new Position(3, 5), new Position(3, 4), };
             Assert.That(bDestinations, Is.EquivalentTo(bCorrectDestinations));
         }
@@ -69,8 +70,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            var wDestinations = whitePawn.MoveCandidates(board);
+            var wDestinations = whitePawn.MoveCandidates(game);
             Assert.AreEqual(0, wDestinations.Length);
         }
 
@@ -99,8 +101,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            var destinations = whitePawn.MoveCandidates(board);
+            var destinations = whitePawn.MoveCandidates(game);
             var correctDestinations = new[] { new Position(3, 3), new Position(4, 3), };
             Assert.That(destinations, Is.EquivalentTo(correctDestinations));
         }
@@ -150,13 +153,13 @@ namespace Chess.Scripts.Domains.Tests
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
-            MoveService.Move(whitePawn, new Position(3, 3), game);
+            MoveService.Move(game, whitePawn, new Position(3, 3));
 
-            var destinations = blackPawn.MoveCandidates(board);
+            var destinations = blackPawn.MoveCandidates(game);
             var correctDestinations = new[] { new Position(3, 2), new Position(4, 2), };
             Assert.That(destinations, Is.EquivalentTo(correctDestinations));
 
-            MoveService.Move(blackPawn, new Position(3, 2), game);
+            MoveService.Move(game, blackPawn, new Position(3, 2));
             Assert.IsTrue(whitePawn.IsDead);
         }
 
@@ -195,9 +198,9 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePawn, new Position(1, 7), game);
+            MoveService.Move(game, whitePawn, new Position(1, 7));
 
-            Assert.AreEqual(whitePawn, PromotionNotifier.TargetPawn);
+            Assert.AreEqual(whitePawn.Position, PromotionNotifier.TargetPawnPosition);
 
             SpecialRuleService.Promotion(board, PieceType.Queen);
 

@@ -3,6 +3,7 @@ using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.SpecialRules;
 using UniRx;
+using PieceType = Chess.Scripts.Domains.Pieces.PieceType;
 
 namespace Chess.Scripts.Applications.SpecialRules
 {
@@ -17,9 +18,10 @@ namespace Chess.Scripts.Applications.SpecialRules
             Board board
         )
         {
-            promotionNotifier.OnPawnPromotion.Subscribe(piece =>
+            promotionNotifier.OnPawnPromotion.Subscribe(position =>
             {
-                if (piece == null) return;
+                var piece = board.GetPiece(position);
+                if (piece == null || !piece.IsType(PieceType.Pawn)) return;
                 promotionView.ShowPromotionDialogue();
             }).AddTo(_disposable);
 

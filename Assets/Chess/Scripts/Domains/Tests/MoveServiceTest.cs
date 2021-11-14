@@ -34,10 +34,10 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePieces[0], new Position(3, 4), game);
+            MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
             Assert.Throws<WrongPlayerException>(() =>
-                MoveService.Move(whitePieces[0], new Position(3, 3), game));
+                MoveService.Move(game, whitePieces[0], new Position(3, 3)));
         }
 
         [Test]
@@ -66,10 +66,10 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePieces[0], new Position(3, 4), game);
+            MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
             Assert.Throws<PieceNotExistOnBoardException>(() =>
-                MoveService.Move(blackPieces[0], new Position(3, 5), game));
+                MoveService.Move(game, blackPieces[0], new Position(3, 5)));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = new Game(board, SpecialRules);
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                MoveService.Move(whitePieces[0], new Position(3, 2), game));
+                MoveService.Move(game, whitePieces[0], new Position(3, 2)));
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = new Game(board, SpecialRules);
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                MoveService.Move(whitePieces[1], new Position(3, 1), game));
+                MoveService.Move(game, whitePieces[1], new Position(3, 1)));
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = new Game(board, SpecialRules);
 
             Assert.Throws<SuicideMoveException>(() =>
-                MoveService.Move(whitePieces[0], new Position(3, 1), game));
+                MoveService.Move(game, whitePieces[0], new Position(3, 1)));
         }
     }
 }

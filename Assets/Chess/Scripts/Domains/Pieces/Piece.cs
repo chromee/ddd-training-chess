@@ -13,7 +13,6 @@ namespace Chess.Scripts.Domains.Pieces
         public PieceType Type { get; }
         private readonly MoveBase[] _moves;
 
-
         private readonly ReactiveProperty<Position> _position = new();
         public Position Position => _position.Value;
         public IObservable<Position> PositionAsObservable => _position;
@@ -42,7 +41,7 @@ namespace Chess.Scripts.Domains.Pieces
 
         public Piece Clone() => new(Color, Type, Position, _moves, IsDead);
 
-        public Position[] MoveCandidates(Board board)
+        public Position[] MoveCandidates(Game game)
         {
             var candidates = new List<Position>();
 
@@ -53,7 +52,7 @@ namespace Chess.Scripts.Domains.Pieces
                     try
                     {
                         var destination = Position + movement;
-                        if (!move.CanExecute(this, destination, board)) continue;
+                        if (!move.CanExecute(game, this, destination)) continue;
                         candidates.Add(destination);
                     }
                     catch (ArgumentOutOfRangeException)

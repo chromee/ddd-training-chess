@@ -1,5 +1,4 @@
-﻿using Chess.Scripts.Domains.Boards;
-using Chess.Scripts.Domains.Games;
+﻿using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.SpecialRules
@@ -13,18 +12,17 @@ namespace Chess.Scripts.Domains.SpecialRules
             _notifier = notifier;
         }
 
-        public void TryExecute(Board board)
+        public void TryExecute(Game game)
         {
-            var lastHand = board.LastPieceMovement;
-            if (lastHand == null) return;
+            if (game.LastPieceMovement == null) return;
+            var lastHand = game.LastPieceMovement.Value;
 
-            var pawn = lastHand.MovedPiece;
-            if (!pawn.IsType(PieceType.Pawn)) return;
+            if (lastHand.MovedPieceType != PieceType.Pawn) return;
 
-            var y = pawn.Color == PlayerColor.White ? 7 : 0;
+            var y = lastHand.MovedPieceColor == PlayerColor.White ? 7 : 0;
             if (lastHand.NextPosition.Y != y) return;
 
-            _notifier.PawnPromotion(pawn);
+            _notifier.PawnPromotion(lastHand.NextPosition);
         }
     }
 }

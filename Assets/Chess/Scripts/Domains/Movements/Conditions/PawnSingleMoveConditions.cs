@@ -1,13 +1,14 @@
 ﻿using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
     public class PawnSingleMoveConditions : IMoveConditions
     {
-        public bool CanExecute(Piece piece, Position destination, Board board)
+        public bool CanExecute(Game game, Piece piece, Position destination)
         {
-            return !board.ExistPiece(destination);
+            return !game.Board.ExistPiece(destination);
         }
     }
 }

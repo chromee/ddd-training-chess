@@ -12,10 +12,6 @@ namespace Chess.Scripts.Domains.Boards
         private readonly ReactiveCollection<Piece> _pieces;
         public IReadOnlyReactiveCollection<Piece> Pieces => _pieces;
 
-        private readonly List<PieceMovementLog> _log = new();
-        public PieceMovementLog LastPieceMovement => _log.LastOrDefault();
-        public PieceMovementLog SecondLastPieceMovement => _log.Count <= 1 ? null : _log[^2];
-
         public Board(List<Piece> pieces)
         {
             _pieces = pieces.ToReactiveCollection();
@@ -27,6 +23,24 @@ namespace Chess.Scripts.Domains.Boards
             var blackKings = pieces.Where(v => v.IsColor(PlayerColor.Black) && v.IsType(PieceType.King)).ToArray();
             if (blackKings == null) throw new NoKingException("no black king");
             if (blackKings.Length > 1) throw new MultipleKingException("too many black kings");
+        }
+
+        public void MovePiece(Position moverPosition, Position destination)
+        {
+            var destPiece = GetPiece(destination);
+            if (destPiece != null)
+            {
+                destPiece.Die();
+                RemovePiece(destPiece);
+            }
+
+            var movePiece = GetPiece(moverPosition);
+            if (movePiece == null)
+            {
+                throw new ArgumentException("コマが見つかりません");
+            }
+
+            movePiece.Move(destination);
         }
 
         public Piece GetPiece(Position position) => Pieces.FirstOrDefault(v => v.Position == position);
@@ -49,104 +63,18 @@ namespace Chess.Scripts.Domains.Boards
             _pieces.Remove(piece);
         }
 
+        public void RemovePiece(Position position)
+        {
+            var piece = GetPiece(position);
+            if (piece == null) return;
+            RemovePiece(piece);
+        }
+
         public Board Clone()
         {
             var pieces = new List<Piece>();
             foreach (var piece in _pieces) pieces.Add(piece.Clone());
             return new Board(pieces);
-        }
-
-        public void MovePiece(Position moverPosition, Position destination)
-        {
-            var destPiece = GetPiece(destination);
-            if (destPiece != null)
-            {
-                destPiece.Die();
-                RemovePiece(destPiece);
-            }
-
-            var movePiece = GetPiece(moverPosition);
-            if (movePiece == null)
-            {
-                throw new ArgumentException("コマが見つかりません");
-            }
-
-            movePiece.Move(destination);
-            _log.Add(new PieceMovementLog(movePiece, moverPosition, destination));
-        }
-
-        public bool IsCheck(PlayerColor player)
-        {
-            var enemyKing = Pieces.FirstOrDefault(v => !v.IsColor(player) && v.IsType(PieceType.King));
-            return CanPick(enemyKing);
-        }
-
-        /// <summary>
-        /// 指定したコマを敵コマのいずれかがとれるかどうか
-        /// </summary>
-        /// <param name="targetPiece">標的のコマ</param>
-        /// <returns></returns>
-        public bool CanPick(Piece targetPiece)
-        {
-            var enemies = GetEnemies(targetPiece);
-            var enemiesDestinations = enemies.SelectMany(piece => piece.MoveCandidates(this));
-            return enemiesDestinations.Any(pos => pos == targetPiece.Position);
-        }
-
-        /// <summary>
-        /// 指定したコマがとられないように回避できるかどうか
-        /// </summary>
-        /// <param name="avoider">標的のコマ</param>
-        /// <returns></returns>
-        public bool CanAvoid(Piece avoider)
-        {
-            var avoidDestinations = avoider.MoveCandidates(this);
-            if (!CanPick(avoider)) return true;
-
-            foreach (var destination in avoidDestinations)
-            {
-                var cloneBoard = Clone();
-                var cloneAvoider = cloneBoard.GetPiece(avoider.Position);
-                cloneBoard.MovePiece(cloneAvoider.Position, destination);
-                if (!cloneBoard.CanPick(cloneAvoider)) return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 指定したコマを指定したコマたちがとれるかどうか
-        /// </summary>
-        /// <param name="target">標的のコマ</param>
-        /// <param name="killers">とろうとするコマたち</param>
-        /// <returns></returns>
-        public bool CanKill(Piece target, Piece[] killers)
-        {
-            return killers.Any(v => v.MoveCandidates(this).Any(pos => pos == target.Position));
-        }
-
-        /// <summary>
-        /// 指定したコマを指定したコマたちがブロックするなりして守れるかどうか
-        /// </summary>
-        /// <param name="protectedTarget">守られるコマ</param>
-        /// <param name="protectors">守るコマたち</param>
-        /// <returns></returns>
-        public bool CanProtect(Piece protectedTarget, Piece[] protectors)
-        {
-            foreach (var protector in protectors)
-            {
-                var cloneBoard = Clone();
-                var cloneProtector = cloneBoard.GetPiece(protector.Position);
-                var cloneTarget = cloneBoard.GetPiece(protectedTarget.Position);
-
-                foreach (var destination in cloneProtector.MoveCandidates(cloneBoard))
-                {
-                    cloneBoard.MovePiece(cloneProtector.Position, destination);
-                    if (!cloneBoard.CanPick(cloneTarget)) return true;
-                }
-            }
-
-            return false;
         }
     }
 

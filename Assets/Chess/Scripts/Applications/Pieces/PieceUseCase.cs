@@ -3,6 +3,7 @@ using System.Linq;
 using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Chess.Scripts.Applications.Pieces
     {
         private readonly GameRegistry _gameRegistry;
         private readonly MoveService _moveService;
+        private readonly GameService _gameService;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
         private readonly IMessagePublisher _messagePublisher;
 
@@ -42,7 +44,7 @@ namespace Chess.Scripts.Applications.Pieces
         public Vector2Int[] GetSelectedPieceMoveCandidates(Piece piece)
         {
             if (piece == null) throw new Exception("not found selected piece");
-            return piece.MoveCandidates(_gameRegistry.CurrentGame.Board).Select(v => v.ToVector2()).ToArray();
+            return piece.MoveCandidates(_gameRegistry.CurrentGame).Select(v => v.ToVector2()).ToArray();
         }
 
         public void TryMovePiece(Vector2 position)
@@ -55,7 +57,7 @@ namespace Chess.Scripts.Applications.Pieces
             try
             {
                 _selectedPieceRegistry.Unregister();
-                _moveService.Move(piece, position.ToPosition(), game);
+                _moveService.Move(game, piece, position.ToPosition());
             }
             catch (Exception e) when (e is WrongPlayerException or PieceNotExistOnBoardException or OutOfRangePieceMovableRangeException or SuicideMoveException)
             {

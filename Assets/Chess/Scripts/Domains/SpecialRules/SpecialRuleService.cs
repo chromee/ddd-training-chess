@@ -17,9 +17,10 @@ namespace Chess.Scripts.Domains.SpecialRules
 
         public void Promotion(Board board, PieceType type)
         {
-            var targetPawn = _promotionNotifier.TargetPawn;
+            var targetPawn = board.GetPiece(_promotionNotifier.TargetPawnPosition);
 
             if (targetPawn == null) throw new Exception("プロモーションできるポーンが存在しません。");
+            if (!targetPawn.IsType(PieceType.Pawn)) throw new Exception("ポーンではありません。");
             if (type is PieceType.King or PieceType.Pawn) throw new ArgumentException($"{type} にはなれません。");
 
             board.RemovePiece(targetPawn);

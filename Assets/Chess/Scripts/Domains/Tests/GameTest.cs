@@ -31,7 +31,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            var isCheck = game.IsCheck();
+            var isCheck = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
             Assert.IsTrue(isCheck);
         }
@@ -61,7 +61,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            var isCheck = game.IsCheck();
+            var isCheck = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheck);
         }
@@ -91,7 +91,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            var isCheckmate = game.IsCheckmate();
+            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
             Assert.IsTrue(isCheckmate);
         }
@@ -130,9 +130,9 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePieces[0], new Position(3, 4), game);
+            MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
-            var isCheckmate = game.IsCheckmate();
+            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -172,9 +172,9 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePieces[0], new Position(3, 4), game);
+            MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
-            var isCheckmate = game.IsCheckmate();
+            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -216,9 +216,9 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePieces[0], new Position(3, 3), game);
+            MoveService.Move(game, whitePieces[0], new Position(3, 3));
 
-            var isCheckmate = game.IsCheckmate();
+            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -259,7 +259,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board, SpecialRules);
 
-            MoveService.Move(whitePieces[1], new Position(6, 4), game);
+            MoveService.Move(game, whitePieces[1], new Position(6, 4));
 
             Assert.AreEqual(GameStatus.Stalemate, game.GameStatus.Value);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Pieces;
 using UniRx;
 using UnityEngine;
@@ -7,20 +8,19 @@ namespace Chess.Scripts.Domains.SpecialRules
 {
     public class PromotionNotifier : IDisposable
     {
-        private readonly ReactiveProperty<Piece> _targetPawn = new();
-        public IObservable<Piece> OnPawnPromotion => _targetPawn;
+        private readonly ReactiveProperty<Position> _targetPawnPosition = new();
+        public IObservable<Position> OnPawnPromotion => _targetPawnPosition;
 
-        internal Piece TargetPawn => _targetPawn.Value;
+        internal Position TargetPawnPosition => _targetPawnPosition.Value;
 
-        internal void PawnPromotion(Piece pawn)
+        internal void PawnPromotion(Position position)
         {
-            if (!pawn.IsType(PieceType.Pawn)) throw new ArgumentException();
-            _targetPawn.Value = pawn;
+            _targetPawnPosition.Value = position;
         }
 
         public void Dispose()
         {
-            _targetPawn.Dispose();
+            _targetPawnPosition.Dispose();
         }
     }
 }

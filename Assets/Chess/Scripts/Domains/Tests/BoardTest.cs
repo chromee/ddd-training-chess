@@ -76,8 +76,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsTrue(board.IsCheck(PlayerColor.White));
+            Assert.IsTrue(GameService.IsCheck(game, PlayerColor.White));
         }
 
         [Test]
@@ -103,8 +104,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsFalse(board.IsCheck(PlayerColor.White));
+            Assert.IsFalse(GameService.IsCheck(game, PlayerColor.White));
         }
 
         [Test]
@@ -131,9 +133,10 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsTrue(board.CanPick(whitePieces[0]));
-            Assert.IsTrue(board.CanPick(blackPieces[0]));
+            Assert.IsTrue(GameService.CanPick(game, whitePieces[0]));
+            Assert.IsTrue(GameService.CanPick(game, blackPieces[0]));
         }
 
         [Test]
@@ -160,9 +163,10 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsFalse(board.CanPick(whitePieces[0]));
-            Assert.IsFalse(board.CanPick(blackPieces[0]));
+            Assert.IsFalse(GameService.CanPick(game, whitePieces[0]));
+            Assert.IsFalse(GameService.CanPick(game, blackPieces[0]));
         }
 
         [Test]
@@ -188,8 +192,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsTrue(board.CanAvoid(blackPieces[0]));
+            Assert.IsTrue(GameService.CanAvoid(game, blackPieces[0]));
         }
 
         [Test]
@@ -216,8 +221,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsFalse(board.CanAvoid(blackPieces[0]));
+            Assert.IsFalse(GameService.CanAvoid(game, blackPieces[0]));
         }
 
         [Test]
@@ -244,8 +250,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsTrue(board.CanProtect(blackPieces[1], new[] { blackPieces[0] }));
+            Assert.IsTrue(GameService.CanProtect(game, blackPieces[1], new[] { blackPieces[0] }));
         }
 
         [Test]
@@ -273,8 +280,9 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var game = new Game(board);
 
-            Assert.IsFalse(board.CanProtect(blackPieces[2], new[] { blackPieces[0], blackPieces[1], }));
+            Assert.IsFalse(GameService.CanProtect(game, blackPieces[2], new[] { blackPieces[0], blackPieces[1], }));
         }
     }
 }

@@ -5,21 +5,23 @@ namespace Chess.Scripts.Domains.SpecialRules
 {
     public class EnPassant : ISpecialRule
     {
-        public void TryExecute(Board board)
+        public void TryExecute(Game game)
         {
-            var lastHand = board.LastPieceMovement;
-            if (lastHand == null) return;
+            if (game.LastPieceMovement == null) return;
+            var lastHand = game.LastPieceMovement.Value;
 
-            var secondLastHand = board.SecondLastPieceMovement;
-            if (secondLastHand == null || !secondLastHand.IsPawnTwoSpaceMove()) return;
+            if (game.SecondLastPieceMovement == null) return;
+            var secondLastHand = game.SecondLastPieceMovement.Value;
+
+            if (!secondLastHand.IsPawnTwoSpaceMove()) return;
 
             if (lastHand.NextPosition.X != secondLastHand.NextPosition.X) return;
 
-            var attackerY = lastHand.MovedPiece.Color == PlayerColor.White ? 5 : 2;
-            var victimY = lastHand.MovedPiece.Color == PlayerColor.White ? 4 : 3;
+            var attackerY = lastHand.MovedPieceColor == PlayerColor.White ? 5 : 2;
+            var victimY = lastHand.MovedPieceColor == PlayerColor.White ? 4 : 3;
             if (lastHand.NextPosition.Y != attackerY || secondLastHand.NextPosition.Y != victimY) return;
 
-            board.RemovePiece(secondLastHand.MovedPiece);
+            game.Board.RemovePiece(secondLastHand.NextPosition);
         }
     }
 }
