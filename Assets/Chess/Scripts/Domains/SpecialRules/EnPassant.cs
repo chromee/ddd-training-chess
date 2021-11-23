@@ -7,11 +7,11 @@ namespace Chess.Scripts.Domains.SpecialRules
     {
         public void TryExecute(Game game)
         {
-            if (game.LastPieceMovement == null) return;
-            var lastHand = game.LastPieceMovement.Value;
+            if (game.Logger.LastPieceMovement == null) return;
+            var lastHand = game.Logger.LastPieceMovement.Value;
 
-            if (game.SecondLastPieceMovement == null) return;
-            var secondLastHand = game.SecondLastPieceMovement.Value;
+            if (game.Logger.SecondLastPieceMovement == null) return;
+            var secondLastHand = game.Logger.SecondLastPieceMovement.Value;
 
             if (!secondLastHand.IsPawnTwoSpaceMove()) return;
 

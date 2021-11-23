@@ -131,7 +131,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, SpecialRules);
+            var game = new Game(board, specialRules: SpecialRules);
 
             MoveService.Move(game, whiteKing, new Position(2, 0));
 

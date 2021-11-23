@@ -30,7 +30,7 @@ namespace Chess.Scripts.Domains.Movements
 
             var prevPosition = piece.Position;
             game.Board.MovePiece(prevPosition, destination);
-            game.AddLog(new PieceMovementLog(piece, prevPosition, destination));
+            game.Logger.AddLog(new PieceMovementLog(piece, prevPosition, destination));
 
             foreach (var specialRule in game.SpecialRules) specialRule.TryExecute(game);
 

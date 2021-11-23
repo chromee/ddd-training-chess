@@ -9,8 +9,8 @@ namespace Chess.Scripts.Domains.SpecialRules
     {
         public void TryExecute(Game game)
         {
-            if (game.LastPieceMovement == null) return;
-            var lastHand = game.LastPieceMovement.Value;
+            if (game.Logger.LastPieceMovement == null) return;
+            var lastHand = game.Logger.LastPieceMovement.Value;
 
             if (lastHand.MovedPieceType != PieceType.King) return;
 

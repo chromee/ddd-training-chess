@@ -31,7 +31,7 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, specialRules);
+            return new Game(board, specialRules: specialRules);
         }
 
         private List<Piece> CreatePieces(PlayerColor color)
@@ -72,7 +72,7 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, specialRules);
+            return new Game(board, specialRules: specialRules);
         }
 
         public Game CreateStalemateGame()
@@ -96,7 +96,7 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, specialRules);
+            return new Game(board, specialRules: specialRules);
         }
 
         public Game CreatePromotionGame()
@@ -120,7 +120,7 @@ namespace Chess.Scripts.Domains.Games
                 new Promotion(_notifier),
             };
 
-            return new Game(board, specialRules);
+            return new Game(board, specialRules: specialRules);
         }
     }
 }

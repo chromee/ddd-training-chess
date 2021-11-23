@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.Logger;
 using Chess.Scripts.Domains.SpecialRules;
 using UniRx;
 
@@ -21,15 +22,13 @@ namespace Chess.Scripts.Domains.Games
         private readonly ReactiveProperty<GameStatus> _gameStatus = new();
         public IReadOnlyReactiveProperty<GameStatus> GameStatus => _gameStatus;
 
-        private readonly List<PieceMovementLog?> _pieceMovementLog;
-        public PieceMovementLog? LastPieceMovement => _pieceMovementLog.LastOrDefault();
-        public PieceMovementLog? SecondLastPieceMovement => _pieceMovementLog.Count <= 1 ? null : _pieceMovementLog[^2];
+        public PieceMovementLogger Logger { get; }
 
-        public Game(Board board, ISpecialRule[] specialRules = null, List<PieceMovementLog?> log = null)
+        public Game(Board board, PieceMovementLogger logger = null, ISpecialRule[] specialRules = null)
         {
             Board = board;
+            Logger = logger ?? new PieceMovementLogger();
             SpecialRules = specialRules;
-            _pieceMovementLog = log ?? new List<PieceMovementLog?>();
 
             // 先行は白プレイヤー
             CurrentTurnPlayer = PlayerColor.White;
@@ -57,12 +56,11 @@ namespace Chess.Scripts.Domains.Games
             CurrentTurnPlayer = NextTurnPlayer;
         }
 
-        public void AddLog(PieceMovementLog log) => _pieceMovementLog.Add(log);
-
         public Game Clone()
         {
             var cloneBoard = Board.Clone();
-            return new Game(cloneBoard, SpecialRules, new List<PieceMovementLog?>(_pieceMovementLog));
+            var logger = Logger.Clone();
+            return new Game(cloneBoard, logger, SpecialRules);
         }
     }
 }

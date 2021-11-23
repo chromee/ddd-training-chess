@@ -9,8 +9,8 @@ namespace Chess.Scripts.Domains.Movements.Conditions
     {
         public bool CanExecute(Game game, Piece piece, Position destination)
         {
-            if (game.LastPieceMovement == null) return false;
-            var prevHand = game.LastPieceMovement.Value;
+            if (game.Logger.LastPieceMovement == null) return false;
+            var prevHand = game.Logger.LastPieceMovement.Value;
 
             if (piece.IsColor(prevHand.MovedPieceColor)) return false;
             if (!prevHand.IsPawnTwoSpaceMove()) return false;
