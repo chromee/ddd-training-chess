@@ -8,8 +8,8 @@ namespace Chess.Scripts.Domains.Movements.Moves
     public abstract class MoveBase
     {
         public Movement[] Movements { get; protected set; }
-        protected IMoveConditions Conditions;
+        protected IMoveCondition Condition;
 
-        public bool CanExecute(Game game, Piece piece, Position dest) => Conditions == null || Conditions.CanExecute(game, piece, dest);
+        public bool CanExecute(Game game, Piece piece, Position dest) => Condition == null || Condition.CanExecute(game, piece, dest);
     }
 }

@@ -13,12 +13,12 @@ namespace Chess.Scripts.Domains.Pieces
             var dir = color == PlayerColor.White ? 1 : -1;
             var moves = new MoveBase[]
             {
-                new SingleMove(new Movement(0, 1 * dir), new PawnSingleMoveConditions()),
-                new SingleMove(new Movement(0, 2 * dir), new PawnDoubleMoveConditions()),
-                new SingleMove(new Movement(1, 1 * dir), new PawnDiagonalMoveConditions()),
-                new SingleMove(new Movement(-1, 1 * dir), new PawnDiagonalMoveConditions()),
-                new SingleMove(new Movement(1, 1 * dir), new PawnEnPassantConditions()),
-                new SingleMove(new Movement(-1, 1 * dir), new PawnEnPassantConditions()),
+                new SingleMove(new Movement(0, 1 * dir), new PawnSingleMoveCondition()),
+                new SingleMove(new Movement(0, 2 * dir), new PawnDoubleMoveCondition()),
+                new SingleMove(new Movement(1, 1 * dir), new PawnDiagonalMoveCondition()),
+                new SingleMove(new Movement(-1, 1 * dir), new PawnDiagonalMoveCondition()),
+                new SingleMove(new Movement(1, 1 * dir), new PawnEnPassantCondition()),
+                new SingleMove(new Movement(-1, 1 * dir), new PawnEnPassantCondition()),
             };
             return new Piece(color, PieceType.Pawn, position, moves);
         }
@@ -91,8 +91,8 @@ namespace Chess.Scripts.Domains.Pieces
                 new SingleMove(new Movement(-1, -1)),
                 new SingleMove(new Movement(1, -1)),
                 new SingleMove(new Movement(-1, 1)),
-                new SingleMove(new Movement(2, 0), new KingCastlingConditions()),
-                new SingleMove(new Movement(-2, 0), new KingCastlingConditions()),
+                new SingleMove(new Movement(2, 0), new KingCastlingCondition()),
+                new SingleMove(new Movement(-2, 0), new KingCastlingCondition()),
             };
             return new Piece(color, PieceType.King, position, moves);
         }

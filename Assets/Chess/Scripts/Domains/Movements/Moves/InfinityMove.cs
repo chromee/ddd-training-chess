@@ -8,7 +8,7 @@ namespace Chess.Scripts.Domains.Movements.Moves
         {
             Movements = new Movement[7];
             for (var i = 0; i < 7; i++) Movements[i] = direction * (i + 1);
-            Conditions = new InfinityMoveConditions();
+            Condition = new InfinityMoveCondition();
         }
     }
 }
