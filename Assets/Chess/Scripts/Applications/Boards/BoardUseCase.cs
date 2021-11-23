@@ -6,19 +6,24 @@ namespace Chess.Scripts.Applications.Boards
 {
     public class BoardUseCase
     {
-        private readonly PieceUseCase _pieceUseCase;
+        private readonly SelectPieceUseCase _selectPieceUseCase;
+        private readonly PieceMoveUseCase _pieceMoveUseCase;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
 
-        public BoardUseCase(PieceUseCase pieceUseCase, SelectedPieceRegistry selectedPieceRegistry)
+        public BoardUseCase(SelectPieceUseCase selectPieceUseCase,
+            PieceMoveUseCase pieceMoveUseCase,
+            SelectedPieceRegistry selectedPieceRegistry
+        )
         {
-            _pieceUseCase = pieceUseCase;
+            _selectPieceUseCase = selectPieceUseCase;
+            _pieceMoveUseCase = pieceMoveUseCase;
             _selectedPieceRegistry = selectedPieceRegistry;
         }
 
-        public void SelectBoardSquare(Vector2 position)
+        public void SelectBoardSquare(Vector2Int position)
         {
             // コマ選択
-            var select = _pieceUseCase.SelectPiece(position);
+            var select = _selectPieceUseCase.SelectPiece(position);
             if (select) return;
 
             // 移動先選択
@@ -26,7 +31,7 @@ namespace Chess.Scripts.Applications.Boards
             {
                 try
                 {
-                    _pieceUseCase.TryMovePiece(position);
+                    _pieceMoveUseCase.TryMovePiece(position);
                 }
                 catch (ArgumentException e)
                 {

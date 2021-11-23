@@ -9,7 +9,7 @@ namespace Chess.Scripts.Applications.Boards
         private readonly CompositeDisposable _disposable = new();
 
         public BoardPresenter(
-            PieceUseCase pieceUseCase,
+            PieceMoveCandidatesUseCase pieceMoveCandidatesUseCase,
             BoardUseCase boardUseCase,
             SelectedPieceRegistry selectedPieceRegistry,
             IBoardView view
@@ -22,7 +22,7 @@ namespace Chess.Scripts.Applications.Boards
 
                 if (piece == null) return;
 
-                var destinations = pieceUseCase.GetSelectedPieceMoveCandidates(piece);
+                var destinations = pieceMoveCandidatesUseCase.Get(piece);
                 foreach (var destination in destinations) view.SetMovable(destination);
             }).AddTo(_disposable);
 

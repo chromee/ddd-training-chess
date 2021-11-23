@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Domains.Pieces;
@@ -7,14 +6,14 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Pieces
 {
-    public class PieceUseCase
+    public class PieceMoveUseCase
     {
         private readonly GameRegistry _gameRegistry;
         private readonly IMessagePublisher _messagePublisher;
         private readonly PieceMovementExecutor _pieceMovementExecutor;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
 
-        public PieceUseCase(
+        public PieceMoveUseCase(
             GameRegistry gameRegistry,
             SelectedPieceRegistry selectedPieceRegistry,
             PieceMovementExecutor pieceMovementExecutor,
@@ -24,23 +23,6 @@ namespace Chess.Scripts.Applications.Pieces
             _selectedPieceRegistry = selectedPieceRegistry;
             _pieceMovementExecutor = pieceMovementExecutor;
             _messagePublisher = messagePublisher;
-        }
-
-        public bool SelectPiece(Vector2 position)
-        {
-            var game = _gameRegistry.CurrentGame;
-            var piece = game.Board.GetPiece(new Position((int)position.x, (int)position.y));
-
-            if (piece == null || piece.IsDead || !piece.IsColor(game.CurrentTurnPlayer)) return false;
-
-            _selectedPieceRegistry.Register(piece);
-            return true;
-        }
-
-        public Vector2Int[] GetSelectedPieceMoveCandidates(Piece piece)
-        {
-            if (piece == null) throw new Exception("not found selected piece");
-            return _gameRegistry.CurrentGame.PieceMovementSolver.MoveCandidates(piece).Select(v => v.ToVector2()).ToArray();
         }
 
         public void TryMovePiece(Vector2 position)
