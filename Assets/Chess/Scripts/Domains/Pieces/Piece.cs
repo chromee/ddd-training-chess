@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements.Moves;
 using UniRx;

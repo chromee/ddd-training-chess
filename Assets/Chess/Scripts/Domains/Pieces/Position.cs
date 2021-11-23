@@ -2,7 +2,7 @@
 using Chess.Scripts.Domains.Movements;
 using UnityEngine;
 
-namespace Chess.Scripts.Domains.Boards
+namespace Chess.Scripts.Domains.Pieces
 {
     public readonly struct Position : IEquatable<Position>
     {

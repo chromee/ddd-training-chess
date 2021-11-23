@@ -20,7 +20,7 @@ namespace Chess.Scripts.Domains.Games
             _game = game;
         }
 
-        public void UpdateStatus()
+        internal void UpdateStatus()
         {
             if (IsCheckmate(_game.CurrentTurnPlayer))
             {
@@ -40,13 +40,13 @@ namespace Chess.Scripts.Domains.Games
             }
         }
 
-        public bool IsCheck(PlayerColor checkPlayer)
+        internal bool IsCheck(PlayerColor checkPlayer)
         {
             var enemyKing = _game.Board.Pieces.FirstOrDefault(v => !v.IsColor(checkPlayer) && v.IsType(PieceType.King));
             return CanPick(enemyKing);
         }
 
-        public bool IsCheckmate(PlayerColor checkmatePlayer)
+        private bool IsCheckmate(PlayerColor checkmatePlayer)
         {
             var targetKing = _game.Board.GetPiece(checkmatePlayer.Opponent(), PieceType.King);
             var protectors = _game.Board.Pieces.Where(v => v.IsColor(checkmatePlayer.Opponent()) && v != targetKing).ToArray();
@@ -69,7 +69,7 @@ namespace Chess.Scripts.Domains.Games
             return true;
         }
 
-        public bool IsStaleMate(PlayerColor movePlayer)
+        private bool IsStaleMate(PlayerColor movePlayer)
         {
             var pieces = _game.Board.GetPieces(movePlayer);
 
@@ -101,7 +101,7 @@ namespace Chess.Scripts.Domains.Games
         /// <summary>
         /// 指定したコマがとられないように回避できるかどうか
         /// </summary>
-        public bool CanAvoid(Piece avoider)
+        internal bool CanAvoid(Piece avoider)
         {
             var avoidDestinations = avoider.MoveCandidates(_game);
             if (!CanPick(avoider)) return true;
@@ -120,7 +120,7 @@ namespace Chess.Scripts.Domains.Games
         /// <summary>
         /// 指定したコマを指定したコマたちがとれるかどうか
         /// </summary>
-        public bool CanKill(Piece target, Piece[] killers)
+        private bool CanKill(Piece target, Piece[] killers)
         {
             return killers.Any(v => v.MoveCandidates(_game).Any(pos => pos == target.Position));
         }
@@ -128,7 +128,7 @@ namespace Chess.Scripts.Domains.Games
         /// <summary>
         /// 指定したコマを指定したコマたちがブロックするなりして守れるかどうか
         /// </summary>
-        public bool CanProtect(Piece protectedTarget, Piece[] protectors)
+        internal bool CanProtect(Piece protectedTarget, Piece[] protectors)
         {
             foreach (var protector in protectors)
             {

@@ -2,6 +2,7 @@
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements;
+using Chess.Scripts.Domains.Pieces;
 using NUnit.Framework;
 
 namespace Chess.Scripts.Domains.Tests

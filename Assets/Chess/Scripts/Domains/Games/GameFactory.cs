@@ -2,19 +2,16 @@
 using System.Linq;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Pieces;
-using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Games
 {
     public class GameFactory
     {
         private readonly PieceFactory _pieceFactory;
-        private readonly SpecialRuleExecutorFactory _specialRuleExecutorFactory;
 
-        public GameFactory(PieceFactory pieceFactory, SpecialRuleExecutorFactory specialRuleExecutorFactory)
+        public GameFactory(PieceFactory pieceFactory)
         {
             _pieceFactory = pieceFactory;
-            _specialRuleExecutorFactory = specialRuleExecutorFactory;
         }
 
         public Game CreateGame()
@@ -23,7 +20,6 @@ namespace Chess.Scripts.Domains.Games
             var blackPieces = CreatePieces(PlayerColor.Black);
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var specialRuleExecutor = _specialRuleExecutorFactory.Create();
 
             return new Game(board);
         }
