@@ -43,7 +43,7 @@ namespace Chess.Scripts.Domains.Movements.Conditions
             var cloneGame = game.Clone();
             var cloneKing = cloneGame.Board.GetPiece(piece.Position);
             cloneGame.Board.MovePiece(cloneKing.Position, destination);
-            if (cloneGame.StatusHandler.CanPick(cloneKing)) return false;
+            if (cloneGame.BoardStatusSolver.CanPick(cloneKing)) return false;
 
             return true;
         }

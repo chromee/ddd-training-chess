@@ -31,9 +31,7 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
             Assert.IsTrue(destinations.Contains(new Position(2, 0)));
@@ -63,9 +61,7 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
             Assert.IsFalse(destinations.Contains(new Position(2, 0)));
@@ -94,9 +90,7 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateRook(PlayerColor.Black, new Position(2, 3)),
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
             Assert.IsFalse(destinations.Contains(new Position(2, 0)));
@@ -130,11 +124,9 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
-
-            MoveService.Move(game, whiteKing, new Position(2, 0));
+            PieceMoveService.Move(game, whiteKing, new Position(2, 0));
 
             Assert.AreEqual(new Position(3, 0), whiteRook.Position);
         }

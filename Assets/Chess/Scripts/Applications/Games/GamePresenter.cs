@@ -10,7 +10,7 @@ namespace Chess.Scripts.Applications.Games
 
         public GamePresenter(Game game, GameUseCase gameUseCase, IGameResultView gameResultView)
         {
-            game.StatusHandler.CurrentStatusObservable
+            game.CurrentStatusObservable
                 .Subscribe(status =>
                 {
                     switch (status)

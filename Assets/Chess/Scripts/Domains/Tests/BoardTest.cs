@@ -76,10 +76,9 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsTrue(game.StatusHandler.IsCheck(PlayerColor.White));
+            Assert.IsTrue(game.StatusSolver.IsCheck(PlayerColor.White));
         }
 
         [Test]
@@ -104,10 +103,9 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsFalse(game.StatusHandler.IsCheck(PlayerColor.White));
+            Assert.IsFalse(game.StatusSolver.IsCheck(PlayerColor.White));
         }
 
         [Test]
@@ -133,11 +131,10 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsTrue(game.StatusHandler.CanPick(whitePieces[0]));
-            Assert.IsTrue(game.StatusHandler.CanPick(blackPieces[0]));
+            Assert.IsTrue(game.BoardStatusSolver.CanPick(whitePieces[0]));
+            Assert.IsTrue(game.BoardStatusSolver.CanPick(blackPieces[0]));
         }
 
         [Test]
@@ -163,11 +160,10 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsFalse(game.StatusHandler.CanPick(whitePieces[0]));
-            Assert.IsFalse(game.StatusHandler.CanPick(blackPieces[0]));
+            Assert.IsFalse(game.BoardStatusSolver.CanPick(whitePieces[0]));
+            Assert.IsFalse(game.BoardStatusSolver.CanPick(blackPieces[0]));
         }
 
         [Test]
@@ -192,10 +188,9 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsTrue(game.StatusHandler.CanAvoid(blackPieces[0]));
+            Assert.IsTrue(game.BoardStatusSolver.CanAvoid(blackPieces[0]));
         }
 
         [Test]
@@ -221,10 +216,9 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(0, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsFalse(game.StatusHandler.CanAvoid(blackPieces[0]));
+            Assert.IsFalse(game.BoardStatusSolver.CanAvoid(blackPieces[0]));
         }
 
         [Test]
@@ -250,10 +244,9 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsTrue(game.StatusHandler.CanProtect(blackPieces[1], new[] { blackPieces[0] }));
+            Assert.IsTrue(game.BoardStatusSolver.CanProtect(blackPieces[1], new[] { blackPieces[0] }));
         }
 
         [Test]
@@ -280,10 +273,9 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsFalse(game.StatusHandler.CanProtect(blackPieces[2], new[] { blackPieces[0], blackPieces[1], }));
+            Assert.IsFalse(game.BoardStatusSolver.CanProtect(blackPieces[2], new[] { blackPieces[0], blackPieces[1], }));
         }
     }
 }

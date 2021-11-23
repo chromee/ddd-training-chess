@@ -39,7 +39,7 @@ namespace Chess.Scripts.Applications.Games
             _disposable?.Dispose();
             _disposable = new CompositeDisposable();
 
-            var game = _gameFactory.CreateGame();
+            var game = _gameFactory.CreateBasicGame();
             _gameRegistry.Register(game);
 
             var boardView = _boardViewFactory.CreateBoardView();

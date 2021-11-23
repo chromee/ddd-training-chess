@@ -29,7 +29,7 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
         {
             builder.Register<GameFactory>(Lifetime.Scoped);
             builder.Register<PieceFactory>(Lifetime.Scoped);
-            builder.Register<MoveService>(Lifetime.Scoped);
+            builder.Register<PieceMoveService>(Lifetime.Scoped);
             builder.Register<SpecialRuleExecutorFactory>(Lifetime.Scoped);
             builder.Register<PromotionExecutor>(Lifetime.Scoped);
             builder.Register<PromotionNotifier>(Lifetime.Scoped);

@@ -1,4 +1,5 @@
-﻿using Chess.Scripts.Domains.Movements;
+﻿using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
 using NUnit.Framework;
@@ -7,10 +8,11 @@ namespace Chess.Scripts.Domains.Tests
 {
     public class DomainTestBase
     {
+        protected GameFactory GameFactory;
         protected PieceFactory PieceFactory;
         protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
-        protected MoveService MoveService;
+        protected PieceMoveService PieceMoveService;
 
         [SetUp]
         public void Install()
@@ -21,7 +23,9 @@ namespace Chess.Scripts.Domains.Tests
             PromotionExecutor = new PromotionExecutor(PromotionNotifier, PieceFactory);
             var specialRuleExecutorFactory = new SpecialRuleExecutorFactory(PromotionNotifier);
 
-            MoveService = new MoveService(specialRuleExecutorFactory);
+            GameFactory = new GameFactory(PieceFactory, specialRuleExecutorFactory);
+
+            PieceMoveService = new PieceMoveService();
         }
     }
 }

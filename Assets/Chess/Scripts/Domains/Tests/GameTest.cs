@@ -29,10 +29,10 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            var isCheck = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
+
+            var isCheck = game.StatusSolver.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsTrue(isCheck);
         }
@@ -59,10 +59,10 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            var isCheck = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
+
+            var isCheck = game.StatusSolver.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheck);
         }
@@ -89,10 +89,10 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
+
+            var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
             Assert.IsTrue(isCheckmate);
         }
@@ -128,12 +128,12 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            MoveService.Move(game, whitePieces[0], new Position(3, 4));
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
+            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
+
+            var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -170,12 +170,12 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            MoveService.Move(game, whitePieces[0], new Position(3, 4));
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
+            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
+
+            var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -214,12 +214,12 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            MoveService.Move(game, whitePieces[0], new Position(3, 3));
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
+            PieceMoveService.Move(game, whitePieces[0], new Position(3, 3));
+
+            var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -257,12 +257,12 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(7, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
 
-            MoveService.Move(game, whitePieces[1], new Position(6, 4));
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.AreEqual(GameStatus.Stalemate, game.StatusHandler.CurrentStatus);
+            PieceMoveService.Move(game, whitePieces[1], new Position(6, 4));
+
+            Assert.AreEqual(GameStatus.Stalemate, game.CurrentStatus);
         }
     }
 }

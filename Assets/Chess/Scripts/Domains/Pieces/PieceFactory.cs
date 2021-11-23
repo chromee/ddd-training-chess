@@ -1,5 +1,6 @@
 ﻿using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.Logger;
 using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Movements.Conditions;
 using Chess.Scripts.Domains.Movements.Moves;

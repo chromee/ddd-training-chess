@@ -31,14 +31,12 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateQueen(PlayerColor.Black, new Position(3, 4)),
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
-
-            MoveService.Move(game, whitePieces[0], new Position(3, 4));
+            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
 
             Assert.Throws<WrongPlayerException>(() =>
-                MoveService.Move(game, whitePieces[0], new Position(3, 3)));
+                PieceMoveService.Move(game, whitePieces[0], new Position(3, 3)));
         }
 
         [Test]
@@ -63,14 +61,12 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateQueen(PlayerColor.Black, new Position(3, 4)),
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
-
-            MoveService.Move(game, whitePieces[0], new Position(3, 4));
+            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
 
             Assert.Throws<PieceNotExistOnBoardException>(() =>
-                MoveService.Move(game, blackPieces[0], new Position(3, 5)));
+                PieceMoveService.Move(game, blackPieces[0], new Position(3, 5)));
         }
 
         [Test]
@@ -93,12 +89,10 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                MoveService.Move(game, whitePieces[0], new Position(3, 2)));
+                PieceMoveService.Move(game, whitePieces[0], new Position(3, 2)));
         }
 
         [Test]
@@ -122,12 +116,10 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                MoveService.Move(game, whitePieces[1], new Position(3, 1)));
+                PieceMoveService.Move(game, whitePieces[1], new Position(3, 1)));
         }
 
         [Test]
@@ -151,12 +143,10 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreatePawn(PlayerColor.Black, new Position(4, 2)),
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             Assert.Throws<SuicideMoveException>(() =>
-                MoveService.Move(game, whitePieces[0], new Position(3, 1)));
+                PieceMoveService.Move(game, whitePieces[0], new Position(3, 1)));
         }
     }
 }

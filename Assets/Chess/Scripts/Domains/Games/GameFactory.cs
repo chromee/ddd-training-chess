@@ -2,29 +2,35 @@
 using System.Linq;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Pieces;
+using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Games
 {
     public class GameFactory
     {
         private readonly PieceFactory _pieceFactory;
+        private readonly SpecialRuleExecutorFactory _specialRuleExecutorFactory;
 
-        public GameFactory(PieceFactory pieceFactory)
+        public GameFactory(PieceFactory pieceFactory, SpecialRuleExecutorFactory specialRuleExecutorFactory)
         {
             _pieceFactory = pieceFactory;
+            _specialRuleExecutorFactory = specialRuleExecutorFactory;
         }
 
-        public Game CreateGame()
+        internal Game CreateGame(List<Piece> pieces)
         {
-            var whitePieces = CreatePieces(PlayerColor.White);
-            var blackPieces = CreatePieces(PlayerColor.Black);
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-
-            return new Game(board);
+            return new Game(new Board(pieces), _specialRuleExecutorFactory.Create());
         }
 
-        private List<Piece> CreatePieces(PlayerColor color)
+        public Game CreateBasicGame()
+        {
+            var whitePieces = CreateBasicPieces(PlayerColor.White);
+            var blackPieces = CreateBasicPieces(PlayerColor.Black);
+
+            return CreateGame(whitePieces.Concat(blackPieces).ToList());
+        }
+
+        private List<Piece> CreateBasicPieces(PlayerColor color)
         {
             var pawnLine = color == PlayerColor.White ? PieceConstants.WhitePawnYLine : PieceConstants.BlackPawnYLine;
             var othersLine = color == PlayerColor.White ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
@@ -53,9 +59,7 @@ namespace Chess.Scripts.Domains.Games
                 _pieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-
-            return new Game(board);
+            return CreateGame(whitePieces.Concat(blackPieces).ToList());
         }
 
         public Game CreateStalemateGame()
@@ -70,9 +74,7 @@ namespace Chess.Scripts.Domains.Games
                 _pieceFactory.CreateKing(PlayerColor.Black, new Position(0, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-
-            return new Game(board);
+            return CreateGame(whitePieces.Concat(blackPieces).ToList());
         }
 
         public Game CreatePromotionGame()
@@ -87,9 +89,7 @@ namespace Chess.Scripts.Domains.Games
                 _pieceFactory.CreateKing(PlayerColor.Black, new Position(4, 7)),
             };
 
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-
-            return new Game(board);
+            return CreateGame(whitePieces.Concat(blackPieces).ToList());
         }
     }
 }

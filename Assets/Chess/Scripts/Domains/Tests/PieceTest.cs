@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 using NUnit.Framework;
@@ -30,9 +29,7 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteRook);
             var correctDestinations = new[]
@@ -68,9 +65,7 @@ namespace Chess.Scripts.Domains.Tests
             {
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
-
-            var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board);
+            var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteRook);
             var correctDestinations = new[]

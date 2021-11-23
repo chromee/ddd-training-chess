@@ -7,15 +7,8 @@ using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Movements
 {
-    public class MoveService
+    public class PieceMoveService
     {
-        private readonly SpecialRuleExecutor _specialRuleExecutor;
-
-        public MoveService(SpecialRuleExecutorFactory specialRuleExecutorFactory)
-        {
-            _specialRuleExecutor = specialRuleExecutorFactory.Create();
-        }
-
         public void Move(Game game, Piece piece, Position destination)
         {
             // そのターンプレイヤーのコマでなかったとき
@@ -38,7 +31,7 @@ namespace Chess.Scripts.Domains.Movements
             game.Board.MovePiece(prevPosition, destination);
             game.Logger.AddLog(new PieceMovementLog(piece, prevPosition, destination));
 
-            _specialRuleExecutor.TryExecute(game);
+            game.SpecialRuleExecutor.TryExecute(game);
 
             game.SwapTurn();
         }
@@ -60,7 +53,7 @@ namespace Chess.Scripts.Domains.Movements
             var cloneGame = game.Clone();
             var clonePiece = cloneGame.Board.GetPiece(piece.Position);
             cloneGame.Board.MovePiece(clonePiece.Position, destination);
-            return cloneGame.StatusHandler.IsCheck(turnPlayer);
+            return cloneGame.StatusSolver.IsCheck(turnPlayer);
         }
     }
 
