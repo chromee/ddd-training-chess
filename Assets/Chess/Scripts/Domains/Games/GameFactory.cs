@@ -9,12 +9,12 @@ namespace Chess.Scripts.Domains.Games
     public class GameFactory
     {
         private readonly PieceFactory _pieceFactory;
-        private readonly PromotionNotifier _notifier;
+        private readonly SpecialRuleExecutorFactory _specialRuleExecutorFactory;
 
-        public GameFactory(PieceFactory pieceFactory, PromotionNotifier notifier)
+        public GameFactory(PieceFactory pieceFactory, SpecialRuleExecutorFactory specialRuleExecutorFactory)
         {
             _pieceFactory = pieceFactory;
-            _notifier = notifier;
+            _specialRuleExecutorFactory = specialRuleExecutorFactory;
         }
 
         public Game CreateGame()
@@ -23,15 +23,9 @@ namespace Chess.Scripts.Domains.Games
             var blackPieces = CreatePieces(PlayerColor.Black);
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
+            var specialRuleExecutor = _specialRuleExecutorFactory.Create();
 
-            var specialRules = new ISpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-                new Promotion(_notifier),
-            };
-
-            return new Game(board, specialRules: specialRules);
+            return new Game(board);
         }
 
         private List<Piece> CreatePieces(PlayerColor color)
@@ -65,14 +59,7 @@ namespace Chess.Scripts.Domains.Games
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var specialRules = new ISpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-                new Promotion(_notifier),
-            };
-
-            return new Game(board, specialRules: specialRules);
+            return new Game(board);
         }
 
         public Game CreateStalemateGame()
@@ -89,14 +76,7 @@ namespace Chess.Scripts.Domains.Games
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var specialRules = new ISpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-                new Promotion(_notifier),
-            };
-
-            return new Game(board, specialRules: specialRules);
+            return new Game(board);
         }
 
         public Game CreatePromotionGame()
@@ -113,14 +93,7 @@ namespace Chess.Scripts.Domains.Games
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
 
-            var specialRules = new ISpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-                new Promotion(_notifier),
-            };
-
-            return new Game(board, specialRules: specialRules);
+            return new Game(board);
         }
     }
 }

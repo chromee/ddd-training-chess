@@ -13,7 +13,7 @@ namespace Chess.Scripts.Applications.SpecialRules
 
         public PromotionPresenter(
             PromotionNotifier promotionNotifier,
-            SpecialRuleService specialRuleService,
+            PromotionExecutor promotionExecutor,
             IPromotionView promotionView,
             Board board
         )
@@ -27,7 +27,7 @@ namespace Chess.Scripts.Applications.SpecialRules
 
             promotionView.OnSelectPieceType.Subscribe(type =>
             {
-                specialRuleService.Promotion(board, type.ToDomain());
+                promotionExecutor.Promotion(board, type.ToDomain());
             }).AddTo(_disposable);
         }
 

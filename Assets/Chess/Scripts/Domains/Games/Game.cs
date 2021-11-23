@@ -14,7 +14,7 @@ namespace Chess.Scripts.Domains.Games
         private readonly GameService _gameService = new();
 
         public Board Board { get; }
-        public ISpecialRule[] SpecialRules { get; }
+        public PieceMovementLogger Logger { get; }
 
         public PlayerColor CurrentTurnPlayer { get; private set; }
         public PlayerColor NextTurnPlayer => CurrentTurnPlayer.Opponent();
@@ -22,13 +22,10 @@ namespace Chess.Scripts.Domains.Games
         private readonly ReactiveProperty<GameStatus> _gameStatus = new();
         public IReadOnlyReactiveProperty<GameStatus> GameStatus => _gameStatus;
 
-        public PieceMovementLogger Logger { get; }
-
-        public Game(Board board, PieceMovementLogger logger = null, ISpecialRule[] specialRules = null)
+        public Game(Board board, PieceMovementLogger logger = null)
         {
             Board = board;
             Logger = logger ?? new PieceMovementLogger();
-            SpecialRules = specialRules;
 
             // 先行は白プレイヤー
             CurrentTurnPlayer = PlayerColor.White;
@@ -60,7 +57,7 @@ namespace Chess.Scripts.Domains.Games
         {
             var cloneBoard = Board.Clone();
             var logger = Logger.Clone();
-            return new Game(cloneBoard, logger, SpecialRules);
+            return new Game(cloneBoard, logger);
         }
     }
 }

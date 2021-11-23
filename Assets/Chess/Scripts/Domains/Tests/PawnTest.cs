@@ -152,7 +152,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
             MoveService.Move(game, whitePawn, new Position(3, 3));
 
             var destinations = blackPawn.MoveCandidates(game);
@@ -196,13 +196,13 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             MoveService.Move(game, whitePawn, new Position(1, 7));
 
             Assert.AreEqual(whitePawn.Position, PromotionNotifier.TargetPawnPosition);
 
-            SpecialRuleService.Promotion(board, PieceType.Queen);
+            PromotionExecutor.Promotion(board, PieceType.Queen);
 
             Assert.IsTrue(whitePawn.IsDead);
             Assert.IsTrue(board.GetPiece(new Position(1, 7)).IsType(PieceType.Queen));

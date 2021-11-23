@@ -12,26 +12,21 @@ namespace Chess.Scripts.Domains.Tests
         protected PieceFactory PieceFactory;
         protected MoveService MoveService;
         protected GameService GameService;
-        protected SpecialRuleService SpecialRuleService;
+        protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
-
-        protected ISpecialRule[] SpecialRules;
 
         [SetUp]
         public void Install()
         {
             PieceFactory = new PieceFactory();
-            MoveService = new MoveService();
-            GameService = new GameService();
-            PromotionNotifier = new PromotionNotifier();
-            SpecialRuleService = new SpecialRuleService(PromotionNotifier, PieceFactory);
 
-            SpecialRules = new ISpecialRule[]
-            {
-                new EnPassant(),
-                new Castling(),
-                new Promotion(PromotionNotifier),
-            };
+            PromotionNotifier = new PromotionNotifier();
+            PromotionExecutor = new PromotionExecutor(PromotionNotifier, PieceFactory);
+            var specialRuleExecutorFactory = new SpecialRuleExecutorFactory(PromotionNotifier);
+            var specialRuleExecutor = specialRuleExecutorFactory.Create();
+
+            MoveService = new MoveService(specialRuleExecutor);
+            GameService = new GameService();
         }
     }
 }

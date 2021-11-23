@@ -29,7 +29,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             var isCheck = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
@@ -59,7 +59,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             var isCheck = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
@@ -89,7 +89,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
 
@@ -128,7 +128,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
@@ -170,7 +170,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
@@ -214,7 +214,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             MoveService.Move(game, whitePieces[0], new Position(3, 3));
 
@@ -257,7 +257,7 @@ namespace Chess.Scripts.Domains.Tests
             };
 
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
-            var game = new Game(board, specialRules: SpecialRules);
+            var game = new Game(board);
 
             MoveService.Move(game, whitePieces[1], new Position(6, 4));
 

@@ -4,12 +4,12 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.SpecialRules
 {
-    public class SpecialRuleService
+    public class PromotionExecutor
     {
         private readonly PromotionNotifier _promotionNotifier;
         private readonly PieceFactory _pieceFactory;
 
-        public SpecialRuleService(PromotionNotifier promotionNotifier, PieceFactory pieceFactory)
+        public PromotionExecutor(PromotionNotifier promotionNotifier, PieceFactory pieceFactory)
         {
             _promotionNotifier = promotionNotifier;
             _pieceFactory = pieceFactory;

@@ -3,12 +3,19 @@ using System.Linq;
 using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
+using Chess.Scripts.Domains.SpecialRules;
 
 namespace Chess.Scripts.Domains.Movements
 {
     public class MoveService
     {
         private readonly GameService _gameService = new();
+        private readonly SpecialRuleExecutor _specialRuleExecutor;
+
+        public MoveService(SpecialRuleExecutor specialRuleExecutor)
+        {
+            _specialRuleExecutor = specialRuleExecutor;
+        }
 
         public void Move(Game game, Piece piece, Position destination)
         {
@@ -32,7 +39,7 @@ namespace Chess.Scripts.Domains.Movements
             game.Board.MovePiece(prevPosition, destination);
             game.Logger.AddLog(new PieceMovementLog(piece, prevPosition, destination));
 
-            foreach (var specialRule in game.SpecialRules) specialRule.TryExecute(game);
+            _specialRuleExecutor.TryExecute(game);
 
             game.SwapTurn();
         }
