@@ -48,7 +48,7 @@ namespace Chess.Scripts.Domains.Movements
         /// </summary>
         private static bool CanMoveTo(Game game, Piece piece, Position destination)
         {
-            var destinations = piece.MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(piece);
             return destinations.Contains(destination);
         }
 

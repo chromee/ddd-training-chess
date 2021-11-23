@@ -36,11 +36,11 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var wDestinations = whitePawn.MoveCandidates(game);
+            var wDestinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whitePawn);
             var wCorrectDestinations = new[] { new Position(3, 2), new Position(3, 3), };
             Assert.That(wDestinations, Is.EquivalentTo(wCorrectDestinations));
 
-            var bDestinations = blackPawn.MoveCandidates(game);
+            var bDestinations = game.PieceMovementCandidatesCalculator.MoveCandidates(blackPawn);
             var bCorrectDestinations = new[] { new Position(3, 5), new Position(3, 4), };
             Assert.That(bDestinations, Is.EquivalentTo(bCorrectDestinations));
         }
@@ -72,7 +72,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var wDestinations = whitePawn.MoveCandidates(game);
+            var wDestinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whitePawn);
             Assert.AreEqual(0, wDestinations.Length);
         }
 
@@ -103,7 +103,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var destinations = whitePawn.MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whitePawn);
             var correctDestinations = new[] { new Position(3, 3), new Position(4, 3), };
             Assert.That(destinations, Is.EquivalentTo(correctDestinations));
         }
@@ -155,7 +155,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = new Game(board);
             MoveService.Move(game, whitePawn, new Position(3, 3));
 
-            var destinations = blackPawn.MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(blackPawn);
             var correctDestinations = new[] { new Position(3, 2), new Position(4, 2), };
             Assert.That(destinations, Is.EquivalentTo(correctDestinations));
 

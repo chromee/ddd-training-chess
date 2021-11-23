@@ -20,9 +20,10 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ ★ □ □ □
             // □ □ □ □ □ □ □ ●
 
+            var whiteRook = PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0));
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
+                whiteRook,
                 PieceFactory.CreateKing(PlayerColor.White, new Position(3, 1)),
             };
             var blackPieces = new[]
@@ -33,7 +34,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var destinations = whitePieces[0].MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteRook);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
@@ -56,9 +57,10 @@ namespace Chess.Scripts.Domains.Tests
             // □ □ □ □ □ □ □ □
             // □ □ □ □ ★ □ □ ●
 
+            var whiteRook = PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0));
             var whitePieces = new[]
             {
-                PieceFactory.CreateRook(PlayerColor.White, new Position(0, 0)),
+                whiteRook,
                 PieceFactory.CreatePawn(PlayerColor.White, new Position(0, 5)),
                 PieceFactory.CreateKing(PlayerColor.White, new Position(3, 0)),
             };
@@ -70,7 +72,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var destinations = whitePieces[0].MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteRook);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),

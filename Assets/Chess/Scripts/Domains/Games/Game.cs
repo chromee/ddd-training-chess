@@ -1,5 +1,6 @@
 ﻿using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Logger;
+using Chess.Scripts.Domains.Movements;
 
 namespace Chess.Scripts.Domains.Games
 {
@@ -8,6 +9,7 @@ namespace Chess.Scripts.Domains.Games
         public Board Board { get; }
         public PieceMovementLogger Logger { get; }
         public GameStatusHandler StatusHandler { get; }
+        public PieceMovementCandidatesCalculator PieceMovementCandidatesCalculator { get; }
 
         public PlayerColor CurrentTurnPlayer { get; private set; }
         public PlayerColor NextTurnPlayer => CurrentTurnPlayer.Opponent();
@@ -17,6 +19,7 @@ namespace Chess.Scripts.Domains.Games
             Board = board;
             Logger = logger ?? new PieceMovementLogger();
             StatusHandler = new GameStatusHandler(this);
+            PieceMovementCandidatesCalculator = new PieceMovementCandidatesCalculator(this);
 
             // 先行は白プレイヤー
             CurrentTurnPlayer = PlayerColor.White;

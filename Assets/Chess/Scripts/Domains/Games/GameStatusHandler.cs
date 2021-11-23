@@ -52,7 +52,7 @@ namespace Chess.Scripts.Domains.Games
             var protectors = _game.Board.Pieces.Where(v => v.IsColor(checkmatePlayer.Opponent()) && v != targetKing).ToArray();
 
             var killers = _game.Board.Pieces.Where(v => v.IsColor(_game.CurrentTurnPlayer)).ToArray();
-            var killersMoveMap = killers.ToDictionary(v => v, piece => piece.MoveCandidates(_game));
+            var killersMoveMap = killers.ToDictionary(v => v, piece => _game.PieceMovementCandidatesCalculator.MoveCandidates(piece));
             var checkingPiece = killersMoveMap.FirstOrDefault(v => v.Value.Any(pos => pos == targetKing.Position)).Key;
 
             if (checkingPiece == null) return false;
@@ -75,7 +75,7 @@ namespace Chess.Scripts.Domains.Games
 
             foreach (var piece in pieces)
             {
-                var destinations = piece.MoveCandidates(_game);
+                var destinations = _game.PieceMovementCandidatesCalculator.MoveCandidates(piece);
                 foreach (var destination in destinations)
                 {
                     var cloneGame = _game.Clone();
@@ -94,7 +94,7 @@ namespace Chess.Scripts.Domains.Games
         public bool CanPick(Piece targetPiece)
         {
             var enemies = _game.Board.GetEnemies(targetPiece);
-            var enemiesDestinations = enemies.SelectMany(piece => piece.MoveCandidates(_game));
+            var enemiesDestinations = enemies.SelectMany(piece => _game.PieceMovementCandidatesCalculator.MoveCandidates(piece));
             return enemiesDestinations.Any(pos => pos == targetPiece.Position);
         }
 
@@ -103,7 +103,7 @@ namespace Chess.Scripts.Domains.Games
         /// </summary>
         internal bool CanAvoid(Piece avoider)
         {
-            var avoidDestinations = avoider.MoveCandidates(_game);
+            var avoidDestinations = _game.PieceMovementCandidatesCalculator.MoveCandidates(avoider);
             if (!CanPick(avoider)) return true;
 
             foreach (var destination in avoidDestinations)
@@ -122,7 +122,7 @@ namespace Chess.Scripts.Domains.Games
         /// </summary>
         private bool CanKill(Piece target, Piece[] killers)
         {
-            return killers.Any(v => v.MoveCandidates(_game).Any(pos => pos == target.Position));
+            return killers.Any(v => _game.PieceMovementCandidatesCalculator.MoveCandidates(v).Any(pos => pos == target.Position));
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Chess.Scripts.Domains.Games
                 var cloneProtector = cloneGame.Board.GetPiece(protector.Position);
                 var cloneTarget = cloneGame.Board.GetPiece(protectedTarget.Position);
 
-                foreach (var destination in cloneProtector.MoveCandidates(cloneGame))
+                foreach (var destination in cloneGame.PieceMovementCandidatesCalculator.MoveCandidates(cloneProtector))
                 {
                     cloneGame.Board.MovePiece(cloneProtector.Position, destination);
                     if (!cloneGame.StatusHandler.CanPick(cloneTarget)) return true;

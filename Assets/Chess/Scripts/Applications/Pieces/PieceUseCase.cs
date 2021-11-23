@@ -43,7 +43,7 @@ namespace Chess.Scripts.Applications.Pieces
         public Vector2Int[] GetSelectedPieceMoveCandidates(Piece piece)
         {
             if (piece == null) throw new Exception("not found selected piece");
-            return piece.MoveCandidates(_gameRegistry.CurrentGame).Select(v => v.ToVector2()).ToArray();
+            return _gameRegistry.CurrentGame.PieceMovementCandidatesCalculator.MoveCandidates(piece).Select(v => v.ToVector2()).ToArray();
         }
 
         public void TryMovePiece(Vector2 position)

@@ -35,7 +35,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var destinations = whiteKing.MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
             Assert.IsTrue(destinations.Contains(new Position(2, 0)));
             Assert.IsTrue(destinations.Contains(new Position(6, 0)));
         }
@@ -67,7 +67,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var destinations = whiteKing.MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
             Assert.IsFalse(destinations.Contains(new Position(2, 0)));
         }
 
@@ -98,7 +98,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var destinations = whiteKing.MoveCandidates(game);
+            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
             Assert.IsFalse(destinations.Contains(new Position(2, 0)));
         }
 

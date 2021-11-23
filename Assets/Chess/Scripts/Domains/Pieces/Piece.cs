@@ -10,7 +10,7 @@ namespace Chess.Scripts.Domains.Pieces
     {
         public PlayerColor Color { get; }
         public PieceType Type { get; }
-        private readonly MoveBase[] _moves;
+        public MoveBase[] Moves { get; }
 
         private readonly ReactiveProperty<Position> _position = new();
         public Position Position => _position.Value;
@@ -24,7 +24,7 @@ namespace Chess.Scripts.Domains.Pieces
         {
             Color = color;
             Type = type;
-            _moves = moves;
+            Moves = moves;
             _position.Value = position;
             _isDead.Value = isDead;
         }
@@ -40,32 +40,6 @@ namespace Chess.Scripts.Domains.Pieces
         public bool IsType(PieceType type) => Type == type;
         public override string ToString() => $"{Color} {Type}";
 
-        public Piece Clone() => new(Color, Type, Position, _moves, IsDead);
-
-        public Position[] MoveCandidates(Game game)
-        {
-            var candidates = new List<Position>();
-
-            foreach (var move in _moves)
-            {
-                foreach (var movement in move.Movements)
-                {
-                    try
-                    {
-                        var destination = Position + movement;
-                        if (!move.CanExecute(game, this, destination)) continue;
-                        candidates.Add(destination);
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        // Destinationsの中身が複数あるのはInfinityMoveだけなので、
-                        // 範囲外になったら(Positionのコンストラクタでthrowされたら)break
-                        break;
-                    }
-                }
-            }
-
-            return candidates.ToArray();
-        }
+        public Piece Clone() => new(Color, Type, Position, Moves, IsDead);
     }
 }
