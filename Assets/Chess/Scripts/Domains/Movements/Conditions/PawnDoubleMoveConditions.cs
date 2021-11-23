@@ -12,11 +12,11 @@ namespace Chess.Scripts.Domains.Movements.Conditions
             if (game.Board.ExistPiece(destination)) return false;
 
             // 初期位置でなければ移動できない
-            var initialY = piece.Color == PlayerColor.White ? 1 : 6;
+            var initialY = piece.IsWhite() ? 1 : 6;
             if (piece.Position.Y != initialY) return false;
 
             // 間にコマがあると移動できない
-            var blockY = piece.Color == PlayerColor.White ? 2 : 5;
+            var blockY = piece.IsWhite() ? 2 : 5;
             if (game.Board.ExistPiece(new Position(destination.X, blockY))) return false;
 
             return true;

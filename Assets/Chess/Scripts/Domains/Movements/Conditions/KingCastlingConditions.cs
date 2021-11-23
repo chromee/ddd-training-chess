@@ -10,21 +10,20 @@ namespace Chess.Scripts.Domains.Movements.Conditions
         {
             if (!piece.IsType(PieceType.King)) return false;
 
-            var isWhite = piece.Color == PlayerColor.White;
-            var y = isWhite ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
+            var y = piece.IsWhite() ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
 
-            // 初期位置でなければ移動できない
+            // 初期位置でなければ実行できない
             if (piece.Position.X != PieceConstants.KingX || piece.Position.Y != y) return false;
 
-            // 初期位置yラインでなければ移動できない
+            // 初期位置yラインでなければ実行できない
             if (destination.Y != y) return false;
 
-            // 移動方向にルークがなければ移動できない
+            // 移動方向にルークがなければ実行できない
             var isRightMove = destination.X - piece.Position.X > 0;
             var rook = game.Board.GetPiece(new Position(isRightMove ? 7 : 0, y));
             if (rook == null || rook.IsOpponent(piece) || !rook.IsType(PieceType.Rook)) return false;
 
-            // ルークとの間にコマがあると移動できない
+            // ルークとの間にコマがあると実行できない
             if (isRightMove)
             {
                 for (var i = piece.Position.X + 1; i < 7; i++)
@@ -40,7 +39,7 @@ namespace Chess.Scripts.Domains.Movements.Conditions
                 }
             }
 
-            // 移動した結果、チェックになる場合は移動できない
+            // 移動した結果、チェックになる場合は実行できない
             var cloneGame = game.Clone();
             var cloneKing = cloneGame.Board.GetPiece(piece.Position);
             cloneGame.Board.MovePiece(cloneKing.Position, destination);

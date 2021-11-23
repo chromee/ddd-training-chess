@@ -34,6 +34,8 @@ namespace Chess.Scripts.Domains.Pieces
         public void Die() => _isDead.Value = true;
 
         public bool IsColor(PlayerColor player) => Color == player;
+        public bool IsWhite() => IsColor(PlayerColor.White);
+        public bool IsBlack() => IsColor(PlayerColor.Black);
         public bool IsAlly(Piece piece) => Color == piece.Color;
         public bool IsOpponent(Piece piece) => Color != piece.Color;
         public bool IsType(PieceType type) => Type == type;

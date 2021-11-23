@@ -16,11 +16,11 @@ namespace Chess.Scripts.Domains.Boards
         {
             _pieces = pieces.ToReactiveCollection();
 
-            var whiteKings = pieces.Where(v => v.IsColor(PlayerColor.White) && v.IsType(PieceType.King)).ToArray();
+            var whiteKings = pieces.Where(v => v.IsWhite() && v.IsType(PieceType.King)).ToArray();
             if (!whiteKings.Any()) throw new NoKingException("no white king");
             if (whiteKings.Length > 1) throw new MultipleKingException("too many white kings");
 
-            var blackKings = pieces.Where(v => v.IsColor(PlayerColor.Black) && v.IsType(PieceType.King)).ToArray();
+            var blackKings = pieces.Where(v => v.IsBlack() && v.IsType(PieceType.King)).ToArray();
             if (blackKings == null) throw new NoKingException("no black king");
             if (blackKings.Length > 1) throw new MultipleKingException("too many black kings");
         }

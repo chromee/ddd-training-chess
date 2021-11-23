@@ -6,17 +6,19 @@ namespace Chess.Scripts.Domains.Logger
 {
     public class PieceMovementLogger
     {
-        private readonly List<PieceMovementLog?> _pieceMovementLog;
+        private readonly List<PieceMovementLog> _pieceMovementLog;
 
-        public PieceMovementLogger(List<PieceMovementLog?> pieceMovementLog = null)
+        public PieceMovementLogger(List<PieceMovementLog> pieceMovementLog = null)
         {
-            _pieceMovementLog = pieceMovementLog ?? new List<PieceMovementLog?>();
+            _pieceMovementLog = pieceMovementLog ?? new List<PieceMovementLog>();
         }
 
-        public PieceMovementLog? LastPieceMovement => _pieceMovementLog.LastOrDefault();
+        public IReadOnlyList<PieceMovementLog> AllLog => _pieceMovementLog;
+        public PieceMovementLog? LastPieceMovement => _pieceMovementLog.Count == 0 ? null : _pieceMovementLog.Last();
         public PieceMovementLog? SecondLastPieceMovement => _pieceMovementLog.Count <= 1 ? null : _pieceMovementLog[^2];
+
         public void AddLog(PieceMovementLog log) => _pieceMovementLog.Add(log);
 
-        public PieceMovementLogger Clone() => new PieceMovementLogger(_pieceMovementLog);
+        public PieceMovementLogger Clone() => new(_pieceMovementLog);
     }
 }
