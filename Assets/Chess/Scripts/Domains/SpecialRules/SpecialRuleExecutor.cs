@@ -13,10 +13,7 @@ namespace Chess.Scripts.Domains.SpecialRules
 
         public void TryExecute(Game game)
         {
-            foreach (var specialRule in _specialRules)
-            {
-                specialRule.TryExecute(game);
-            }
+            foreach (var specialRule in _specialRules) specialRule.TryExecute(game);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using Chess.Scripts.Domains.Boards;
-using Chess.Scripts.Domains.Games;
+﻿using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions

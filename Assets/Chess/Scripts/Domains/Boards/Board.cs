@@ -10,7 +10,6 @@ namespace Chess.Scripts.Domains.Boards
     public class Board
     {
         private readonly ReactiveCollection<Piece> _pieces;
-        public IReadOnlyReactiveCollection<Piece> Pieces => _pieces;
 
         public Board(List<Piece> pieces)
         {
@@ -25,6 +24,8 @@ namespace Chess.Scripts.Domains.Boards
             if (blackKings.Length > 1) throw new MultipleKingException("too many black kings");
         }
 
+        public IReadOnlyReactiveCollection<Piece> Pieces => _pieces;
+
         public void MovePiece(Position moverPosition, Position destination)
         {
             var destPiece = GetPiece(destination);
@@ -35,10 +36,7 @@ namespace Chess.Scripts.Domains.Boards
             }
 
             var movePiece = GetPiece(moverPosition);
-            if (movePiece == null)
-            {
-                throw new ArgumentException("コマが見つかりません");
-            }
+            if (movePiece == null) throw new ArgumentException("コマが見つかりません");
 
             movePiece.Move(destination);
         }

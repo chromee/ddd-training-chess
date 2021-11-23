@@ -13,13 +13,13 @@ namespace Chess.Scripts.Presentations.Messages
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _restartButton;
 
-        public IObservable<Unit> OnRestart => _restartButton.OnClickAsObservable();
-
         private void Awake()
         {
             Canvas.enabled = false;
             _restartButton.gameObject.SetActive(false);
         }
+
+        public IObservable<Unit> OnRestart => _restartButton.OnClickAsObservable();
 
         public void ShowCheck()
         {

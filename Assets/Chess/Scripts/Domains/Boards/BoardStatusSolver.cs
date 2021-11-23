@@ -14,7 +14,7 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         /// <summary>
-        /// 指定したコマを敵コマのいずれかがとれるかどうか
+        ///     指定したコマを敵コマのいずれかがとれるかどうか
         /// </summary>
         internal bool CanPick(Piece targetPiece)
         {
@@ -24,7 +24,7 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         /// <summary>
-        /// 指定したコマがとられないように回避できるかどうか
+        ///     指定したコマがとられないように回避できるかどうか
         /// </summary>
         internal bool CanAvoid(Piece avoider)
         {
@@ -43,7 +43,7 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         /// <summary>
-        /// 指定したコマを指定したコマたちがとれるかどうか
+        ///     指定したコマを指定したコマたちがとれるかどうか
         /// </summary>
         internal bool CanKill(Piece target, Piece[] killers)
         {
@@ -51,7 +51,7 @@ namespace Chess.Scripts.Domains.Boards
         }
 
         /// <summary>
-        /// 指定したコマを指定したコマたちがブロックするなりして守れるかどうか
+        ///     指定したコマを指定したコマたちがブロックするなりして守れるかどうか
         /// </summary>
         internal bool CanProtect(Piece protectedTarget, Piece[] protectors)
         {

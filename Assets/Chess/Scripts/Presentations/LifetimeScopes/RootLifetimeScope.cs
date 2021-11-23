@@ -1,11 +1,9 @@
-﻿using System;
-using Chess.Scripts.Applications.Boards;
+﻿using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
 using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Applications.SpecialRules;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
 using Chess.Scripts.Presentations.Boards;

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Chess.Scripts.Domains.Pieces;
-using UniRx;
 
 namespace Chess.Scripts.Domains.Games
 {

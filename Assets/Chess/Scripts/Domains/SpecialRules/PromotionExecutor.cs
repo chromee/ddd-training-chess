@@ -6,8 +6,8 @@ namespace Chess.Scripts.Domains.SpecialRules
 {
     public class PromotionExecutor
     {
-        private readonly PromotionNotifier _promotionNotifier;
         private readonly PieceFactory _pieceFactory;
+        private readonly PromotionNotifier _promotionNotifier;
 
         public PromotionExecutor(PromotionNotifier promotionNotifier, PieceFactory pieceFactory)
         {

@@ -2,6 +2,6 @@
 {
     public interface IPieceViewFactory
     {
-        IPieceView CreatePieceView(PieceData pieceData);
+        IPieceView CreatePieceView(PieceDto pieceDto);
     }
 }

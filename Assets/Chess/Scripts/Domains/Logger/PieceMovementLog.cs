@@ -1,8 +1,8 @@
 ﻿using System;
-using Chess.Scripts.Domains.Boards;
+using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
-namespace Chess.Scripts.Domains.Games
+namespace Chess.Scripts.Domains.Logger
 {
     public readonly struct PieceMovementLog
     {

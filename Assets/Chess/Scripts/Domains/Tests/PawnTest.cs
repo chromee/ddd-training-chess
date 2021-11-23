@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 using NUnit.Framework;
@@ -145,7 +144,7 @@ namespace Chess.Scripts.Domains.Tests
                 PieceFactory.CreateKing(PlayerColor.Black, new Position(3, 7)),
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
-            
+
             PieceMovementExecutor.Move(game, whitePawn, new Position(3, 3));
 
             var destinations = game.PieceMovementSolver.MoveCandidates(blackPawn);

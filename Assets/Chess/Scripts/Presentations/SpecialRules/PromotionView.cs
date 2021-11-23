@@ -15,7 +15,6 @@ namespace Chess.Scripts.Presentations.SpecialRules
         [SerializeField] private Button _queenButton;
 
         private readonly Subject<PieceType> _onSelectPieceType = new();
-        public IObservable<PieceType> OnSelectPieceType => _onSelectPieceType;
 
         private void Awake()
         {
@@ -27,15 +26,17 @@ namespace Chess.Scripts.Presentations.SpecialRules
             _queenButton.onClick.AddListener(() => SelectType(PieceType.Queen));
         }
 
-        private void SelectType(PieceType type)
-        {
-            _onSelectPieceType.OnNext(type);
-            Canvas.enabled = false;
-        }
+        public IObservable<PieceType> OnSelectPieceType => _onSelectPieceType;
 
         public void ShowPromotionDialogue()
         {
             Canvas.enabled = true;
+        }
+
+        private void SelectType(PieceType type)
+        {
+            _onSelectPieceType.OnNext(type);
+            Canvas.enabled = false;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Chess.Scripts.Domains.Games;
+using Chess.Scripts.Domains.Logger;
 
 namespace Chess.Scripts.Domains.Pieces
 {
@@ -34,7 +35,7 @@ namespace Chess.Scripts.Domains.Pieces
         }
 
         /// <summary>
-        /// 指定したコマが指定した位置に移動可能かどうか
+        ///     指定したコマが指定した位置に移動可能かどうか
         /// </summary>
         private static bool CanMoveTo(Game game, Piece piece, Position destination)
         {
@@ -43,7 +44,7 @@ namespace Chess.Scripts.Domains.Pieces
         }
 
         /// <summary>
-        /// 移動した結果、チェックにならないか
+        ///     移動した結果、チェックにならないか
         /// </summary>
         private bool IsSuicideMove(Game game, Piece piece, Position destination, PlayerColor turnPlayer)
         {

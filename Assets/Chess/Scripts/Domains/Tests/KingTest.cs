@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 using NUnit.Framework;

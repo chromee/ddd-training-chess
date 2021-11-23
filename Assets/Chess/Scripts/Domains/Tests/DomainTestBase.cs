@@ -1,5 +1,4 @@
 ﻿using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
 using NUnit.Framework;
@@ -10,9 +9,9 @@ namespace Chess.Scripts.Domains.Tests
     {
         protected GameFactory GameFactory;
         protected PieceFactory PieceFactory;
+        protected PieceMovementExecutor PieceMovementExecutor;
         protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
-        protected PieceMovementExecutor PieceMovementExecutor;
 
         [SetUp]
         public void Install()

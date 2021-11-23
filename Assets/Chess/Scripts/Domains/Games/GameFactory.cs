@@ -17,10 +17,7 @@ namespace Chess.Scripts.Domains.Games
             _specialRuleExecutorFactory = specialRuleExecutorFactory;
         }
 
-        internal Game CreateGame(List<Piece> pieces)
-        {
-            return new Game(new Board(pieces), _specialRuleExecutorFactory.Create());
-        }
+        internal Game CreateGame(List<Piece> pieces) => new Game(new Board(pieces), _specialRuleExecutorFactory.Create());
 
         public Game CreateBasicGame()
         {
@@ -35,7 +32,11 @@ namespace Chess.Scripts.Domains.Games
             var pawnLine = color == PlayerColor.White ? PieceConstants.WhitePawnYLine : PieceConstants.BlackPawnYLine;
             var othersLine = color == PlayerColor.White ? PieceConstants.WhiteYLine : PieceConstants.BlackYLine;
             var pieces = new List<Piece>();
-            for (var i = 0; i < 8; i++) pieces.Add(_pieceFactory.CreatePawn(color, new Position(i, pawnLine)));
+            for (var i = 0; i < 8; i++)
+            {
+                pieces.Add(_pieceFactory.CreatePawn(color, new Position(i, pawnLine)));
+            }
+
             pieces.Add(_pieceFactory.CreateRook(color, new Position(0, othersLine)));
             pieces.Add(_pieceFactory.CreateKnight(color, new Position(1, othersLine)));
             pieces.Add(_pieceFactory.CreateBishop(color, new Position(2, othersLine)));

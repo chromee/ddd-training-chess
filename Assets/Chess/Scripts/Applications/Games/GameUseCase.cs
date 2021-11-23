@@ -1,5 +1,4 @@
-﻿using System;
-using Chess.Scripts.Applications.Boards;
+﻿using Chess.Scripts.Applications.Boards;
 using Chess.Scripts.Applications.Pieces;
 using Chess.Scripts.Applications.SpecialRules;
 using Chess.Scripts.Domains.Games;
@@ -10,13 +9,13 @@ namespace Chess.Scripts.Applications.Games
 {
     public class GameUseCase
     {
-        private readonly GameFactory _gameFactory;
-        private readonly GameRegistry _gameRegistry;
         private readonly BoardPresenterFactory _boardPresenterFactory;
-        private readonly PromotionPresenterFactory _promotionPresenterFactory;
-        private readonly GamePresenterFactory _gamePresenterFactory;
         private readonly IBoardViewFactory _boardViewFactory;
+        private readonly GameFactory _gameFactory;
+        private readonly GamePresenterFactory _gamePresenterFactory;
+        private readonly GameRegistry _gameRegistry;
         private readonly IPieceViewFactory _pieceViewFactory;
+        private readonly PromotionPresenterFactory _promotionPresenterFactory;
 
         private CompositeDisposable _disposable;
 
@@ -56,7 +55,7 @@ namespace Chess.Scripts.Applications.Games
 
         private void BindPiece(Piece piece, CompositeDisposable disposable)
         {
-            var view = _pieceViewFactory.CreatePieceView(piece.ToData());
+            var view = _pieceViewFactory.CreatePieceView(piece.ToToDto());
             view.AddTo(disposable);
             new PiecePresenter(piece, view).AddTo(disposable);
         }

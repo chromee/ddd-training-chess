@@ -12,10 +12,10 @@ namespace Chess.Scripts.Presentations.Pieces
             _chessViewPrefabData = chessViewPrefabData;
         }
 
-        public IPieceView CreatePieceView(PieceData pieceData)
+        public IPieceView CreatePieceView(PieceDto pieceDto)
         {
             var pieceView = Object.Instantiate(_chessViewPrefabData.PieceViewPrefab);
-            pieceView.Initialize(pieceData);
+            pieceView.Initialize(pieceDto);
             return pieceView;
         }
     }

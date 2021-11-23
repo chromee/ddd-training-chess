@@ -12,9 +12,6 @@ namespace Chess.Scripts.Presentations.Boards
             _chessViewPrefabData = chessViewPrefabData;
         }
 
-        public IBoardView CreateBoardView()
-        {
-            return Object.Instantiate(_chessViewPrefabData.BoardViewPrefab);
-        }
+        public IBoardView CreateBoardView() => Object.Instantiate(_chessViewPrefabData.BoardViewPrefab);
     }
 }

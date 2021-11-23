@@ -246,7 +246,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            Assert.IsTrue(game.BoardStatusSolver.CanProtect(blackPieces[1], new[] { blackPieces[0] }));
+            Assert.IsTrue(game.BoardStatusSolver.CanProtect(blackPieces[1], new[] { blackPieces[0], }));
         }
 
         [Test]

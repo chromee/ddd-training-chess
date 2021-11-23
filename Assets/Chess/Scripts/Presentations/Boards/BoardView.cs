@@ -14,7 +14,6 @@ namespace Chess.Scripts.Presentations.Boards
         private readonly List<BoardSquare> _boardSquares = new();
 
         private readonly Subject<Vector2Int> _onClicked = new();
-        public IObservable<Vector2Int> OnClicked => _onClicked;
 
 
         private void Awake()
@@ -34,6 +33,8 @@ namespace Chess.Scripts.Presentations.Boards
             _onClicked.Dispose();
         }
 
+        public IObservable<Vector2Int> OnClicked => _onClicked;
+
         public void SetMovable(Vector2Int position)
         {
             _boardSquares.FirstOrDefault(v => v.Position == position)?.SetMovable();
@@ -41,10 +42,7 @@ namespace Chess.Scripts.Presentations.Boards
 
         public void ResetSquares()
         {
-            foreach (var square in _boardSquares)
-            {
-                square.SetDefault();
-            }
+            foreach (var square in _boardSquares) square.SetDefault();
         }
 
         public void Dispose()

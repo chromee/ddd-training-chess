@@ -2,9 +2,6 @@
 using System.Linq;
 using Chess.Scripts.Applications.Games;
 using Chess.Scripts.Applications.Messages;
-using Chess.Scripts.Domains.Boards;
-using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Movements;
 using Chess.Scripts.Domains.Pieces;
 using UnityEngine;
 
@@ -13,9 +10,9 @@ namespace Chess.Scripts.Applications.Pieces
     public class PieceUseCase
     {
         private readonly GameRegistry _gameRegistry;
+        private readonly IMessagePublisher _messagePublisher;
         private readonly PieceMovementExecutor _pieceMovementExecutor;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
-        private readonly IMessagePublisher _messagePublisher;
 
         public PieceUseCase(
             GameRegistry gameRegistry,
