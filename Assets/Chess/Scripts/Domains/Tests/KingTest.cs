@@ -33,7 +33,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
+            var destinations = game.PieceMovementSolver.MoveCandidates(whiteKing);
             Assert.IsTrue(destinations.Contains(new Position(2, 0)));
             Assert.IsTrue(destinations.Contains(new Position(6, 0)));
         }
@@ -63,7 +63,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
+            var destinations = game.PieceMovementSolver.MoveCandidates(whiteKing);
             Assert.IsFalse(destinations.Contains(new Position(2, 0)));
         }
 
@@ -92,7 +92,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteKing);
+            var destinations = game.PieceMovementSolver.MoveCandidates(whiteKing);
             Assert.IsFalse(destinations.Contains(new Position(2, 0)));
         }
 
@@ -126,7 +126,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whiteKing, new Position(2, 0));
+            PieceMovementExecutor.Move(game, whiteKing, new Position(2, 0));
 
             Assert.AreEqual(new Position(3, 0), whiteRook.Position);
         }

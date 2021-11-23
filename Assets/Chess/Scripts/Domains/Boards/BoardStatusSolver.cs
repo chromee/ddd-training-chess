@@ -19,7 +19,7 @@ namespace Chess.Scripts.Domains.Boards
         internal bool CanPick(Piece targetPiece)
         {
             var enemies = _game.Board.GetEnemies(targetPiece);
-            var enemiesDestinations = enemies.SelectMany(piece => _game.PieceMovementCandidatesCalculator.MoveCandidates(piece));
+            var enemiesDestinations = enemies.SelectMany(piece => _game.PieceMovementSolver.MoveCandidates(piece));
             return enemiesDestinations.Any(pos => pos == targetPiece.Position);
         }
 
@@ -28,7 +28,7 @@ namespace Chess.Scripts.Domains.Boards
         /// </summary>
         internal bool CanAvoid(Piece avoider)
         {
-            var avoidDestinations = _game.PieceMovementCandidatesCalculator.MoveCandidates(avoider);
+            var avoidDestinations = _game.PieceMovementSolver.MoveCandidates(avoider);
             if (!CanPick(avoider)) return true;
 
             foreach (var destination in avoidDestinations)
@@ -47,7 +47,7 @@ namespace Chess.Scripts.Domains.Boards
         /// </summary>
         internal bool CanKill(Piece target, Piece[] killers)
         {
-            return killers.Any(v => _game.PieceMovementCandidatesCalculator.MoveCandidates(v).Any(pos => pos == target.Position));
+            return killers.Any(v => _game.PieceMovementSolver.MoveCandidates(v).Any(pos => pos == target.Position));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Chess.Scripts.Domains.Boards
                 var cloneProtector = cloneGame.Board.GetPiece(protector.Position);
                 var cloneTarget = cloneGame.Board.GetPiece(protectedTarget.Position);
 
-                foreach (var destination in cloneGame.PieceMovementCandidatesCalculator.MoveCandidates(cloneProtector))
+                foreach (var destination in cloneGame.PieceMovementSolver.MoveCandidates(cloneProtector))
                 {
                     cloneGame.Board.MovePiece(cloneProtector.Position, destination);
                     if (!cloneGame.BoardStatusSolver.CanPick(cloneTarget)) return true;

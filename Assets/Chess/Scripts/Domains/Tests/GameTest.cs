@@ -131,7 +131,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
+            PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 4));
 
             var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
@@ -173,7 +173,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
+            PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 4));
 
             var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
@@ -217,7 +217,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePieces[0], new Position(3, 3));
+            PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 3));
 
             var isCheckmate = game.StatusSolver.IsCheckmate(game.CurrentTurnPlayer);
 
@@ -260,7 +260,7 @@ namespace Chess.Scripts.Domains.Tests
 
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePieces[1], new Position(6, 4));
+            PieceMovementExecutor.Move(game, whitePieces[1], new Position(6, 4));
 
             Assert.AreEqual(GameStatus.Stalemate, game.CurrentStatus);
         }

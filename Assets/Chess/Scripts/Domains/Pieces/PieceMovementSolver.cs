@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Pieces;
 
-namespace Chess.Scripts.Domains.Movements
+namespace Chess.Scripts.Domains.Pieces
 {
-    public class PieceMovementCandidatesCalculator
+    public class PieceMovementSolver
     {
         private readonly Game _game;
 
-        public PieceMovementCandidatesCalculator(Game game)
+        public PieceMovementSolver(Game game)
         {
             _game = game;
         }

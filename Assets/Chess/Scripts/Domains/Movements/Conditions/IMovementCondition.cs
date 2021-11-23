@@ -4,7 +4,7 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
-    public interface IMoveCondition
+    public interface IMovementCondition
     {
         bool CanExecute(Game game, Piece piece, Position destination);
     }

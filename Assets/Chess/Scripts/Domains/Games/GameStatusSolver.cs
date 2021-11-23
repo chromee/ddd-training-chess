@@ -35,7 +35,7 @@ namespace Chess.Scripts.Domains.Games
             var protectors = _game.Board.Pieces.Where(v => v.IsColor(checkmatePlayer.Opponent()) && v != targetKing).ToArray();
 
             var killers = _game.Board.Pieces.Where(v => v.IsColor(_game.CurrentTurnPlayer)).ToArray();
-            var killersMoveMap = killers.ToDictionary(v => v, piece => _game.PieceMovementCandidatesCalculator.MoveCandidates(piece));
+            var killersMoveMap = killers.ToDictionary(v => v, piece => _game.PieceMovementSolver.MoveCandidates(piece));
             var checkingPiece = killersMoveMap.FirstOrDefault(v => v.Value.Any(pos => pos == targetKing.Position)).Key;
 
             if (checkingPiece == null) return false;
@@ -58,7 +58,7 @@ namespace Chess.Scripts.Domains.Games
 
             foreach (var piece in pieces)
             {
-                var destinations = _game.PieceMovementCandidatesCalculator.MoveCandidates(piece);
+                var destinations = _game.PieceMovementSolver.MoveCandidates(piece);
                 foreach (var destination in destinations)
                 {
                     var cloneGame = _game.Clone();

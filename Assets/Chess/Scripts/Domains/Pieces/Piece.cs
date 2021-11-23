@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Movements.Moves;
+using Chess.Scripts.Domains.Movements;
 using UniRx;
 
 namespace Chess.Scripts.Domains.Pieces
@@ -10,7 +10,7 @@ namespace Chess.Scripts.Domains.Pieces
     {
         public PlayerColor Color { get; }
         public PieceType Type { get; }
-        public MoveBase[] Moves { get; }
+        public Movement[] Moves { get; }
 
         private readonly ReactiveProperty<Position> _position = new();
         public Position Position => _position.Value;
@@ -20,7 +20,7 @@ namespace Chess.Scripts.Domains.Pieces
         public bool IsDead => _isDead.Value;
         public IObservable<bool> IsDeadAsObservable => _isDead;
 
-        public Piece(PlayerColor color, PieceType type, Position position, MoveBase[] moves, bool isDead = false)
+        public Piece(PlayerColor color, PieceType type, Position position, Movement[] moves, bool isDead = false)
         {
             Color = color;
             Type = type;

@@ -12,7 +12,7 @@ namespace Chess.Scripts.Domains.Tests
         protected PieceFactory PieceFactory;
         protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
-        protected PieceMoveService PieceMoveService;
+        protected PieceMovementExecutor PieceMovementExecutor;
 
         [SetUp]
         public void Install()
@@ -25,7 +25,7 @@ namespace Chess.Scripts.Domains.Tests
 
             GameFactory = new GameFactory(PieceFactory, specialRuleExecutorFactory);
 
-            PieceMoveService = new PieceMoveService();
+            PieceMovementExecutor = new PieceMovementExecutor();
         }
     }
 }

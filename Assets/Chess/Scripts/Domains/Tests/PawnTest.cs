@@ -34,11 +34,11 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var wDestinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whitePawn);
+            var wDestinations = game.PieceMovementSolver.MoveCandidates(whitePawn);
             var wCorrectDestinations = new[] { new Position(3, 2), new Position(3, 3), };
             Assert.That(wDestinations, Is.EquivalentTo(wCorrectDestinations));
 
-            var bDestinations = game.PieceMovementCandidatesCalculator.MoveCandidates(blackPawn);
+            var bDestinations = game.PieceMovementSolver.MoveCandidates(blackPawn);
             var bCorrectDestinations = new[] { new Position(3, 5), new Position(3, 4), };
             Assert.That(bDestinations, Is.EquivalentTo(bCorrectDestinations));
         }
@@ -68,7 +68,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var wDestinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whitePawn);
+            var wDestinations = game.PieceMovementSolver.MoveCandidates(whitePawn);
             Assert.AreEqual(0, wDestinations.Length);
         }
 
@@ -97,7 +97,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whitePawn);
+            var destinations = game.PieceMovementSolver.MoveCandidates(whitePawn);
             var correctDestinations = new[] { new Position(3, 3), new Position(4, 3), };
             Assert.That(destinations, Is.EquivalentTo(correctDestinations));
         }
@@ -146,13 +146,13 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
             
-            PieceMoveService.Move(game, whitePawn, new Position(3, 3));
+            PieceMovementExecutor.Move(game, whitePawn, new Position(3, 3));
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(blackPawn);
+            var destinations = game.PieceMovementSolver.MoveCandidates(blackPawn);
             var correctDestinations = new[] { new Position(3, 2), new Position(4, 2), };
             Assert.That(destinations, Is.EquivalentTo(correctDestinations));
 
-            PieceMoveService.Move(game, blackPawn, new Position(3, 2));
+            PieceMovementExecutor.Move(game, blackPawn, new Position(3, 2));
             Assert.IsTrue(whitePawn.IsDead);
         }
 
@@ -189,7 +189,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePawn, new Position(1, 7));
+            PieceMovementExecutor.Move(game, whitePawn, new Position(1, 7));
 
             Assert.AreEqual(whitePawn.Position, PromotionNotifier.TargetPawnPosition);
 

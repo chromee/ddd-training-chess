@@ -4,7 +4,7 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
-    public class InfinityMoveCondition : IMoveCondition
+    public class InfinityMovementCondition : IMovementCondition
     {
         public bool CanExecute(Game game, Piece piece, Position destination)
         {

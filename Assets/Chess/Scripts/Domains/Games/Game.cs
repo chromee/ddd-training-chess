@@ -1,6 +1,7 @@
 ﻿using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Logger;
 using Chess.Scripts.Domains.Movements;
+using Chess.Scripts.Domains.Pieces;
 using Chess.Scripts.Domains.SpecialRules;
 using UniRx;
 
@@ -13,7 +14,7 @@ namespace Chess.Scripts.Domains.Games
         public GameStatusSolver StatusSolver { get; }
         public SpecialRuleExecutor SpecialRuleExecutor { get; }
         public PieceMovementLogger Logger { get; }
-        public PieceMovementCandidatesCalculator PieceMovementCandidatesCalculator { get; }
+        public PieceMovementSolver PieceMovementSolver { get; }
 
         public PlayerColor CurrentTurnPlayer { get; private set; }
         public PlayerColor NextTurnPlayer => CurrentTurnPlayer.Opponent();
@@ -30,7 +31,7 @@ namespace Chess.Scripts.Domains.Games
             StatusSolver = new GameStatusSolver(this);
             SpecialRuleExecutor = specialRuleExecutor;
             Logger = logger ?? new PieceMovementLogger();
-            PieceMovementCandidatesCalculator = new PieceMovementCandidatesCalculator(this);
+            PieceMovementSolver = new PieceMovementSolver(this);
 
             // 先行は白プレイヤー
             CurrentTurnPlayer = PlayerColor.White;

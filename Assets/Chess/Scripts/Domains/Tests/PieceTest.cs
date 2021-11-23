@@ -31,7 +31,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteRook);
+            var destinations = game.PieceMovementSolver.MoveCandidates(whiteRook);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
@@ -67,7 +67,7 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(whiteRook);
+            var destinations = game.PieceMovementSolver.MoveCandidates(whiteRook);
             var correctDestinations = new[]
             {
                 new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),

@@ -5,7 +5,7 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
-    public class PawnEnPassantCondition : IMoveCondition
+    public class PawnEnPassantCondition : IMovementCondition
     {
         public bool CanExecute(Game game, Piece piece, Position destination)
         {

@@ -4,7 +4,7 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements.Conditions
 {
-    public class KingCastlingCondition : IMoveCondition
+    public class KingCastlingCondition : IMovementCondition
     {
         public bool CanExecute(Game game, Piece piece, Position destination)
         {

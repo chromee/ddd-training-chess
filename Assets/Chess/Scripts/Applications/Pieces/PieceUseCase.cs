@@ -13,19 +13,19 @@ namespace Chess.Scripts.Applications.Pieces
     public class PieceUseCase
     {
         private readonly GameRegistry _gameRegistry;
-        private readonly PieceMoveService _pieceMoveService;
+        private readonly PieceMovementExecutor _pieceMovementExecutor;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
         private readonly IMessagePublisher _messagePublisher;
 
         public PieceUseCase(
             GameRegistry gameRegistry,
             SelectedPieceRegistry selectedPieceRegistry,
-            PieceMoveService pieceMoveService,
+            PieceMovementExecutor pieceMovementExecutor,
             IMessagePublisher messagePublisher)
         {
             _gameRegistry = gameRegistry;
             _selectedPieceRegistry = selectedPieceRegistry;
-            _pieceMoveService = pieceMoveService;
+            _pieceMovementExecutor = pieceMovementExecutor;
             _messagePublisher = messagePublisher;
         }
 
@@ -43,7 +43,7 @@ namespace Chess.Scripts.Applications.Pieces
         public Vector2Int[] GetSelectedPieceMoveCandidates(Piece piece)
         {
             if (piece == null) throw new Exception("not found selected piece");
-            return _gameRegistry.CurrentGame.PieceMovementCandidatesCalculator.MoveCandidates(piece).Select(v => v.ToVector2()).ToArray();
+            return _gameRegistry.CurrentGame.PieceMovementSolver.MoveCandidates(piece).Select(v => v.ToVector2()).ToArray();
         }
 
         public void TryMovePiece(Vector2 position)
@@ -56,7 +56,7 @@ namespace Chess.Scripts.Applications.Pieces
             try
             {
                 _selectedPieceRegistry.Unregister();
-                _pieceMoveService.Move(game, piece, position.ToPosition());
+                _pieceMovementExecutor.Move(game, piece, position.ToPosition());
             }
             catch (Exception e) when (e is WrongPlayerException or PieceNotExistOnBoardException or OutOfRangePieceMovableRangeException or SuicideMoveException)
             {

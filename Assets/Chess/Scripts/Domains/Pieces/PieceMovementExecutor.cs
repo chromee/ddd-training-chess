@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Games;
-using Chess.Scripts.Domains.Pieces;
-using Chess.Scripts.Domains.SpecialRules;
 
-namespace Chess.Scripts.Domains.Movements
+namespace Chess.Scripts.Domains.Pieces
 {
-    public class PieceMoveService
+    public class PieceMovementExecutor
     {
         public void Move(Game game, Piece piece, Position destination)
         {
@@ -41,7 +38,7 @@ namespace Chess.Scripts.Domains.Movements
         /// </summary>
         private static bool CanMoveTo(Game game, Piece piece, Position destination)
         {
-            var destinations = game.PieceMovementCandidatesCalculator.MoveCandidates(piece);
+            var destinations = game.PieceMovementSolver.MoveCandidates(piece);
             return destinations.Contains(destination);
         }
 

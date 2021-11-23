@@ -33,10 +33,10 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
+            PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 4));
 
             Assert.Throws<WrongPlayerException>(() =>
-                PieceMoveService.Move(game, whitePieces[0], new Position(3, 3)));
+                PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 3)));
         }
 
         [Test]
@@ -63,10 +63,10 @@ namespace Chess.Scripts.Domains.Tests
             };
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
-            PieceMoveService.Move(game, whitePieces[0], new Position(3, 4));
+            PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 4));
 
             Assert.Throws<PieceNotExistOnBoardException>(() =>
-                PieceMoveService.Move(game, blackPieces[0], new Position(3, 5)));
+                PieceMovementExecutor.Move(game, blackPieces[0], new Position(3, 5)));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                PieceMoveService.Move(game, whitePieces[0], new Position(3, 2)));
+                PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 2)));
         }
 
         [Test]
@@ -119,7 +119,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             Assert.Throws<OutOfRangePieceMovableRangeException>(() =>
-                PieceMoveService.Move(game, whitePieces[1], new Position(3, 1)));
+                PieceMovementExecutor.Move(game, whitePieces[1], new Position(3, 1)));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace Chess.Scripts.Domains.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
 
             Assert.Throws<SuicideMoveException>(() =>
-                PieceMoveService.Move(game, whitePieces[0], new Position(3, 1)));
+                PieceMovementExecutor.Move(game, whitePieces[0], new Position(3, 1)));
         }
     }
 }

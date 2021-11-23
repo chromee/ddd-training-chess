@@ -38,9 +38,9 @@ namespace Chess.Scripts.Domains.Pieces
         public static bool operator ==(Position a, Position b) => a.Equals(b);
         public static bool operator !=(Position a, Position b) => !a.Equals(b);
 
-        public static Movement operator -(Position a, Position b) => new Movement(a.X - b.X, a.Y - b.Y);
+        public static MoveAmount operator -(Position a, Position b) => new MoveAmount(a.X - b.X, a.Y - b.Y);
 
-        public static Position operator +(Position a, Movement b) => new(a.X + b.X, a.Y + b.Y);
-        public static Position operator -(Position a, Movement b) => new(a.X - b.X, a.Y - b.Y);
+        public static Position operator +(Position a, MoveAmount b) => new(a.X + b.X, a.Y + b.Y);
+        public static Position operator -(Position a, MoveAmount b) => new(a.X - b.X, a.Y - b.Y);
     }
 }
