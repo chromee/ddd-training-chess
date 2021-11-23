@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Chess.Scripts.Domains.Boards;
+﻿using Chess.Scripts.Domains.Boards;
 using Chess.Scripts.Domains.Logger;
-using Chess.Scripts.Domains.SpecialRules;
-using UniRx;
 
 namespace Chess.Scripts.Domains.Games
 {

@@ -11,9 +11,9 @@ namespace Chess.Scripts.Domains.Movements
     {
         private readonly SpecialRuleExecutor _specialRuleExecutor;
 
-        public MoveService(SpecialRuleExecutor specialRuleExecutor)
+        public MoveService(SpecialRuleExecutorFactory specialRuleExecutorFactory)
         {
-            _specialRuleExecutor = specialRuleExecutor;
+            _specialRuleExecutor = specialRuleExecutorFactory.Create();
         }
 
         public void Move(Game game, Piece piece, Position destination)
