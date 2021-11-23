@@ -31,7 +31,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var isCheck = GameService.IsCheck(game, game.CurrentTurnPlayer);
+            var isCheck = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsTrue(isCheck);
         }
@@ -61,7 +61,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var isCheck = GameService.IsCheck(game, game.CurrentTurnPlayer);
+            var isCheck = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheck);
         }
@@ -91,7 +91,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
+            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsTrue(isCheckmate);
         }
@@ -132,7 +132,7 @@ namespace Chess.Scripts.Domains.Tests
 
             MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
-            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
+            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -174,7 +174,7 @@ namespace Chess.Scripts.Domains.Tests
 
             MoveService.Move(game, whitePieces[0], new Position(3, 4));
 
-            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
+            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -218,7 +218,7 @@ namespace Chess.Scripts.Domains.Tests
 
             MoveService.Move(game, whitePieces[0], new Position(3, 3));
 
-            var isCheckmate = GameService.IsCheck(game, game.CurrentTurnPlayer);
+            var isCheckmate = game.StatusHandler.IsCheck(game.CurrentTurnPlayer);
 
             Assert.IsFalse(isCheckmate);
         }
@@ -261,7 +261,7 @@ namespace Chess.Scripts.Domains.Tests
 
             MoveService.Move(game, whitePieces[1], new Position(6, 4));
 
-            Assert.AreEqual(GameStatus.Stalemate, game.GameStatus.Value);
+            Assert.AreEqual(GameStatus.Stalemate, game.StatusHandler.CurrentStatus);
         }
     }
 }

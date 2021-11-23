@@ -10,7 +10,7 @@ namespace Chess.Scripts.Applications.Games
 
         public GamePresenter(GameUseCase gameUseCase, IGameResultView gameResultView, Game game)
         {
-            game.GameStatus
+            game.StatusHandler.CurrentStatusObservable
                 .Subscribe(status =>
                 {
                     switch (status)
@@ -33,7 +33,7 @@ namespace Chess.Scripts.Applications.Games
             gameResultView.OnRestart
                 .Subscribe(_ => gameUseCase.CreateGame())
                 .AddTo(_disposable);
-            
+
             gameResultView.HideAll();
         }
 

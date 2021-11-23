@@ -6,8 +6,6 @@ namespace Chess.Scripts.Domains.Movements.Conditions
 {
     public class KingCastlingConditions : IMoveConditions
     {
-        private readonly GameService _gameService = new();
-
         public bool CanExecute(Game game, Piece piece, Position destination)
         {
             if (!piece.IsType(PieceType.King)) return false;
@@ -46,7 +44,7 @@ namespace Chess.Scripts.Domains.Movements.Conditions
             var cloneGame = game.Clone();
             var cloneKing = cloneGame.Board.GetPiece(piece.Position);
             cloneGame.Board.MovePiece(cloneKing.Position, destination);
-            if (_gameService.CanPick(cloneGame, cloneKing)) return false;
+            if (cloneGame.StatusHandler.CanPick(cloneKing)) return false;
 
             return true;
         }

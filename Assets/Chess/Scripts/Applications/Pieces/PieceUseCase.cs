@@ -14,7 +14,6 @@ namespace Chess.Scripts.Applications.Pieces
     {
         private readonly GameRegistry _gameRegistry;
         private readonly MoveService _moveService;
-        private readonly GameService _gameService;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
         private readonly IMessagePublisher _messagePublisher;
 

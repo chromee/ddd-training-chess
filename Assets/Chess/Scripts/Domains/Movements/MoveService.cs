@@ -9,7 +9,6 @@ namespace Chess.Scripts.Domains.Movements
 {
     public class MoveService
     {
-        private readonly GameService _gameService = new();
         private readonly SpecialRuleExecutor _specialRuleExecutor;
 
         public MoveService(SpecialRuleExecutor specialRuleExecutor)
@@ -61,7 +60,7 @@ namespace Chess.Scripts.Domains.Movements
             var cloneGame = game.Clone();
             var clonePiece = cloneGame.Board.GetPiece(piece.Position);
             cloneGame.Board.MovePiece(clonePiece.Position, destination);
-            return _gameService.IsCheck(cloneGame, turnPlayer);
+            return cloneGame.StatusHandler.IsCheck(turnPlayer);
         }
     }
 

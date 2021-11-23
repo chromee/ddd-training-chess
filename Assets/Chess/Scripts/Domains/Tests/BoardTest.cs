@@ -78,7 +78,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsTrue(GameService.IsCheck(game, PlayerColor.White));
+            Assert.IsTrue(game.StatusHandler.IsCheck(PlayerColor.White));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsFalse(GameService.IsCheck(game, PlayerColor.White));
+            Assert.IsFalse(game.StatusHandler.IsCheck(PlayerColor.White));
         }
 
         [Test]
@@ -135,8 +135,8 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsTrue(GameService.CanPick(game, whitePieces[0]));
-            Assert.IsTrue(GameService.CanPick(game, blackPieces[0]));
+            Assert.IsTrue(game.StatusHandler.CanPick(whitePieces[0]));
+            Assert.IsTrue(game.StatusHandler.CanPick(blackPieces[0]));
         }
 
         [Test]
@@ -165,8 +165,8 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsFalse(GameService.CanPick(game, whitePieces[0]));
-            Assert.IsFalse(GameService.CanPick(game, blackPieces[0]));
+            Assert.IsFalse(game.StatusHandler.CanPick(whitePieces[0]));
+            Assert.IsFalse(game.StatusHandler.CanPick(blackPieces[0]));
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsTrue(GameService.CanAvoid(game, blackPieces[0]));
+            Assert.IsTrue(game.StatusHandler.CanAvoid(blackPieces[0]));
         }
 
         [Test]
@@ -223,7 +223,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsFalse(GameService.CanAvoid(game, blackPieces[0]));
+            Assert.IsFalse(game.StatusHandler.CanAvoid(blackPieces[0]));
         }
 
         [Test]
@@ -252,7 +252,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsTrue(GameService.CanProtect(game, blackPieces[1], new[] { blackPieces[0] }));
+            Assert.IsTrue(game.StatusHandler.CanProtect(blackPieces[1], new[] { blackPieces[0] }));
         }
 
         [Test]
@@ -282,7 +282,7 @@ namespace Chess.Scripts.Domains.Tests
             var board = new Board(whitePieces.Concat(blackPieces).ToList());
             var game = new Game(board);
 
-            Assert.IsFalse(GameService.CanProtect(game, blackPieces[2], new[] { blackPieces[0], blackPieces[1], }));
+            Assert.IsFalse(game.StatusHandler.CanProtect(blackPieces[2], new[] { blackPieces[0], blackPieces[1], }));
         }
     }
 }

@@ -11,7 +11,6 @@ namespace Chess.Scripts.Domains.Tests
     {
         protected PieceFactory PieceFactory;
         protected MoveService MoveService;
-        protected GameService GameService;
         protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
 
@@ -26,7 +25,6 @@ namespace Chess.Scripts.Domains.Tests
             var specialRuleExecutor = specialRuleExecutorFactory.Create();
 
             MoveService = new MoveService(specialRuleExecutor);
-            GameService = new GameService();
         }
     }
 }
