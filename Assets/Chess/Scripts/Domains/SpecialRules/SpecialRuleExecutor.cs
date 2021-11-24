@@ -4,9 +4,9 @@ namespace Chess.Scripts.Domains.SpecialRules
 {
     public class SpecialRuleExecutor
     {
-        private readonly ISpecialRule[] _specialRules;
+        private readonly SpecialRule[] _specialRules;
 
-        public SpecialRuleExecutor(ISpecialRule[] specialRules)
+        public SpecialRuleExecutor(SpecialRule[] specialRules)
         {
             _specialRules = specialRules;
         }

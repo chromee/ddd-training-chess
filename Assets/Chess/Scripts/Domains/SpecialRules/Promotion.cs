@@ -3,7 +3,7 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.SpecialRules
 {
-    public class Promotion : ISpecialRule
+    public class Promotion : SpecialRule
     {
         private readonly PromotionNotifier _notifier;
 
@@ -12,7 +12,7 @@ namespace Chess.Scripts.Domains.SpecialRules
             _notifier = notifier;
         }
 
-        public void TryExecute(Game game)
+        public override void TryExecute(Game game)
         {
             if (game.Logger.LastPieceMovement == null) return;
             var lastHand = game.Logger.LastPieceMovement.Value;

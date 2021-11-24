@@ -11,7 +11,7 @@
 
         public SpecialRuleExecutor Create()
         {
-            var specialRules = new ISpecialRule[]
+            var specialRules = new SpecialRule[]
             {
                 new EnPassant(),
                 new Castling(),
