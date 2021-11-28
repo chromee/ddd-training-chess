@@ -28,15 +28,15 @@ namespace Chess.Scripts.Domains.Boards
 
         public void MovePiece(Position moverPosition, Position destination)
         {
+            var movePiece = GetPiece(moverPosition);
+            if (movePiece == null) throw new ArgumentException("コマが見つかりません");
+
             var destPiece = GetPiece(destination);
             if (destPiece != null)
             {
                 destPiece.Die();
                 RemovePiece(destPiece);
             }
-
-            var movePiece = GetPiece(moverPosition);
-            if (movePiece == null) throw new ArgumentException("コマが見つかりません");
 
             movePiece.Move(destination);
         }

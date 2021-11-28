@@ -33,7 +33,7 @@ namespace Chess.Scripts.Presentations.Messages
             _restartButton.gameObject.SetActive(true);
         }
 
-        public void ShowStalemate()
+        public void ShowDraw()
         {
             ShowTextEternal("Stalemate");
             _restartButton.gameObject.SetActive(true);

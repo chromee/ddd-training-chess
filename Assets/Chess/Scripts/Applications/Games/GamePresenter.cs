@@ -21,8 +21,9 @@ namespace Chess.Scripts.Applications.Games
                         case GameStatus.Checkmate:
                             gameResultView.ShowCheckmate();
                             break;
+                        case GameStatus.Draw:
                         case GameStatus.Stalemate:
-                            gameResultView.ShowStalemate();
+                            gameResultView.ShowDraw();
                             break;
                         default:
                             gameResultView.HideAll();

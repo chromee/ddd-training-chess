@@ -26,8 +26,9 @@ namespace Chess.Scripts.Domains.Pieces
                 throw new SuicideMoveException("this movement is suicide.");
 
             var prevPosition = piece.Position;
+            var isKillPiece = game.Board.ExistPiece(destination);
             game.Board.MovePiece(prevPosition, destination);
-            game.Logger.AddLog(new PieceMovementLog(piece, prevPosition, destination));
+            game.Logger.AddLog(new PieceMovementLog(piece, prevPosition, destination, isKillPiece));
 
             game.SpecialRuleExecutor.TryExecute(game);
 

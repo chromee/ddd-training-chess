@@ -8,7 +8,7 @@ namespace Chess.Scripts.Applications.Games
         IObservable<Unit> OnRestart { get; }
         void ShowCheck();
         void ShowCheckmate();
-        void ShowStalemate();
+        void ShowDraw();
         void HideAll();
     }
 }
