@@ -7,8 +7,8 @@ namespace Chess.Scripts.Domains.Movements.Conditions
     {
         public bool CanExecute(Game game, Piece piece, Position destination)
         {
-            if (game.Logger.LastPieceMovement == null) return false;
-            var prevHand = game.Logger.LastPieceMovement.Value;
+            if (game.PieceMovementLogger.LastPieceMovement == null) return false;
+            var prevHand = game.PieceMovementLogger.LastPieceMovement.Value;
 
             if (piece.IsColor(prevHand.MovedPieceColor)) return false;
             if (!prevHand.IsPawnTwoSpaceMove()) return false;

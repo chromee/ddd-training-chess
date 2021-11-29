@@ -10,13 +10,15 @@ namespace Chess.Scripts.Domains.Games
     {
         private readonly ReactiveProperty<GameStatus> _gameStatus = new();
 
-        public Game(Board board, SpecialRuleExecutor specialRuleExecutor, PieceMovementLogger logger = null)
+        public Game(Board board, SpecialRuleExecutor specialRuleExecutor,
+            PieceMovementLogger pieceMovementLogger = null, BoardLogger boardLogger = null)
         {
             Board = board;
             BoardStatusSolver = new BoardStatusSolver(this);
             StatusSolver = new GameStatusSolver(this);
             SpecialRuleExecutor = specialRuleExecutor;
-            Logger = logger ?? new PieceMovementLogger();
+            PieceMovementLogger = pieceMovementLogger ?? new PieceMovementLogger();
+            BoardLogger = boardLogger ?? new BoardLogger();
             PieceMovementSolver = new PieceMovementSolver(this);
 
             // 先行は白プレイヤー
@@ -27,7 +29,8 @@ namespace Chess.Scripts.Domains.Games
         public BoardStatusSolver BoardStatusSolver { get; }
         public GameStatusSolver StatusSolver { get; }
         public SpecialRuleExecutor SpecialRuleExecutor { get; }
-        public PieceMovementLogger Logger { get; }
+        public PieceMovementLogger PieceMovementLogger { get; }
+        public BoardLogger BoardLogger { get; }
         public PieceMovementSolver PieceMovementSolver { get; }
 
         public PlayerColor CurrentTurnPlayer { get; private set; }
@@ -44,8 +47,9 @@ namespace Chess.Scripts.Domains.Games
         public Game Clone()
         {
             var cloneBoard = Board.Clone();
-            var logger = Logger.Clone();
-            return new Game(cloneBoard, SpecialRuleExecutor, logger);
+            var pieceMovementLogger = PieceMovementLogger.Clone();
+            var boardLogger = BoardLogger.Clone();
+            return new Game(cloneBoard, SpecialRuleExecutor, pieceMovementLogger, boardLogger);
         }
     }
 }

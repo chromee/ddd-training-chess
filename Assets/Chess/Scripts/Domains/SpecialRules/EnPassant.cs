@@ -6,11 +6,11 @@ namespace Chess.Scripts.Domains.SpecialRules
     {
         public override void TryExecute(Game game)
         {
-            if (game.Logger.LastPieceMovement == null) return;
-            var lastHand = game.Logger.LastPieceMovement.Value;
+            if (game.PieceMovementLogger.LastPieceMovement == null) return;
+            var lastHand = game.PieceMovementLogger.LastPieceMovement.Value;
 
-            if (game.Logger.SecondLastPieceMovement == null) return;
-            var secondLastHand = game.Logger.SecondLastPieceMovement.Value;
+            if (game.PieceMovementLogger.SecondLastPieceMovement == null) return;
+            var secondLastHand = game.PieceMovementLogger.SecondLastPieceMovement.Value;
 
             if (!secondLastHand.IsPawnTwoSpaceMove()) return;
 

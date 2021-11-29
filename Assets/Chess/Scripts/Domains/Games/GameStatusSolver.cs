@@ -71,14 +71,21 @@ namespace Chess.Scripts.Domains.Games
             return true;
         }
 
-        private bool IsDraw()
+        internal bool IsDraw()
         {
             // 両方キングのみになったら引き分け
             if (_game.Board.Pieces.All(piece => piece.IsType(PieceType.King))) return true;
 
             // 50手の間、駒の取り合いが起こらなかったら引き分け
-            var allLog = _game.Logger.AllLog;
-            if (allLog.Count > 50 && allLog.TakeLast(50).All(v => !v.IsKillPiece)) return true;
+            var pieceMovementLogs = _game.PieceMovementLogger.AllLogs;
+            if (pieceMovementLogs.Count >= 50 && pieceMovementLogs.TakeLast(50).All(v => !v.IsKillPiece)) return true;
+
+            // 3回同じ盤面になったら引き分け
+            var boardLogs = _game.BoardLogger.AllLogs;
+            foreach (var boardLog in boardLogs)
+            {
+                if (boardLogs.Count(v => v == boardLog) >= 3) return true;
+            }
 
             return false;
         }

@@ -28,9 +28,11 @@ namespace Chess.Scripts.Domains.Pieces
             var prevPosition = piece.Position;
             var isKillPiece = game.Board.ExistPiece(destination);
             game.Board.MovePiece(prevPosition, destination);
-            game.Logger.AddLog(new PieceMovementLog(piece, prevPosition, destination, isKillPiece));
+            game.PieceMovementLogger.AddLog(new PieceMovementLog(piece, prevPosition, destination, isKillPiece));
 
             game.SpecialRuleExecutor.TryExecute(game);
+
+            game.BoardLogger.AddLog(game.Board);
 
             game.SwapTurn();
         }
