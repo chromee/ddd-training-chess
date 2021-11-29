@@ -29,8 +29,8 @@ namespace Chess.Scripts.Applications.Boards
             // コマ選択 or 移動先選択
             view.OnClicked.Subscribe(position =>
             {
+                view.ResetSquares();
                 boardUseCase.SelectBoardSquare(position);
-                if (selectedPieceRegistry.SelectedPiece.Value == null) view.ResetSquares();
             }).AddTo(_disposable);
         }
 
