@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Tests
 {
-    public class PieceMoveUseCaseTest : TestBase
+    public class PieceMoveUseCaseTest : ApplicationTestBase
     {
         [Test]
         public void コマを移動させられる()

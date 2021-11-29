@@ -9,7 +9,7 @@ using PieceType = Chess.Scripts.Applications.Pieces.PieceType;
 
 namespace Chess.Scripts.Applications.Tests
 {
-    public class PromotionPresenterTest : TestBase
+    public class PromotionPresenterTest : ApplicationTestBase
     {
         [Test]
         public void プロモーション時にダイアログを表示()
@@ -57,8 +57,8 @@ namespace Chess.Scripts.Applications.Tests
 
     public class PromotionViewMock : IPromotionView
     {
-        public IObservable<PieceType> OnSelectPieceType => new Subject<PieceType>();
         public bool IsShowDialogue { get; private set; }
+        public IObservable<PieceType> OnSelectPieceType => new Subject<PieceType>();
         public void ShowPromotionDialogue() => IsShowDialogue = true;
     }
 }

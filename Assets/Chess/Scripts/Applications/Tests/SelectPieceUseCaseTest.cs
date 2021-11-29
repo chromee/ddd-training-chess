@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Tests
 {
-    public class SelectPieceUseCaseTest : TestBase
+    public class SelectPieceUseCaseTest : ApplicationTestBase
     {
         [Test]
         public void コマを選択できる()

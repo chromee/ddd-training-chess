@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Tests
 {
-    public class BoardUseCaseTest : TestBase
+    public class BoardUseCaseTest : ApplicationTestBase
     {
         [Test]
         public void コマ選択と移動先選択ができる()

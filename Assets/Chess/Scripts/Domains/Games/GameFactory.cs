@@ -17,7 +17,7 @@ namespace Chess.Scripts.Domains.Games
             _specialRuleExecutorFactory = specialRuleExecutorFactory;
         }
 
-        internal Game CreateGame(List<Piece> pieces) => new Game(new Board(pieces), _specialRuleExecutorFactory.Create());
+        internal Game CreateGame(List<Piece> pieces) => new(new Board(pieces), _specialRuleExecutorFactory.Create());
 
         public Game CreateBasicGame()
         {

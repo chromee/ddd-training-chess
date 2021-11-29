@@ -8,21 +8,19 @@ using NUnit.Framework;
 
 namespace Chess.Scripts.Applications.Tests
 {
-    public class TestBase
+    public class ApplicationTestBase
     {
+        protected BoardUseCase BoardUseCase;
         protected GameFactory GameFactory;
+        protected GameRegistry GameRegistry;
+        protected MockMessagePublisher MessagePublisher;
         protected PieceFactory PieceFactory;
+        protected PieceMoveCandidatesUseCase PieceMoveCandidatesUseCase;
         protected PieceMovementExecutor PieceMovementExecutor;
+        protected PieceMoveUseCase PieceMoveUseCase;
         protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
-
-        protected GameRegistry GameRegistry;
         protected SelectedPieceRegistry SelectedPieceRegistry;
-        protected MockMessagePublisher MessagePublisher;
-
-        protected BoardUseCase BoardUseCase;
-        protected PieceMoveUseCase PieceMoveUseCase;
-        protected PieceMoveCandidatesUseCase PieceMoveCandidatesUseCase;
         protected SelectPieceUseCase SelectPieceUseCase;
 
         [SetUp]

@@ -6,9 +6,9 @@ namespace Chess.Scripts.Applications.Boards
 {
     public class BoardUseCase
     {
-        private readonly SelectPieceUseCase _selectPieceUseCase;
         private readonly PieceMoveUseCase _pieceMoveUseCase;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
+        private readonly SelectPieceUseCase _selectPieceUseCase;
 
         public BoardUseCase(SelectPieceUseCase selectPieceUseCase,
             PieceMoveUseCase pieceMoveUseCase,

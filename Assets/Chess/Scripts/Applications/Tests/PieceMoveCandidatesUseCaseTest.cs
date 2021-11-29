@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Tests
 {
-    public class PieceMoveCandidatesUseCaseTest : TestBase
+    public class PieceMoveCandidatesUseCaseTest : ApplicationTestBase
     {
         [Test]
         public void 正しい移動可能範囲が返ってくる()

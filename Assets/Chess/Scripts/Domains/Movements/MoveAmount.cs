@@ -13,7 +13,7 @@ namespace Chess.Scripts.Domains.Movements
             Y = y;
         }
 
-        public MoveAmount Normalized() => new MoveAmount(X == 0 ? 0 : X > 0 ? 1 : -1, Y == 0 ? 0 : Y > 0 ? 1 : -1);
+        public MoveAmount Normalized() => new(X == 0 ? 0 : X > 0 ? 1 : -1, Y == 0 ? 0 : Y > 0 ? 1 : -1);
 
         public override string ToString() => $"({X}, {Y})";
 
