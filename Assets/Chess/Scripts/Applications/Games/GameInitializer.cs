@@ -4,16 +4,16 @@ namespace Chess.Scripts.Applications.Games
 {
     public class GameInitializer : IInitializable
     {
-        private readonly GameUseCase _gameUseCase;
+        private readonly CreateGameUseCase _createGameUseCase;
 
-        public GameInitializer(GameUseCase gameUseCase)
+        public GameInitializer(CreateGameUseCase createGameUseCase)
         {
-            _gameUseCase = gameUseCase;
+            _createGameUseCase = createGameUseCase;
         }
 
         public void Initialize()
         {
-            _gameUseCase.CreateGame();
+            _createGameUseCase.Execute();
         }
     }
 }

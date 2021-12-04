@@ -11,6 +11,6 @@ namespace Chess.Scripts.Applications.Games
             _gameResultView = gameResultView;
         }
 
-        public GamePresenter Create(GameUseCase gameUseCase, Game game) => new(game, gameUseCase, _gameResultView);
+        public GamePresenter Create(CreateGameUseCase createGameUseCase, Game game) => new(game, createGameUseCase, _gameResultView);
     }
 }

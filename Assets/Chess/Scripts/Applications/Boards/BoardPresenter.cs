@@ -10,7 +10,7 @@ namespace Chess.Scripts.Applications.Boards
 
         public BoardPresenter(
             PieceMoveCandidatesUseCase pieceMoveCandidatesUseCase,
-            BoardUseCase boardUseCase,
+            SelectBoardSquareUseCase selectBoardSquareUseCase,
             SelectedPieceRegistry selectedPieceRegistry,
             IBoardView view
         )
@@ -30,7 +30,7 @@ namespace Chess.Scripts.Applications.Boards
             view.OnClicked.Subscribe(position =>
             {
                 view.ResetSquares();
-                boardUseCase.SelectBoardSquare(position);
+                selectBoardSquareUseCase.Execute(position);
             }).AddTo(_disposable);
         }
 

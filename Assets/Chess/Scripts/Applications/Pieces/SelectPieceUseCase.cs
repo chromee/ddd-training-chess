@@ -15,7 +15,7 @@ namespace Chess.Scripts.Applications.Pieces
             _selectedPieceRegistry = selectedPieceRegistry;
         }
 
-        public bool SelectPiece(Vector2Int position)
+        public bool TryExecute(Vector2Int position)
         {
             var game = _gameRegistry.CurrentGame;
             var piece = game.Board.GetPiece(new Position(position.x, position.y));

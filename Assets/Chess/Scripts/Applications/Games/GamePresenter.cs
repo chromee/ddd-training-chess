@@ -8,7 +8,7 @@ namespace Chess.Scripts.Applications.Games
     {
         private readonly CompositeDisposable _disposable = new();
 
-        public GamePresenter(Game game, GameUseCase gameUseCase, IGameResultView gameResultView)
+        public GamePresenter(Game game, CreateGameUseCase createGameUseCase, IGameResultView gameResultView)
         {
             game.CurrentStatusObservable
                 .Subscribe(status =>
@@ -32,7 +32,7 @@ namespace Chess.Scripts.Applications.Games
                 }).AddTo(_disposable);
 
             gameResultView.OnRestart
-                .Subscribe(_ => gameUseCase.CreateGame())
+                .Subscribe(_ => createGameUseCase.Execute())
                 .AddTo(_disposable);
 
             gameResultView.HideAll();

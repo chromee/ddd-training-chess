@@ -6,14 +6,14 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Pieces
 {
-    public class PieceMoveUseCase
+    public class MovePieceUseCase
     {
         private readonly GameRegistry _gameRegistry;
         private readonly IMessagePublisher _messagePublisher;
         private readonly PieceMovementExecutor _pieceMovementExecutor;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
 
-        public PieceMoveUseCase(
+        public MovePieceUseCase(
             GameRegistry gameRegistry,
             SelectedPieceRegistry selectedPieceRegistry,
             PieceMovementExecutor pieceMovementExecutor,
@@ -25,7 +25,7 @@ namespace Chess.Scripts.Applications.Pieces
             _messagePublisher = messagePublisher;
         }
 
-        public void TryMovePiece(Vector2 position)
+        public void Execute(Vector2 position)
         {
             var game = _gameRegistry.CurrentGame;
             var piece = _selectedPieceRegistry.SelectedPiece.Value;

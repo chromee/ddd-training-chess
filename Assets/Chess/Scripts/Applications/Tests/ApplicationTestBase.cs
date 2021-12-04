@@ -10,14 +10,14 @@ namespace Chess.Scripts.Applications.Tests
 {
     public class ApplicationTestBase
     {
-        protected BoardUseCase BoardUseCase;
+        protected SelectBoardSquareUseCase SelectBoardSquareUseCase;
         protected GameFactory GameFactory;
         protected GameRegistry GameRegistry;
         protected MockMessagePublisher MessagePublisher;
         protected PieceFactory PieceFactory;
         protected PieceMoveCandidatesUseCase PieceMoveCandidatesUseCase;
         protected PieceMovementExecutor PieceMovementExecutor;
-        protected PieceMoveUseCase PieceMoveUseCase;
+        protected MovePieceUseCase MovePieceUseCase;
         protected PromotionExecutor PromotionExecutor;
         protected PromotionNotifier PromotionNotifier;
         protected SelectedPieceRegistry SelectedPieceRegistry;
@@ -49,10 +49,10 @@ namespace Chess.Scripts.Applications.Tests
             SelectedPieceRegistry = new SelectedPieceRegistry();
             MessagePublisher = new MockMessagePublisher();
 
-            PieceMoveUseCase = new PieceMoveUseCase(GameRegistry, SelectedPieceRegistry, PieceMovementExecutor, MessagePublisher);
+            MovePieceUseCase = new MovePieceUseCase(GameRegistry, SelectedPieceRegistry, PieceMovementExecutor, MessagePublisher);
             PieceMoveCandidatesUseCase = new PieceMoveCandidatesUseCase(GameRegistry);
             SelectPieceUseCase = new SelectPieceUseCase(GameRegistry, SelectedPieceRegistry);
-            BoardUseCase = new BoardUseCase(SelectPieceUseCase, PieceMoveUseCase, SelectedPieceRegistry);
+            SelectBoardSquareUseCase = new SelectBoardSquareUseCase(SelectPieceUseCase, MovePieceUseCase, SelectedPieceRegistry);
         }
     }
 }

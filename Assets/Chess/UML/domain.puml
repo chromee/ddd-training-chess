@@ -1,17 +1,26 @@
 @startuml
 title チェス
 
+
 class Game
 {
-    GameStatus Status
-    Board Board
     PlayerColor CurrentPlayerColor
-    ISpecialRule[] SpecialRules
-    PieceMovementLog[] Log
 }
 
+class GameStatusSolver
+{
+}
+
+Game "1" *--* "1" GameStatusSolver
+Game "1" --* "1" SpecialRuleExecutor
+Game "1" --* "1" PieceMovementLogger
 Game "1" --* "1" Board
-Game "1" --* "n" ISpecialRule
+Game "1" *--* "1" BoardStatusSolver
+
+
+class BoardStatusSolver
+{
+}
 
 class Board
 {
@@ -22,18 +31,16 @@ Board "1" --* "n" Piece
 
 class Piece
 {
-    PlayerColor Color
-    PieceType Type
-    Coordinate Position
-    Move[] Moves
-    bool IsDead
+PlayerColor Color
+PieceType Type
+Coordinate Position
+Move[] Moves
+bool IsDead
     
     void Move(Coordinate)
     bool CanMove(Coordinate)
     Coordinate[] MoveCandidates(Game)
 }
-
-Game o-- Piece
 
 class Move
 {
@@ -76,6 +83,16 @@ ISpecialRule <|-- Castling
 ISpecialRule <|-- EnPassant
 ISpecialRule <|-- Promotion
 
+ISpecialRule -u-o Game
+
+class SpecialRuleExecutor
+{
+    ISpecialRule[] SpecialRules
+}
+
+SpecialRuleExecutor "1" --* "n" ISpecialRule
+SpecialRuleExecutor --o Board
+
 class PieceMovementLog
 {
     PlayerColor MovedPieceColor
@@ -84,8 +101,12 @@ class PieceMovementLog
     Position NextPosition
 }
 
-PieceMovementLog "n" *-l- "1" Game
-PieceMovementLog o-- ISpecialRule
+class PieceMovementLogger
+{
+    PieceMovementLog[] Log
+}
 
+PieceMovementLog "n" *-u- "1" PieceMovementLogger
+PieceMovementLogger o-- ISpecialRule
 
 @enduml

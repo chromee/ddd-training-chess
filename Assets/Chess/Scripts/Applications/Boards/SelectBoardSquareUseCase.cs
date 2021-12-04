@@ -4,26 +4,26 @@ using UnityEngine;
 
 namespace Chess.Scripts.Applications.Boards
 {
-    public class BoardUseCase
+    public class SelectBoardSquareUseCase
     {
-        private readonly PieceMoveUseCase _pieceMoveUseCase;
+        private readonly MovePieceUseCase _movePieceUseCase;
         private readonly SelectedPieceRegistry _selectedPieceRegistry;
         private readonly SelectPieceUseCase _selectPieceUseCase;
 
-        public BoardUseCase(SelectPieceUseCase selectPieceUseCase,
-            PieceMoveUseCase pieceMoveUseCase,
+        public SelectBoardSquareUseCase(SelectPieceUseCase selectPieceUseCase,
+            MovePieceUseCase movePieceUseCase,
             SelectedPieceRegistry selectedPieceRegistry
         )
         {
             _selectPieceUseCase = selectPieceUseCase;
-            _pieceMoveUseCase = pieceMoveUseCase;
+            _movePieceUseCase = movePieceUseCase;
             _selectedPieceRegistry = selectedPieceRegistry;
         }
 
-        public void SelectBoardSquare(Vector2Int position)
+        public void Execute(Vector2Int position)
         {
             // コマ選択
-            var select = _selectPieceUseCase.SelectPiece(position);
+            var select = _selectPieceUseCase.TryExecute(position);
             if (select) return;
 
             // 移動先選択
@@ -31,7 +31,7 @@ namespace Chess.Scripts.Applications.Boards
             {
                 try
                 {
-                    _pieceMoveUseCase.TryMovePiece(position);
+                    _movePieceUseCase.Execute(position);
                 }
                 catch (ArgumentException e)
                 {

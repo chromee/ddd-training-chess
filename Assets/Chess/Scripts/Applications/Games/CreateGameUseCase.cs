@@ -7,7 +7,7 @@ using UniRx;
 
 namespace Chess.Scripts.Applications.Games
 {
-    public class GameUseCase
+    public class CreateGameUseCase
     {
         private readonly BoardPresenterFactory _boardPresenterFactory;
         private readonly IBoardViewFactory _boardViewFactory;
@@ -19,7 +19,7 @@ namespace Chess.Scripts.Applications.Games
 
         private CompositeDisposable _disposable;
 
-        public GameUseCase(GameFactory gameFactory, GameRegistry gameRegistry,
+        public CreateGameUseCase(GameFactory gameFactory, GameRegistry gameRegistry,
             BoardPresenterFactory boardPresenterFactory, PromotionPresenterFactory promotionPresenterFactory,
             GamePresenterFactory gamePresenterFactory, IBoardViewFactory boardViewFactory,
             IPieceViewFactory pieceViewFactory)
@@ -33,7 +33,7 @@ namespace Chess.Scripts.Applications.Games
             _pieceViewFactory = pieceViewFactory;
         }
 
-        public void CreateGame()
+        public void Execute()
         {
             _disposable?.Dispose();
             _disposable = new CompositeDisposable();

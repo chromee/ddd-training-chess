@@ -32,11 +32,11 @@ namespace Chess.Scripts.Applications.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
             GameRegistry.Register(game);
 
-            BoardUseCase.SelectBoardSquare(new Vector2Int(4, 0));
+            SelectBoardSquareUseCase.Execute(new Vector2Int(4, 0));
 
             Assert.IsTrue(SelectedPieceRegistry.ExistSelectedPiece);
 
-            BoardUseCase.SelectBoardSquare(new Vector2Int(5, 0));
+            SelectBoardSquareUseCase.Execute(new Vector2Int(5, 0));
 
             Assert.AreEqual(new Position(5, 0), whiteKing.Position);
         }

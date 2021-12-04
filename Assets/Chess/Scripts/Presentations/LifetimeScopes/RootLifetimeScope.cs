@@ -36,11 +36,11 @@ namespace Chess.Scripts.Presentations.LifetimeScopes
             builder.Register<GameRegistry>(Lifetime.Scoped);
             builder.Register<SelectedPieceRegistry>(Lifetime.Scoped);
 
-            builder.Register<PieceMoveUseCase>(Lifetime.Scoped);
+            builder.Register<MovePieceUseCase>(Lifetime.Scoped);
             builder.Register<PieceMoveCandidatesUseCase>(Lifetime.Scoped);
             builder.Register<SelectPieceUseCase>(Lifetime.Scoped);
-            builder.Register<BoardUseCase>(Lifetime.Scoped);
-            builder.Register<GameUseCase>(Lifetime.Scoped);
+            builder.Register<SelectBoardSquareUseCase>(Lifetime.Scoped);
+            builder.Register<CreateGameUseCase>(Lifetime.Scoped);
 
             builder.RegisterInstance(_chessViewPrefabData);
 

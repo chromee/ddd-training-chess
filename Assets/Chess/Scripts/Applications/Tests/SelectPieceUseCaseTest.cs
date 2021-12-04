@@ -31,7 +31,7 @@ namespace Chess.Scripts.Applications.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
             GameRegistry.Register(game);
 
-            SelectPieceUseCase.SelectPiece(new Vector2Int(4, 0));
+            SelectPieceUseCase.TryExecute(new Vector2Int(4, 0));
 
             Assert.IsTrue(SelectedPieceRegistry.ExistSelectedPiece);
         }
@@ -59,7 +59,7 @@ namespace Chess.Scripts.Applications.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
             GameRegistry.Register(game);
 
-            SelectPieceUseCase.SelectPiece(new Vector2Int(4, 7));
+            SelectPieceUseCase.TryExecute(new Vector2Int(4, 7));
 
             Assert.IsFalse(SelectedPieceRegistry.ExistSelectedPiece);
         }
@@ -91,7 +91,7 @@ namespace Chess.Scripts.Applications.Tests
 
             whitePawn.Die();
 
-            SelectPieceUseCase.SelectPiece(new Vector2Int(4, 1));
+            SelectPieceUseCase.TryExecute(new Vector2Int(4, 1));
 
             Assert.IsFalse(SelectedPieceRegistry.ExistSelectedPiece);
         }

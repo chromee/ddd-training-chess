@@ -32,8 +32,8 @@ namespace Chess.Scripts.Applications.Tests
             var game = GameFactory.CreateGame(whitePieces.Concat(blackPieces).ToList());
             GameRegistry.Register(game);
 
-            SelectPieceUseCase.SelectPiece(new Vector2Int(4, 0));
-            PieceMoveUseCase.TryMovePiece(new Vector2Int(5, 0));
+            SelectPieceUseCase.TryExecute(new Vector2Int(4, 0));
+            MovePieceUseCase.Execute(new Vector2Int(5, 0));
 
             Assert.AreEqual(new Position(5, 0), whiteKing.Position);
         }
