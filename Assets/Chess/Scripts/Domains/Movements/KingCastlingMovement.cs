@@ -1,11 +1,16 @@
 ﻿using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
-namespace Chess.Scripts.Domains.Movements.Conditions
+namespace Chess.Scripts.Domains.Movements
 {
-    public class KingCastlingCondition : IMovementCondition
+    public class KingCastlingMovement : Movement
     {
-        public bool CanExecute(Game game, Piece piece, Position destination)
+        public KingCastlingMovement(MoveAmount moveAmount)
+        {
+            Movements = new[] { moveAmount, };
+        }
+
+        public override bool CanExecute(Game game, Piece piece, Position destination)
         {
             if (!piece.IsType(PieceType.King)) return false;
 

@@ -1,6 +1,5 @@
 ﻿using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Movements;
-using Chess.Scripts.Domains.Movements.Conditions;
 
 namespace Chess.Scripts.Domains.Pieces
 {
@@ -11,12 +10,12 @@ namespace Chess.Scripts.Domains.Pieces
             var dir = color == PlayerColor.White ? 1 : -1;
             var moves = new Movement[]
             {
-                new SingleMovement(new MoveAmount(0, 1 * dir), new PawnSingleMovementCondition()),
-                new SingleMovement(new MoveAmount(0, 2 * dir), new PawnDoubleMovementCondition()),
-                new SingleMovement(new MoveAmount(1, 1 * dir), new PawnDiagonalMovementCondition()),
-                new SingleMovement(new MoveAmount(-1, 1 * dir), new PawnDiagonalMovementCondition()),
-                new SingleMovement(new MoveAmount(1, 1 * dir), new PawnEnPassantCondition()),
-                new SingleMovement(new MoveAmount(-1, 1 * dir), new PawnEnPassantCondition()),
+                new PawnSingleMovement(new MoveAmount(0, 1 * dir)),
+                new PawnDoubleMovement(new MoveAmount(0, 2 * dir)),
+                new PawnDiagonalMovement(new MoveAmount(1, 1 * dir)),
+                new PawnDiagonalMovement(new MoveAmount(-1, 1 * dir)),
+                new PawnEnPassantMovement(new MoveAmount(1, 1 * dir)),
+                new PawnEnPassantMovement(new MoveAmount(-1, 1 * dir)),
             };
             return new Piece(color, PieceType.Pawn, position, moves);
         }
@@ -89,8 +88,8 @@ namespace Chess.Scripts.Domains.Pieces
                 new SingleMovement(new MoveAmount(-1, -1)),
                 new SingleMovement(new MoveAmount(1, -1)),
                 new SingleMovement(new MoveAmount(-1, 1)),
-                new SingleMovement(new MoveAmount(2, 0), new KingCastlingCondition()),
-                new SingleMovement(new MoveAmount(-2, 0), new KingCastlingCondition()),
+                new KingCastlingMovement(new MoveAmount(2, 0)),
+                new KingCastlingMovement(new MoveAmount(-2, 0)),
             };
             return new Piece(color, PieceType.King, position, moves);
         }

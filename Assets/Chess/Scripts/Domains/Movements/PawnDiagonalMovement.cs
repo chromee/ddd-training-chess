@@ -3,9 +3,9 @@ using Chess.Scripts.Domains.Pieces;
 
 namespace Chess.Scripts.Domains.Movements
 {
-    public class SingleMovement : Movement
+    public class PawnDiagonalMovement : Movement
     {
-        public SingleMovement(MoveAmount moveAmount)
+        public PawnDiagonalMovement(MoveAmount moveAmount)
         {
             Movements = new[] { moveAmount, };
         }
@@ -13,7 +13,7 @@ namespace Chess.Scripts.Domains.Movements
         public override bool CanExecute(Game game, Piece piece, Position destination)
         {
             var destPiece = game.Board.GetPiece(destination);
-            return destPiece == null || destPiece.IsOpponent(piece);
+            return destPiece != null && destPiece.IsOpponent(piece);
         }
     }
 }

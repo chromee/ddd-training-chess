@@ -1,11 +1,16 @@
 ﻿using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
-namespace Chess.Scripts.Domains.Movements.Conditions
+namespace Chess.Scripts.Domains.Movements
 {
-    public class PawnEnPassantCondition : IMovementCondition
+    public class PawnEnPassantMovement : Movement
     {
-        public bool CanExecute(Game game, Piece piece, Position destination)
+        public PawnEnPassantMovement(MoveAmount moveAmount)
+        {
+            Movements = new[] { moveAmount, };
+        }
+
+        public override bool CanExecute(Game game, Piece piece, Position destination)
         {
             if (game.PieceMovementLogger.LastPieceMovement == null) return false;
             var prevHand = game.PieceMovementLogger.LastPieceMovement.Value;

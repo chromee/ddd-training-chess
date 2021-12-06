@@ -1,11 +1,16 @@
 ﻿using Chess.Scripts.Domains.Games;
 using Chess.Scripts.Domains.Pieces;
 
-namespace Chess.Scripts.Domains.Movements.Conditions
+namespace Chess.Scripts.Domains.Movements
 {
-    public class PawnDoubleMovementCondition : IMovementCondition
+    public class PawnDoubleMovement : Movement
     {
-        public bool CanExecute(Game game, Piece piece, Position destination)
+        public PawnDoubleMovement(MoveAmount moveAmount)
+        {
+            Movements = new[] { moveAmount, };
+        }
+
+        public override bool CanExecute(Game game, Piece piece, Position destination)
         {
             // 目的地にコマがあると移動できない
             if (game.Board.ExistPiece(destination)) return false;
